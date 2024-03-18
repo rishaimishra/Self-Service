@@ -1,0 +1,161 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.0"
+
+    defaultConfig {
+        applicationId "com.dpm.payment"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+
+
+        development {
+            keyAlias 'drm'
+            keyPassword 'drm123'
+            storePassword 'drm123'
+            storeFile file('drm.jks')
+        }
+
+        qa {
+            keyAlias 'drm'
+            keyPassword 'drm123'
+            storePassword 'drm123'
+            storeFile file('drm.jks')
+        }
+
+        release {
+            keyAlias 'drm'
+            keyPassword 'drm123'
+            storePassword 'drm123'
+            storeFile file('drm.jks')
+        }
+    }
+
+    buildTypes {
+        development {
+
+
+            release {
+                minifyEnabled false
+
+                applicationVariants.all { variant ->
+                    variant.outputs.each { output ->
+                        project.ext { appName = 'Sigma_Payments' }
+                        def formattedDate = new Date().format('E,dd-MMM-yyyy')
+                        def newName = output.outputFile.name
+                        newName = newName.replace("app-", "$project.ext.appName-") //"MyAppName" -> I set my app variables in the root project
+                        newName = newName.replace("-release", "-release" + formattedDate)
+                        variant.outputs.all {
+                            String appname=getProject().getName()
+                            outputFileName = "${appName}-${variant.versionName}${appname}+.apk"
+                        }
+                    }
+                }
+            }
+            debug {
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                applicationVariants.all { variant ->
+                    variant.outputs.each { output ->
+                        project.ext { appName = 'Sigma_Payments' }
+                        def formattedDate = new Date().format('E,dd-MMM-yyyy')
+                        def newName = output.outputFile.name
+                        newName = newName.replace("app-", "$project.ext.appName-") //"MyAppName" -> I set my app variables in the root project
+                        newName = newName.replace("-debug", "-debug" + formattedDate)
+                        variant.outputs.all {
+                            //outputFileName = "${variant.name}-${variant.versionName}ederdriver_"+formattedDate+".apk"
+                            String appname=getProject().getName()
+                            outputFileName = "${appName}-${variant.versionName}_"+formattedDate-${appname}+".apk"
+                        }
+                    }
+                }
+            }
+
+
+            buildConfigField "boolean", "LOG_STAT", "true"
+            signingConfig signingConfigs.development
+            minifyEnabled false
+            debuggable true
+            buildConfigField "String", "BASE_URL", "\"https://dpm.sigmaventuressl.com/apiv2\""
+            buildConfigField "String", "BASE_URL_MAIN", "\"https://dpm.sigmaventuressl.com\""
+            buildConfigField "String", "BASE_URL_TERMS", "\"https:l\""
+
+
+        }
+
+        qa {
+            buildConfigField "boolean", "LOG_STAT", "true"
+            debuggable true
+            minifyEnabled false
+            buildConfigField "boolean", "CRASHLATICS_SEND", "false"
+            buildConfigField "String", "BASE_URL", "\"https://dpm.sigmaventuressl.com/apiv2\""
+            buildConfigField "String", "BASE_URL_MAIN", "\"https://dpm.sigmaventuressl.com\""
+            buildConfigField "String", "BASE_URL_TERMS", "\"https:l\""
+
+        }
+
+        release {
+
+            minifyEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.release
+            buildConfigField "boolean", "LOG_STAT", "true"
+            buildConfigField "boolean", "CRASHLATICS_SEND", "true"
+            buildConfigField "String", "BASE_URL", "\"https://dpm.sigmaventuressl.com/apiv2\""
+            buildConfigField "String", "BASE_URL_MAIN", "\"https://dpm.sigmaventuressl.com\""
+            buildConfigField "String", "BASE_URL_TERMS", "\"https:l\""
+
+
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+dependencies {
+    /*google*/
+    implementation "androidx.preference:preference:1.1.1"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.navigation:navigation-fragment:2.3.0'
+    implementation 'androidx.navigation:navigation-ui:2.3.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'com.google.firebase:firebase-core:17.4.3'
+    implementation 'com.google.firebase:firebase-messaging:20.2.4'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'com.karumi:dexter:6.2.3'
+    implementation 'com.android.volley:volley:1.1.1'
+    implementation 'com.github.stfalcon:smsverifycatcher:0.3.2'
+/*google*/
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation 'com.github.dhaval2404:imagepicker:1.7.1'
+
+    //Retrofit
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.8.1'
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
+
+
+
+}
