@@ -10,8 +10,8 @@ import com.payment.BuildConfig;
 
 public interface RestApiUrl {
 
-    public static String BASE_URL ="http://mrms.sigmaventuressl.com/apiv2";
-    public static String BASE_URL_MAIN ="http://mrms.sigmaventuressl.com/apiv2";
+    public static String BASE_URL ="http://18.117.101.215/apiv2";
+    public static String BASE_URL_MAIN ="http://18.117.101.215/apiv2";
     public static String BASE_URL_TERMS ="https:l";
 
 

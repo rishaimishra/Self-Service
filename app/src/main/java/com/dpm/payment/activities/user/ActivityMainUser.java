@@ -35,9 +35,9 @@ public class ActivityMainUser extends AppCompatActivity implements View.OnClickL
 
     TextView activityUserSearchResult_tv_name;
     Button activityUserSearchResult_bt_view_details;
-    TextView activityUserSearchResult_tv_assesment_year, activityUserSearchResult_tv_assesment_year_value, activityUserSearchResult_tv_arrear, activityUserSearchResult_tv_arrear_value,
+    TextView  activityUserSearchResult_tv_assesment_year, activityUserSearchResult_tv_assesment_year_value,activityUserSearchResult_tv_rate_payable_value,activityUserSearchResult_tv_discount_applicable_value, activityUserSearchResult_tv_arrear, activityUserSearchResult_tv_arrear_value,
             activityUserSearchResult_tv_penalty, activityUserSearchResult_tv_penalty_value, activityUserSearchResult_tv_amount_paid, activityUserSearchResult_tv_amount_paid_value, activityUserSearchResult_tv_balance,
-            activityUserSearchResult_tv_balance_value, activityUserSearchResult_tv_paying_amount, activityUserSearchResult_tv_paying_pre_calculate;
+            activityUserSearchResult_tv_balance_value, activityUserSearchResult_tv_paying_amount, activityUserSearchResult_tv_paying_pre_calculate,activityUserSearchResult_tv_discount_rate_payable_value;
     EditText activityUserSearchResult_et_paying_amount;
     TextView activityUserSearchResult_tv_payment_type;
     RadioGroup activityUserSearchResult_rg_payment_type;
@@ -90,10 +90,14 @@ public class ActivityMainUser extends AppCompatActivity implements View.OnClickL
         activityMain_view_search = findViewById(R.id.activityMain_view_search);
 
 
+        activityUserSearchResult_tv_discount_rate_payable_value = findViewById(R.id.activityUserSearchResult_tv_discount_rate_payable_value);
         activityUserSearchResult_tv_name = findViewById(R.id.activityUserSearchResult_tv_name);
         activityUserSearchResult_bt_view_details = findViewById(R.id.activityUserSearchResult_bt_view_details);
         activityUserSearchResult_tv_assesment_year = findViewById(R.id.activityUserSearchResult_tv_assesment_year);
         activityUserSearchResult_tv_assesment_year_value = findViewById(R.id.activityUserSearchResult_tv_assesment_year_value);
+        activityUserSearchResult_tv_rate_payable_value = findViewById(R.id.activityUserSearchResult_tv_rate_payable_value);
+        activityUserSearchResult_tv_discount_applicable_value = findViewById(R.id.activityUserSearchResult_tv_discount_applicable_value);
+
         activityUserSearchResult_tv_arrear = findViewById(R.id.activityUserSearchResult_tv_arrear);
         activityUserSearchResult_tv_arrear_value = findViewById(R.id.activityUserSearchResult_tv_arrear_value);
         activityUserSearchResult_tv_penalty = findViewById(R.id.activityUserSearchResult_tv_penalty);

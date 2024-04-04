@@ -135,11 +135,45 @@ public class SearchAssessmentModel {
     @Expose
     private String assessmentYear;
 
+    @SerializedName("discounted_value")
+    @Expose
+    private String discounted_value;
+
+    @SerializedName("rate_payable")
+    @Expose
+    private String rate_payable;
+
+    @SerializedName("rate_payable_new")
+    private String rate_payable_new;
+
+    @SerializedName("discounted_value_new")
+    private String discounted_value_new;
+
+    @SerializedName("property_net_assessed_vaue")
+    @Expose
+    private String property_net_assessed_vaue;
+
+    @SerializedName("council_adjustments_parameters")
+    @Expose
+    private String council_adjustments_parameters;
+
+    @SerializedName("discounted_rate_payable_2022")
+    @Expose
+    private String discounted_rate_payable_2022;
+
+
+    @SerializedName("balance_due_new")
+    @Expose
+    private String balance_due_new;
+
+    @SerializedName("new_balance_due")
+    @Expose
+    private String new_balance_due;
+
 
     @SerializedName("categories")
     @Expose
     private List<SearchCategoryModel> categories = null;
-
 
 
     @SerializedName("types")
@@ -159,10 +193,90 @@ public class SearchAssessmentModel {
     private SearchDimensionModel dimension;
 
 
-
     @SerializedName("swimming")
     @Expose
     private AssessmentSwimming swimming;
+
+
+    public String getNew_balance_due() {
+        return new_balance_due;
+    }
+
+    public void setNew_balance_due(String new_balance_due) {
+        this.new_balance_due = new_balance_due;
+    }
+
+    public String getBalance_due_new() {
+        return balance_due_new;
+    }
+
+    public void setBalance_due_new(String balance_due_new) {
+        this.balance_due_new = balance_due_new;
+    }
+
+    public String getRate_payable_new() {
+        return rate_payable_new;
+    }
+
+    public void setRate_payable_new(String rate_payable_new) {
+        this.rate_payable_new = rate_payable_new;
+    }
+
+    public String getDiscounted_value_new() {
+        return discounted_value_new;
+    }
+
+    public void setDiscounted_value_new(String discounted_value_new) {
+        this.discounted_value_new = discounted_value_new;
+    }
+
+    public String getDiscounted_rate_payable_2022() {
+        return discounted_rate_payable_2022;
+    }
+
+    public void setDiscounted_rate_payable_2022(String discounted_rate_payable_2022) {
+        this.discounted_rate_payable_2022 = discounted_rate_payable_2022;
+    }
+
+    public String getCouncil_adjustments_parameters() {
+        return council_adjustments_parameters;
+    }
+
+    public void setCouncil_adjustments_parameters(String council_adjustments_parameters) {
+        this.council_adjustments_parameters = council_adjustments_parameters;
+    }
+
+    public Boolean getDemandNoteDelivered() {
+        return isDemandNoteDelivered;
+    }
+
+    public void setDemandNoteDelivered(Boolean demandNoteDelivered) {
+        isDemandNoteDelivered = demandNoteDelivered;
+    }
+
+    public String getDiscounted_value() {
+        return discounted_value;
+    }
+
+    public void setDiscounted_value(String discounted_value) {
+        this.discounted_value = discounted_value;
+    }
+
+    public String getRate_payable() {
+        return rate_payable;
+    }
+
+    public void setRate_payable(String rate_payable) {
+        this.rate_payable = rate_payable;
+    }
+
+    public String getProperty_net_assessed_vaue() {
+        return property_net_assessed_vaue;
+    }
+
+    public void setProperty_net_assessed_vaue(String property_net_assessed_vaue) {
+        this.property_net_assessed_vaue = property_net_assessed_vaue;
+    }
 
     public Integer getId() {
         return id;

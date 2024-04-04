@@ -18,23 +18,30 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.MyView
 
     private List<DataModel> listOfNav;
 
+    int layout = -1;
+
 
     public DataViewAdapter(List<DataModel> listOfNav) {
         this.listOfNav = listOfNav;
 
     }
 
-    public void updateItems(DataModel newItem){
-        for (int i=0 ; i<listOfNav.size();i++){
-            if (listOfNav.get(i).getKey().equalsIgnoreCase(newItem.getKey())){
-                listOfNav.set(i,newItem);
+    public DataViewAdapter(List<DataModel> listOfNav, int layout) {
+        this.listOfNav = listOfNav;
+        this.layout = layout;
+
+    }
+
+    public void updateItems(DataModel newItem) {
+        for (int i = 0; i < listOfNav.size(); i++) {
+            if (listOfNav.get(i).getKey().equalsIgnoreCase(newItem.getKey())) {
+                listOfNav.set(i, newItem);
                 notifyItemChanged(i);
             }
         }
 
 
     }
-
 
 
     @Override
@@ -47,7 +54,13 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.MyView
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.rowview_details, parent, false);
+        View itemView;
+        if (layout != -1) {
+            itemView = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
+
+        } else
+            itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.rowview_details, parent, false);
+
         return new MyViewHolder(itemView);
     }
 
@@ -63,9 +76,9 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.MyView
         }
         try {
 
-            if (object.getValue()==null){
+            if (object.getValue() == null) {
                 holder.tvValue.setText("");
-            }else {
+            } else {
                 holder.tvValue.setText(object.getValue());
             }
 

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/square_corner_solid_grey"
-    android:padding="3dp">
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_councillor_adjustment"
@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/rowview_details" />
+        tools:listitem="@layout/rowview_council_adjustment_details" />
 
 
 

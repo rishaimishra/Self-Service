@@ -22,6 +22,7 @@ import com.dpm.payment.activities.cashier.ActivityCashierLogin;
 import com.dpm.payment.models.SearchPropertyModel;
 import com.dpm.payment.models.propertydetail.PropertyItem;
 import com.dpm.payment.utils.CommonUtils;
+import com.dpm.payment.utils.Helper;
 import com.dpm.payment.utils.LogUtils;
 import com.dpm.payment.utils.PrefUtil;
 import com.dpm.payment.utils.RestApiUrl;
@@ -51,9 +52,9 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
     TextView toolbar_tv_header;
     TextView activityUserSearchResult_tv_name;
     Button activityUserSearchResult_bt_view_details;
-    TextView activityUserSearchResult_tv_assesment_year, activityUserSearchResult_tv_assesment_year_value, activityUserSearchResult_tv_arrear, activityUserSearchResult_tv_arrear_value,
+    TextView activityUserSearchResult_tv_assesment_year, activityUserSearchResult_tv_assesment_year_value, activityUserSearchResult_tv_rate_payable_value, activityUserSearchResult_tv_discount_applicable_value, activityUserSearchResult_tv_arrear, activityUserSearchResult_tv_arrear_value,
             activityUserSearchResult_tv_penalty, activityUserSearchResult_tv_penalty_value, activityUserSearchResult_tv_amount_paid, activityUserSearchResult_tv_amount_paid_value, activityUserSearchResult_tv_balance,
-            activityUserSearchResult_tv_balance_value, activityUserSearchResult_tv_paying_amount, activityUserSearchResult_tv_paying_pre_calculate;
+            activityUserSearchResult_tv_balance_value, activityUserSearchResult_tv_paying_amount, activityUserSearchResult_tv_paying_pre_calculate, activityUserSearchResult_tv_discount_rate_payable_value,activityUserSearchResult_tv_net_assessed_value, activityUserSearchResult_tv_council_adjustment_value;
     EditText activityUserSearchResult_et_paying_amount;
     TextView activityUserSearchResult_tvtext_total_amount;
     TextView activityUserSearchResult_tv_payment_type;
@@ -71,7 +72,6 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
     TextView tvLeToPound;
     TextView tvGDPLevel;
     ImageView btBack;
-
 
 
     @Override
@@ -129,6 +129,8 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
         activityUserSearchResult_bt_view_details = findViewById(R.id.activityUserSearchResult_bt_view_details);
         activityUserSearchResult_tv_assesment_year = findViewById(R.id.activityUserSearchResult_tv_assesment_year);
         activityUserSearchResult_tv_assesment_year_value = findViewById(R.id.activityUserSearchResult_tv_assesment_year_value);
+        activityUserSearchResult_tv_discount_applicable_value = findViewById(R.id.activityUserSearchResult_tv_discount_applicable_value);
+        activityUserSearchResult_tv_rate_payable_value = findViewById(R.id.activityUserSearchResult_tv_rate_payable_value);
         activityUserSearchResult_tv_arrear = findViewById(R.id.activityUserSearchResult_tv_arrear);
         activityUserSearchResult_tv_arrear_value = findViewById(R.id.activityUserSearchResult_tv_arrear_value);
         activityUserSearchResult_tv_penalty = findViewById(R.id.activityUserSearchResult_tv_penalty);
@@ -140,6 +142,10 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
         activityUserSearchResult_tv_paying_amount = findViewById(R.id.activityUserSearchResult_tv_paying_amount);
         activityUserSearchResult_tv_paying_pre_calculate = findViewById(R.id.activityUserSearchResult_tv_paying_pre_calculate);
         activityUserSearchResult_et_paying_amount = findViewById(R.id.activityUserSearchResult_et_paying_amount);
+
+        activityUserSearchResult_tv_discount_rate_payable_value = findViewById(R.id.activityUserSearchResult_tv_discount_rate_payable_value);
+        activityUserSearchResult_tv_net_assessed_value = findViewById(R.id.activityUserSearchResult_tv_net_assessed_value);
+        activityUserSearchResult_tv_council_adjustment_value = findViewById(R.id.activityUserSearchResult_tv_council_adjustment_value);
 
 
         activityUserSearchResult_tv_payment_type = findViewById(R.id.activityUserSearchResult_tv_payment_type);
@@ -423,8 +429,8 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
                 intent = new Intent(mContext, ActivityUserMainDetails.class);
                 intent.putExtra(KEY_FROM, VALUE_FROM_LANDLORD);
                 intent.putExtra(KEY_PROPERTY_DETAILS + "1", getIntent().getStringExtra(KEY_PROPERTY_DETAILS + "1"));
-                intent.putExtra("pensioner_image_path",getIntent().getStringExtra("pensioner_image_path"));
-                intent.putExtra("disability_image_path",getIntent().getStringExtra("disability_image_path"));
+                intent.putExtra("pensioner_image_path", getIntent().getStringExtra("pensioner_image_path"));
+                intent.putExtra("disability_image_path", getIntent().getStringExtra("disability_image_path"));
                 break;
         }
         if (intent != null) {
@@ -447,15 +453,38 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
                 String title = ((searchResponseModel.getLandlord().getTitles().getLabel() == null) ? "" : searchResponseModel.getLandlord().getTitles().getLabel());
                 String mFirstName = ((searchResponseModel.getLandlord().getFirstName() == null) ? "" : searchResponseModel.getLandlord().getFirstName());
                 String lastName = ((searchResponseModel.getLandlord().getMiddleName() == null) ? "" : searchResponseModel.getLandlord().getMiddleName());
-                activityUserSearchResult_tv_name.setText(title+" "+mFirstName+" "+lastName);
+                String surName = ((searchResponseModel.getLandlord().getSurname() == null) ? "" : searchResponseModel.getLandlord().getSurname());
+                activityUserSearchResult_tv_name.setText(title + " " + mFirstName + " " + lastName + " " + surName);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
 
-        activityUserSearchResult_tv_assesment_year.setText("" + mSearchPropertyModel.getAssessment().getAssessmentYear() + " Assessment");
-        activityUserSearchResult_tv_assesment_year_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getCurrentYearAssessmentAmount()))));
+
+        activityUserSearchResult_tv_assesment_year.setText("Assessed Value 2022");
+        activityUserSearchResult_tv_discount_rate_payable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getDiscounted_rate_payable_2022()))));
+        activityUserSearchResult_tv_assesment_year_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst()))));
+        activityUserSearchResult_tv_council_adjustment_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getCouncil_adjustments_parameters()))));
+        activityUserSearchResult_tv_net_assessed_value.setText(mSearchPropertyModel.getAssessment().getProperty_net_assessed_vaue());
+
+
+        try {
+            activityUserSearchResult_tv_discount_applicable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getDiscounted_value_new()))));
+        } catch (Exception ignored) {
+
+        }
+        try {
+            activityUserSearchResult_tv_rate_payable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getRate_payable_new()))));
+
+        } catch (Exception ignored) {
+
+        }
+
+        Helper.ASSESSED_VALUE = mSearchPropertyModel.getAssessment().getProperty_net_assessed_vaue();
+        Helper.DISCOUNT_APPLICABLE = mSearchPropertyModel.getAssessment().getRate_payable();
+        Helper.RATE_PAYABLE = mSearchPropertyModel.getAssessment().getRate_payable();
+
 
         activityUserSearchResult_tv_arrear_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getArrearDue()))));
         activityUserSearchResult_tv_penalty_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getPenalty()))));
@@ -465,9 +494,9 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
         try {
             String mBalance = "";
             if (mSearchPropertyModel.getAssessment().getBalance().contains("E")) {
-                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getBalance())));
+                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getNew_balance_due())));
             } else {
-                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue(mSearchPropertyModel.getAssessment().getBalance()));
+                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue(mSearchPropertyModel.getAssessment().getNew_balance_due()));
             }
 
             activityUserSearchResult_tv_balance_value.setText("" + mBalance);

@@ -1,5 +1,6 @@
 package com.dpm.payment.models;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class AssessmentHistory {
@@ -129,10 +130,75 @@ public class AssessmentHistory {
     private String amountDue;
 
 
+ @SerializedName("counsilAdjustment")
+    private String counsilAdjustment;
 
 
+ @SerializedName("ratePayable")
+    private String ratePayable;
 
 
+ @SerializedName("discountApplicable")
+    private String discountApplicable;
+
+
+ @SerializedName("discountRatePayable")
+    private String discountRatePayable;
+
+ @SerializedName("assedValue")
+    private String assedValue;
+
+    @SerializedName("balanceDueNew")
+    @Expose
+    private String balance_due_new;
+
+    public String getBalance_due_new() {
+        return balance_due_new;
+    }
+
+    public void setBalance_due_new(String balance_due_new) {
+        this.balance_due_new = balance_due_new;
+    }
+
+    public String getAssedValue() {
+        return assedValue;
+    }
+
+    public void setAssedValue(String assedValue) {
+        this.assedValue = assedValue;
+    }
+
+    public String getCounsilAdjustment() {
+        return counsilAdjustment;
+    }
+
+    public void setCounsilAdjustment(String counsilAdjustment) {
+        this.counsilAdjustment = counsilAdjustment;
+    }
+
+    public String getRatePayable() {
+        return ratePayable;
+    }
+
+    public void setRatePayable(String ratePayable) {
+        this.ratePayable = ratePayable;
+    }
+
+    public String getDiscountApplicable() {
+        return discountApplicable;
+    }
+
+    public void setDiscountApplicable(String discountApplicable) {
+        this.discountApplicable = discountApplicable;
+    }
+
+    public String getDiscountRatePayable() {
+        return discountRatePayable;
+    }
+
+    public void setDiscountRatePayable(String discountRatePayable) {
+        this.discountRatePayable = discountRatePayable;
+    }
 
     public String getId() {
         return id;

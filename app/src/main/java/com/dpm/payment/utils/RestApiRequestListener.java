@@ -122,7 +122,7 @@ public class RestApiRequestListener {
                 }
 
                 //==========================================
-
+                setOnRequestListener.onErrorListener("Error");
                 openErrorDialog(errorUserMessage,isSessionExpire);
             }catch (Exception ex)
             {
@@ -216,11 +216,12 @@ public class RestApiRequestListener {
 
                 dialog.dismiss();
             });
-            builder.setNegativeButton("Exit", (dialog, id) -> {
+            builder.setNegativeButton("Back", (dialog, id) -> {
                 // User cancelled the dialog
                 try {
                     //activity.startActivity(new Intent(activity, HomeActivity.class));
-                    activity.finishAffinity();
+                   // activity.finishAffinity();
+                    dialog.dismiss();
 
                 } catch (Exception ex) {
                     ex.printStackTrace();

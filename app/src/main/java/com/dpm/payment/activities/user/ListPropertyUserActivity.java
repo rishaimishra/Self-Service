@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -171,6 +172,9 @@ public class ListPropertyUserActivity extends AppCompatActivity implements Prope
 
         LogUtils.showErrorLog("header", headers.toString());
         LogUtils.showErrorLog("header", req_params.toString());
+
+        Log.d("ApiCallResponse","url "+URL_LANDLORD_PROPERTY_LIST);
+        Log.d("ApiCallResponse","headers "+headers);
 
         new RestApiRequestListener(this, TAG_REQUEST_LANDLORD_PROPERTY_LIST, URL_LANDLORD_PROPERTY_LIST, headers, null,
                 new RestApiRequestListener.setOnRequestListener() {

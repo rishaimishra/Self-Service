@@ -3,9 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="@dimen/dimen5dp"
-    android:layout_marginStart="@dimen/dimen10dp"
-    android:layout_marginEnd="@dimen/dimen10dp"
+
     >
 
 
@@ -19,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/property_id"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/navy_blue"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -31,7 +29,7 @@
             android:layout_weight="1.5"
             android:text=""
             android:gravity="end"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/navy_blue"
             android:textSize="13sp"
              />
     </LinearLayout>
@@ -46,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/tran_id"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/navy_blue"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -58,7 +56,7 @@
             android:layout_weight="1.5"
             android:text=""
             android:gravity="end"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/navy_blue"
             android:textSize="13sp"
              />
     </LinearLayout>
@@ -73,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/cashier_name"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/navy_blue"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -85,7 +83,7 @@
             android:layout_weight="1.5"
             android:text=""
             android:gravity="end"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/navy_blue"
             android:textSize="13sp"
         />
     </LinearLayout>
@@ -100,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/amount_due"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/navy_blue"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -112,7 +110,7 @@
             android:layout_weight="1.5"
             android:text=""
             android:gravity="end"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/navy_blue"
             android:textSize="13sp"
            />
     </LinearLayout>
@@ -127,7 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/amount_paid"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/navy_blue"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -139,7 +137,7 @@
             android:layout_weight="1.5"
             android:text=""
             android:gravity="end"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/navy_blue"
             android:textSize="13sp"
          />
     </LinearLayout>
@@ -154,7 +152,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/remaining_balance"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/navy_blue"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -166,7 +164,7 @@
             android:layout_weight="1.5"
             android:text=""
             android:gravity="end"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/navy_blue"
             android:textSize="13sp"
           />
     </LinearLayout>
@@ -181,7 +179,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/payment_type"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/navy_blue"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -193,7 +191,7 @@
             android:layout_weight="1.5"
             android:text=""
             android:gravity="end"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/navy_blue"
             android:textSize="13sp"
            />
     </LinearLayout>
@@ -208,7 +206,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/cheque_no"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/navy_blue"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -220,7 +218,7 @@
             android:layout_weight="1.5"
             android:text=""
             android:gravity="end"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/navy_blue"
             android:textSize="13sp"
            />
     </LinearLayout>
@@ -236,7 +234,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/payee_name"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/navy_blue"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -248,7 +246,7 @@
             android:layout_weight="1.5"
             android:text=""
             android:gravity="end"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/navy_blue"
             android:textSize="13sp"
            />
     </LinearLayout>
@@ -263,7 +261,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/tran_date"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/navy_blue"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -275,7 +273,7 @@
             android:layout_weight="1.5"
             android:text=""
             android:gravity="end"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/navy_blue"
             android:textSize="13sp"
             />
     </LinearLayout>

@@ -4,20 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/square_corner_solid_grey"
-    >
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRatePayable"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:itemCount="2"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="2"
         tools:listitem="@layout/rowview_payment_details" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

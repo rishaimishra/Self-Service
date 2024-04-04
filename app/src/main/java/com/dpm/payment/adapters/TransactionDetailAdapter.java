@@ -106,7 +106,7 @@ public class TransactionDetailAdapter extends RecyclerView.Adapter<TransactionDe
         }
 
         try {
-            String Cheque_number = ((mTransactionModel.getCheque_number()== null) ? "" : mTransactionModel.getCheque_number());
+            String Cheque_number = ((mTransactionModel.getCheque_number()== null) ? "-" : mTransactionModel.getCheque_number());
             holder.tvChequeNo.setText(Cheque_number);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -115,7 +115,10 @@ public class TransactionDetailAdapter extends RecyclerView.Adapter<TransactionDe
         try {
             String Payment_type = ((mTransactionModel.getPayment_type()== null) ? "" : mTransactionModel.getPayment_type());
 
-            holder.tvPaymentType.setText(Payment_type);
+            if (!Payment_type.isEmpty()) {
+                String cap = Payment_type.substring(0, 1).toUpperCase() + Payment_type.substring(1);
+                holder.tvPaymentType.setText(cap);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }

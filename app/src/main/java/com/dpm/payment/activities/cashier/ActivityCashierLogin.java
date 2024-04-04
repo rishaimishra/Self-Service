@@ -12,6 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatTextView;
+
+import com.dpm.payment.activities.cep.ActivityCep;
 import com.dpm.payment.activities.user.ActivityUserLogin;
 import com.dpm.payment.activities.user.LandlordResponseModel;
 import com.dpm.payment.activities.user.ListPropertyUserActivity;
@@ -47,6 +50,7 @@ public class ActivityCashierLogin extends AppCompatActivity implements View.OnCl
     private Button activityLogin_bt_login;
     TextView tvCashier;
     Button btUserLogin;
+    private AppCompatTextView btCheckIn;
 
 
     @Override
@@ -107,6 +111,7 @@ public class ActivityCashierLogin extends AppCompatActivity implements View.OnCl
         activityLogin_bt_login = findViewById(R.id.btLogin);
         tvCashier =findViewById(R.id.tvCashier);
         btUserLogin=findViewById(R.id.btUserLogin);
+        btCheckIn = findViewById(R.id.btCheckIn);
 
     }
 
@@ -115,6 +120,7 @@ public class ActivityCashierLogin extends AppCompatActivity implements View.OnCl
         tvCashier.setOnClickListener(this);
         btUserLogin.setOnClickListener(this);
         btUserLogin.setVisibility(View.GONE);
+        btCheckIn.setOnClickListener(this);
     }
 
     @Override
@@ -164,6 +170,10 @@ public class ActivityCashierLogin extends AppCompatActivity implements View.OnCl
                 {
                     ex.printStackTrace();
                 }
+                break;
+            case R.id.btCheckIn:
+                Intent mIntent = new Intent(mContext, ActivityCep.class);
+                startActivity(mIntent);
                 break;
         }
     }

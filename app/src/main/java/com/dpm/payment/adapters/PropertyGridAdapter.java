@@ -57,7 +57,7 @@ public class PropertyGridAdapter extends RecyclerView.Adapter<PropertyGridAdapte
 
 
             //tvProperty Name======
-            holder.tvProperty.setText("ID : "+object.getPropertyName());
+            holder.tvProperty.setText(object.getPropertyName());
             //tvAssessment Name======
             try {
                 holder.tvAssessment.setText("Le " + StringUtils.AmountWithComma(StringUtils.roundStringValue(object.getBalance())));

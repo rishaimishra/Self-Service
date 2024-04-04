@@ -11,11 +11,11 @@
         android:layout_marginStart="@dimen/dimen10dp"
         android:layout_marginEnd="@dimen/dimen10dp"
         android:text="@string/first_name"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/navy_blue"
         android:textStyle="bold"
         android:textSize="13sp"
         app:layout_constraintEnd_toStartOf="@+id/tvValue"
-        app:layout_constraintHorizontal_weight=".55"
+        app:layout_constraintHorizontal_weight=".50"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,9 +27,9 @@
         android:text="@string/my_profile"
         android:gravity="end"
         android:textSize="13sp"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/navy_blue"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight=".45"
+        app:layout_constraintHorizontal_weight=".50"
         app:layout_constraintStart_toEndOf="@+id/tvKey"
         app:layout_constraintTop_toTopOf="@id/tvKey" />
 

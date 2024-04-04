@@ -13,7 +13,7 @@
         android:layout_marginTop="@dimen/dimen10dp"
         android:layout_marginEnd="@dimen/dimen10dp"
         android:text="Point 1"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/navy_blue"
         android:textStyle="bold"
         android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/tvValue"
@@ -26,7 +26,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="24.611126484057365,73.6845807172358"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/navy_blue"
 
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"

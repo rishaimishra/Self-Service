@@ -33,8 +33,18 @@ public class Assessment {
     @SerializedName("rate_payable")
     private String rate_payable;
 
+
+    @SerializedName("rate_payable_new")
+    private String rate_payable_new;
+
+    @SerializedName("discounted_value_new")
+    private String discounted_value_new;
+
     @SerializedName("property_net_assessed_vaue")
     private String property_net_assessed_value;
+
+    @SerializedName("council_adjustments_parameters")
+    private String council_adjustments_parameters;
 
 
     @SerializedName("wall_material_type")
@@ -90,6 +100,9 @@ public class Assessment {
 
     @SerializedName("sanitation_type")
     private SanitationType sanitationType;
+
+  @SerializedName("discounted_rate_payable_2022")
+    private String discounted_rate_payable_2022;
 
 
 /*	@SerializedName("pensioner_discount")
@@ -269,6 +282,51 @@ public class Assessment {
 
     @SerializedName("assessment_breadth")
     private String assessmentBreadth;
+
+
+    public String getDiscounted_rate_payable_2022() {
+        return discounted_rate_payable_2022;
+    }
+
+    public void setDiscounted_rate_payable_2022(String discounted_rate_payable_2022) {
+        this.discounted_rate_payable_2022 = discounted_rate_payable_2022;
+    }
+
+    public void setRate_payable(String rate_payable) {
+        this.rate_payable = rate_payable;
+    }
+
+    public String getRate_payable_new() {
+        return rate_payable_new;
+    }
+
+    public void setRate_payable_new(String rate_payable_new) {
+        this.rate_payable_new = rate_payable_new;
+    }
+
+    public String getDiscounted_value_new() {
+        return discounted_value_new;
+    }
+
+    public void setDiscounted_value_new(String discounted_value_new) {
+        this.discounted_value_new = discounted_value_new;
+    }
+
+    public void setProperty_net_assessed_value(String property_net_assessed_value) {
+        this.property_net_assessed_value = property_net_assessed_value;
+    }
+
+    public void setDemandNoteDelivered(boolean demandNoteDelivered) {
+        isDemandNoteDelivered = demandNoteDelivered;
+    }
+
+    public String getCouncil_adjustments_parameters() {
+        return council_adjustments_parameters;
+    }
+
+    public void setCouncil_adjustments_parameters(String council_adjustments_parameters) {
+        this.council_adjustments_parameters = council_adjustments_parameters;
+    }
 
     public String getProperty_net_assessed_value() {
         return property_net_assessed_value;

@@ -65,6 +65,7 @@
     <dimen name="dimen200dp">200dp</dimen>
     <dimen name="dimen110dp">110dp</dimen>
     <dimen name="dimen18sp">18sp</dimen>
+    <dimen name="dimen16sp">16sp</dimen>
 
     <dimen name="like_button_height_25dp">25dp</dimen>
 
@@ -141,6 +142,7 @@
     <dimen name="dimen130dp">130dp</dimen>
     <dimen name="dimen95dp">95dp</dimen>
     <dimen name="dimen180dp">180dp</dimen>
-
+    <dimen name="dimen224dp">224dp</dimen>
+    <dimen name="dimen48dp">48dp</dimen>
 </resources>
 

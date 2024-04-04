@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Self Service</string>
+    <string name="app_name">MRMS      Seff Service</string>
     <string name="cashier_login">Cashier Sign In</string>
     <string name="cashier">Sigma Cashier</string>
     <string name="user">User</string>
@@ -245,7 +245,7 @@
     <string name="not_cashier_please_click_here_to_sign_in">Landlord/Property Owner ? Please <font color='#2196F3'>Click here to Sign In</font></string>
     <string name="hi_user_please_enter_your_mobile_number_to_sign_in">Please enter your mobile number to Sign In</string>
     <string name="valid_number_associated_with_your_property_id">*Valid Number associated with your Property ID</string>
-    <string name="cashier_please_click_here_to_sign_in">Change to Cashier ? Please <font color='#2196F3'>Click here to Sign In</font></string>
+    <string name="cashier_please_click_here_to_sign_in">Cashier ? Please <font color='#2196F3'>Click here to Sign In</font></string>
     <string name="one_time_password_otp_nverification">One Time Password(OTP) \nVERIFICATION</string>
     <string name="to_resend_otp">Sec to <font color='#2196F3'>Resend OTP</font></string>
     <string name="property">Property</string>
@@ -260,7 +260,7 @@
     <string name="connecting_server">Connecting server...</string>
     <string name="clear_search">Clear</string>
     <string name="tran_date">Transaction Date</string>
-    <string name="remaining_balance">Remaining Balance</string>
+    <string name="remaining_balance">Balance Due</string>
     <string name="amount_due">Amount Due</string>
     <string name="cashier_name">Cashier Name</string>
     <string name="tran_id">Transaction ID</string>
@@ -290,10 +290,13 @@
     <string name="disability_receipt">Disability Discount</string>
     <string name="cashier_receipt">Receipt</string>
     <string name="council_discount">Council Discounts</string>
-    <string name="landlord_property_owner_sign_in">Landlord/Property Owner Sign In</string>
+    <string name="landlord_property_owner_sign_in">Landlord/Property Owner</string>
     <string name="_2020_assessed_value">2020 Assessed Value</string>
-
-
+    <string name="municipal_rate_management_system">municipal rate management system (MRMS)</string>
+    <string name="community_engagement_portal">community engagement portal (CEP)</string>
+    <string name="check_in">Check In</string>
+    <string name="seff_service">Seff Service</string>
+    <string name="council_cashier">Council cashier</string>
     <string-array name="payment_type">
         <item>Part Payment</item>
         <item>Full Payment</item>

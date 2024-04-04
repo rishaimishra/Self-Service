@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/square_corner_solid_grey"
-    android:padding="10dp">
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvGeoregistry"
         android:layout_width="0dp"

@@ -37,6 +37,7 @@ import com.dpm.payment.retrofit.interfaces.OnCallBackListner;
 import com.dpm.payment.utils.AlertDialogUtils;
 import com.dpm.payment.utils.CommonUtils;
 import com.dpm.payment.utils.DataUtils;
+import com.dpm.payment.utils.Helper;
 import com.dpm.payment.utils.LogUtils;
 import com.dpm.payment.utils.PrefUtil;
 import com.dpm.payment.utils.RestApiRequestListener;
@@ -63,6 +64,7 @@ import static com.dpm.payment.utils.ConstantData.TAG_REQUEST_SAVE_PAYMENT;
 import static com.dpm.payment.utils.ConstantData.TAG_REQUEST_SEARCH_PROPERTY;
 import static com.dpm.payment.utils.RestApiUrl.URL_CASHIER_SAVE_PAYMENT;
 import static com.dpm.payment.utils.RestApiUrl.URL_CASHIER_SEARCH_PROPERTY;
+import static com.dpm.payment.utils.RestApiUrl.URL_LANDLORD_PROPERTY_LIST;
 
 public class ActivityMainCashierProperty extends AppCompatActivity implements View.OnClickListener, OnCallBackListner {
 
@@ -79,9 +81,9 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
     Button activityMain_bt_search;
     TextView activityUserSearchResult_tv_name;
     Button activityUserSearchResult_bt_view_details;
-    TextView activityUserSearchResult_tv_assesment_year, activityUserSearchResult_tv_assesment_year_value, activityUserSearchResult_tv_arrear, activityUserSearchResult_tv_arrear_value,
+    TextView activityUserSearchResult_tv_assesment_year, activityUserSearchResult_tv_assesment_year_value, activityUserSearchResult_tv_rate_payable_value, activityUserSearchResult_tv_discount_applicable_value, activityUserSearchResult_tv_arrear, activityUserSearchResult_tv_arrear_value,
             activityUserSearchResult_tv_penalty, activityUserSearchResult_tv_penalty_value, activityUserSearchResult_tv_amount_paid, activityUserSearchResult_tv_amount_paid_value, activityUserSearchResult_tv_balance,
-            activityUserSearchResult_tv_balance_value, activityUserSearchResult_tv_paying_amount, activityUserSearchResult_tv_paying_pre_calculate;
+            activityUserSearchResult_tv_balance_value, activityUserSearchResult_tv_paying_amount, activityUserSearchResult_tv_paying_pre_calculate, activityUserSearchResult_tv_discount_rate_payable_value, activityUserSearchResult_tv_council_adjustment_value, activityUserSearchResult_tv_net_assessed_value;
     EditText activityUserSearchResult_et_paying_amount;
     TextView activityUserSearchResult_tv_payment_type;
     RadioGroup activityUserSearchResult_rg_payment_type;
@@ -127,6 +129,9 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
     List<PART> list_file;
 
     Spinner spin_payment_type, spin_payment_year;
+
+
+    String balanceDue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,10 +217,15 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
         activityMain_view_search = findViewById(R.id.activityMain_view_search);
 
 
+        activityUserSearchResult_tv_discount_rate_payable_value = findViewById(R.id.activityUserSearchResult_tv_discount_rate_payable_value);
+        activityUserSearchResult_tv_council_adjustment_value = findViewById(R.id.activityUserSearchResult_tv_council_adjustment_value);
+        activityUserSearchResult_tv_net_assessed_value = findViewById(R.id.activityUserSearchResult_tv_net_assessed_value);
         activityUserSearchResult_tv_name = findViewById(R.id.activityUserSearchResult_tv_name);
         activityUserSearchResult_bt_view_details = findViewById(R.id.activityUserSearchResult_bt_view_details);
         activityUserSearchResult_tv_assesment_year = findViewById(R.id.activityUserSearchResult_tv_assesment_year);
         activityUserSearchResult_tv_assesment_year_value = findViewById(R.id.activityUserSearchResult_tv_assesment_year_value);
+        activityUserSearchResult_tv_rate_payable_value = findViewById(R.id.activityUserSearchResult_tv_rate_payable_value);
+        activityUserSearchResult_tv_discount_applicable_value = findViewById(R.id.activityUserSearchResult_tv_discount_applicable_value);
         activityUserSearchResult_tv_arrear = findViewById(R.id.activityUserSearchResult_tv_arrear);
         activityUserSearchResult_tv_arrear_value = findViewById(R.id.activityUserSearchResult_tv_arrear_value);
         activityUserSearchResult_tv_penalty = findViewById(R.id.activityUserSearchResult_tv_penalty);
@@ -253,7 +263,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
     private void setOnTextChanges() {
         try {
 
-            activityUserSearchResult_et_total_amount.addTextChangedListener(new TextWatcher() {
+       /*     activityUserSearchResult_et_total_amount.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -282,7 +292,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                 public void afterTextChanged(Editable editable) {
 
                 }
-            });
+            });*/
 
 
             activityUserSearchResult_et_paying_amount.addTextChangedListener(new TextWatcher() {
@@ -302,6 +312,15 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
 
                         if (activityUserSearchResult_et_paying_amount.getText().toString().trim().length() > 0) {
                             tvInputAmount.setText("Le " + SetCommaText(activityUserSearchResult_et_paying_amount.getText().toString().trim()));
+
+                            // FIXME: 13-05-2022
+
+                            double dueAmt = Double.parseDouble(balanceDue) - Double.parseDouble(activityUserSearchResult_et_paying_amount.getText().toString().trim()) ;
+
+                           activityUserSearchResult_et_total_amount.setText(String.format("%.0f", dueAmt));
+                            tvInputAmount2.setText("Le " + SetCommaText(activityUserSearchResult_et_total_amount.getText().toString().trim()));
+
+
                             LogUtils.showErrorLog("Enter String ", " Enter String 1 " + mUsdStr);
                         } else {
                             tvInputAmount.setText("");
@@ -522,7 +541,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                 errorList.add("Enter total amount paying.");
             }
 
-            try {
+          /*  try {
 
                 Double mmTotalAmount = Double.parseDouble(mTotalAmount.trim());
                 if (mmTotalAmount > 0 && mmTotalAmount < 10000) {
@@ -530,7 +549,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
-            }
+            }*/
 
             if (activityUserSearchResult_rb_one.isChecked()) {
                 if (activityUserSearchResult_et_cheque_no.length() == 0) {
@@ -730,6 +749,10 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
       }
   */
     // --------------------------------------------- Call for Search ----------------------------------------------//
+
+    boolean pensionerStatus = false;
+    boolean disabilityStatus = false;
+
     private void reqSearch() {
 
         progressDialog = new ProgressDialog(mContext);
@@ -745,6 +768,9 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
         LogUtils.showErrorLog("header", headers.toString());
         LogUtils.showErrorLog("header", req_params.toString());
 
+        Log.d("ApiCallResponse", "url " + URL_LANDLORD_PROPERTY_LIST);
+        Log.d("ApiCallResponse", "headers " + headers);
+
         new RestApiRequestListener(this, TAG_REQUEST_SEARCH_PROPERTY, URL_CASHIER_SEARCH_PROPERTY,
                 headers, req_params, new RestApiRequestListener.setOnRequestListener() {
 
@@ -758,6 +784,9 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
 
             @Override
             public void onSuccessListener(String response) {
+
+                /////// SEARCH RESPONSE
+
 
                 if (progressDialog != null) {
                     if (progressDialog.isShowing()) {
@@ -778,43 +807,66 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                                 dataModel = new Gson().fromJson(mJsonResponse.getJSONObject("property").getJSONObject("assessment").toString()
                                         , Assessment.class);
 
-                                //  checkBox_pensioners_discount.setEnabled(dataModel.getPensionerDiscount().equalsIgnoreCase("0") ? true : false);
-                                //  checkBox_disability_discount.setEnabled(dataModel.getDisabilityDiscount().equalsIgnoreCase("0") ? true : false);
+                                activityUserSearchResult_tv_assesment_year.setText("Assessed Value 2022");
+                                activityUserSearchResult_tv_assesment_year_value.setText(dataModel.getProperty_net_assessed_value());
 
-                                boolean pensionerStatus = dataModel.getPensionerDiscount().equalsIgnoreCase("0") ? true : false;
-                               boolean disabilityStatus = dataModel.getDisabilityDiscount().equalsIgnoreCase("0") ? true : false;
+                                //activityUserSearchResult_tv_discount_applicable_value.setText(dataModel.getDiscounted_value_new());
+                                activityUserSearchResult_tv_discount_applicable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getDiscounted_value_new()))));
 
-                              /*  boolean pensionerStatus = false;
-                                boolean disabilityStatus =  false;
-*/
+                                // activityUserSearchResult_tv_rate_payable_value.setText(dataModel.getRate_payable_new());
 
-                                checkBox_pensioners_discount.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                    @Override
-                                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                                        if (pensionerStatus) {
-                                            if (isChecked)
-                                                lin_pensioner_discount_image.setVisibility(View.VISIBLE);
-                                            else
-                                                lin_pensioner_discount_image.setVisibility(View.INVISIBLE);
-                                        } else {
-                                            checkBox_pensioners_discount.setChecked(false);
-                                            Toast.makeText(ActivityMainCashierProperty.this, "You have already taken this discount.", Toast.LENGTH_SHORT).show();
-                                        }
+                                try {
+                                    activityUserSearchResult_tv_rate_payable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getRate_payable_new()))));
+
+                                } catch (Exception ignored) {
+
+                                }
+
+
+                                Helper.ASSESSED_VALUE = dataModel.getProperty_net_assessed_value();
+                                Helper.DISCOUNT_APPLICABLE = dataModel.getRate_payable();
+                                Helper.RATE_PAYABLE = dataModel.getRate_payable();
+
+                                activityUserSearchResult_tv_discount_rate_payable_value.setText(StringUtils.AmountWithComma(dataModel.getDiscounted_rate_payable_2022()));
+                                activityUserSearchResult_tv_council_adjustment_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getCouncil_adjustments_parameters()))));
+                                activityUserSearchResult_tv_net_assessed_value.setText(dataModel.getProperty_net_assessed_value());
+
+
+
+
+                                if (dataModel.getPensionerDiscount().equalsIgnoreCase("0.00"))
+                                    pensionerStatus = true;
+
+                                if (dataModel.getDisabilityDiscount().equalsIgnoreCase("0.00"))
+                                    disabilityStatus = true;
+
+
+                              //  boolean pensionerStatus = dataModel.getPensionerDiscount().equalsIgnoreCase("0") ? true : false;
+                              //  boolean disabilityStatus = dataModel.getDisabilityDiscount().equalsIgnoreCase("0") ? true : false;
+
+
+                                checkBox_pensioners_discount.setOnCheckedChangeListener((buttonView, isChecked) -> {
+
+                                    if (pensionerStatus) {
+                                        if (isChecked)
+                                            lin_pensioner_discount_image.setVisibility(View.VISIBLE);
+                                        else
+                                            lin_pensioner_discount_image.setVisibility(View.INVISIBLE);
+                                    } else {
+                                        checkBox_pensioners_discount.setChecked(false);
+                                        Toast.makeText(ActivityMainCashierProperty.this, "You have already taken this discount.", Toast.LENGTH_SHORT).show();
                                     }
                                 });
-                                checkBox_disability_discount.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                    @Override
-                                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                        if (disabilityStatus) {
-                                            if (isChecked)
-                                                lin_disability_discount_image.setVisibility(View.VISIBLE);
-                                            else
-                                                lin_disability_discount_image.setVisibility(View.INVISIBLE);
-                                        } else {
-                                            checkBox_disability_discount.setChecked(false);
-                                            Toast.makeText(ActivityMainCashierProperty.this, "You have already taken this discount.", Toast.LENGTH_SHORT).show();
-                                        }
+                                checkBox_disability_discount.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                                    if (disabilityStatus) {
+                                        if (isChecked)
+                                            lin_disability_discount_image.setVisibility(View.VISIBLE);
+                                        else
+                                            lin_disability_discount_image.setVisibility(View.INVISIBLE);
+                                    } else {
+                                        checkBox_disability_discount.setChecked(false);
+                                        Toast.makeText(ActivityMainCashierProperty.this, "You have already taken this discount.", Toast.LENGTH_SHORT).show();
                                     }
                                 });
 
@@ -876,7 +928,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
             if (searchResponseModel.getProperty().getIsOrganization()) {
                 activityUserSearchResult_tv_name.setText("" + searchResponseModel.getProperty().getOrganizationName());
             } else {
-                activityUserSearchResult_tv_name.setText("" + searchResponseModel.getProperty().getLandlord().getTitles().getLabel()+" "+searchResponseModel.getProperty().getLandlord().getFirstName()+" "+searchResponseModel.getProperty().getLandlord().getMiddleName());
+                activityUserSearchResult_tv_name.setText("" + searchResponseModel.getProperty().getLandlord().getTitles().getLabel() + " " + searchResponseModel.getProperty().getLandlord().getFirstName() + " " + searchResponseModel.getProperty().getLandlord().getMiddleName() + " " + searchResponseModel.getProperty().getLandlord().getSurname());
             }
 
         } catch (Exception ex) {
@@ -884,7 +936,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
         }
 
 
-        activityUserSearchResult_tv_assesment_year.setText("" + searchResponseModel.getProperty().getAssessment().getAssessmentYear() + " Assessment");
+        activityUserSearchResult_tv_assesment_year.setText("Assessed Value 2022");
         activityUserSearchResult_tv_assesment_year_value.setText("" + StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getCurrentYearAssessmentAmount()))));
         activityUserSearchResult_tv_arrear_value.setText("" + StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getArrearDue()))));
         activityUserSearchResult_tv_penalty_value.setText("" + StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getPenalty()))));
@@ -895,10 +947,12 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
         try {
             String mBalance = "";
             if (searchResponseModel.getProperty().getAssessment().getBalance().contains("E")) {
-                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getBalance())));
+                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getNew_balance_due())));
             } else {
-                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue(searchResponseModel.getProperty().getAssessment().getBalance()));
+                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue(searchResponseModel.getProperty().getAssessment().getNew_balance_due()));
             }
+
+            balanceDue = searchResponseModel.getProperty().getAssessment().getNew_balance_due();
 
             activityUserSearchResult_tv_balance_value.setText("" + mBalance);
             activityUserSearchResult_tv_paying_pre_calculate.setText(getString(R.string.amount_due) + "\n" + "Le " + mBalance);

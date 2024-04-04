@@ -9,7 +9,7 @@
         android:id="@+id/rlTopHeader"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/green"
+        android:background="@color/colorPrimary"
         android:orientation="vertical">
 
         <ImageView

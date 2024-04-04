@@ -33,7 +33,7 @@
                         android:layout_marginStart="@dimen/dimen10dp"
                         android:layout_marginTop="@dimen/dimen16dp"
                         android:layout_weight=".4"
-                        android:text="Landlord first name"
+                        android:text="Landlord First Name"
                         android:textColor="@color/colorBlack" />
 
 
@@ -65,7 +65,7 @@
                         android:layout_marginStart="@dimen/dimen10dp"
                         android:layout_marginTop="@dimen/dimen16dp"
                         android:layout_weight=".4"
-                        android:text="Landlord middle name"
+                        android:text="Landlord Middle Name"
                         android:textColor="@color/colorBlack" />
 
 
@@ -97,7 +97,7 @@
                         android:layout_marginStart="@dimen/dimen10dp"
                         android:layout_marginTop="@dimen/dimen16dp"
                         android:layout_weight=".4"
-                        android:text="Landlord surname"
+                        android:text="Landlord Surname"
                         android:textColor="@color/colorBlack" />
 
 
@@ -193,7 +193,7 @@
                         android:layout_marginStart="@dimen/dimen10dp"
                         android:layout_marginTop="@dimen/dimen16dp"
                         android:layout_weight=".4"
-                        android:text="Landlord street name"
+                        android:text="Landlord Street Name"
                         android:textColor="@color/colorBlack" />
 
 
@@ -225,7 +225,7 @@
                         android:layout_marginStart="@dimen/dimen10dp"
                         android:layout_marginTop="@dimen/dimen16dp"
                         android:layout_weight=".4"
-                        android:text="Landlord email"
+                        android:text="Landlord Email"
                         android:textColor="@color/colorBlack" />
 
 
@@ -257,7 +257,7 @@
                         android:layout_marginStart="@dimen/dimen10dp"
                         android:layout_marginTop="@dimen/dimen16dp"
                         android:layout_weight=".4"
-                        android:text="Landlord mobile"
+                        android:text="Landlord Mobile"
                         android:textColor="@color/colorBlack" />
 
 

@@ -37,4 +37,10 @@ public class Helper {
         }
         return new String(chars);
     }
+
+
+    public static String ASSESSED_VALUE = "";
+    public static String DISCOUNT_APPLICABLE = "";
+    public static String RATE_PAYABLE = "";
+    public static String DISCOUNTED_RATE_PAYABLE = "";
 }

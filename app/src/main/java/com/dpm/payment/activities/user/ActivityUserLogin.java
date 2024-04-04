@@ -13,9 +13,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityCompat;
 
 import com.dpm.payment.activities.cashier.ActivityCashierLogin;
+import com.dpm.payment.activities.cep.ActivityCep;
 import com.dpm.payment.utils.AlertDialogUtils;
 import com.dpm.payment.utils.DataUtils;
 import com.dpm.payment.utils.LogUtils;
@@ -36,9 +38,9 @@ public class ActivityUserLogin extends AppCompatActivity implements View.OnClick
 
 
     private EditText etPhone, etISDPhone;
-    private Button btSendOTP;
+    private AppCompatTextView btSendOTP;
     private TextView tvCashier;
-
+    private AppCompatTextView btCheckIn;
 
 
     @Override
@@ -77,6 +79,7 @@ public class ActivityUserLogin extends AppCompatActivity implements View.OnClick
     private void initializeListener() {
         btSendOTP.setOnClickListener(this);
         tvCashier.setOnClickListener(this);
+        btCheckIn.setOnClickListener(this);
     }
 
 
@@ -90,7 +93,7 @@ public class ActivityUserLogin extends AppCompatActivity implements View.OnClick
 
 
         etISDPhone = findViewById(R.id.etISDPhone);
-
+        btCheckIn = findViewById(R.id.btCheckIn);
 
     }
 
@@ -131,7 +134,10 @@ public class ActivityUserLogin extends AppCompatActivity implements View.OnClick
                 startActivity(intent2);
                 finish();
                 break;
-
+            case R.id.btCheckIn:
+                Intent mIntent = new Intent(mContext, ActivityCep.class);
+                startActivity(mIntent);
+                break;
         }
     }
 

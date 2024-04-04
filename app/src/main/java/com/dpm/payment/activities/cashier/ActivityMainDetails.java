@@ -7,14 +7,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +31,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dpm.payment.activities.user.ActivityUserMainDetails;
 import com.dpm.payment.adapters.AssessmentHistoryAdapter;
 import com.dpm.payment.adapters.CashierImageAdapter;
 import com.dpm.payment.adapters.DataViewAdapter;
@@ -35,17 +38,21 @@ import com.dpm.payment.adapters.GeoRegistryDataAdapter;
 import com.dpm.payment.adapters.ImageAdapter;
 import com.dpm.payment.adapters.ImageTextAdapter;
 import com.dpm.payment.adapters.PropertyImageAdapter;
+import com.dpm.payment.adapters.ReceiptAdapter;
 import com.dpm.payment.adapters.TransactionDetailAdapter;
 import com.dpm.payment.models.AssessmentHistory;
 import com.dpm.payment.models.DataModel;
 import com.dpm.payment.models.GeoRegistryModel;
 import com.dpm.payment.models.MeterDetailsModel;
+import com.dpm.payment.models.OccupancyModel.OccupancyTypeResponse;
+import com.dpm.payment.models.OccupancyModel.TitlesItem;
 import com.dpm.payment.models.SearchAssessmentModel;
 import com.dpm.payment.models.SearchLandlordModel;
 import com.dpm.payment.models.SearchOccupancyModel;
 import com.dpm.payment.models.SearchPropertyModel;
 import com.dpm.payment.models.TransactionModel;
 import com.dpm.payment.models.propertydetail.Assessment;
+import com.dpm.payment.models.receipt.ReceiptResponse;
 import com.dpm.payment.retrofit.Utills.ApiRequest;
 import com.dpm.payment.retrofit.Utills.PART;
 import com.dpm.payment.retrofit.interfaces.OnCallBackListner;
@@ -62,13 +69,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.dpm.payment.activities.user.ActivityMainUserProperty.KEY_PROPERTY_DETAILS;
-import static com.dpm.payment.utils.Helper.roundOffDecimals;
 import static com.dpm.payment.utils.RestApiUrl.URL_CASHIER_LANDLORD_EDIT_PROFILE;
+import static com.dpm.payment.utils.RestApiUrl.URL_LANDLORD_PROPERTY_APPROVE;
 import static com.dpm.payment.utils.StringUtils.getAppendListDataWithSpacialCharacter;
 
 // Cashier login
@@ -90,8 +99,8 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
     //TODO Landload Ui By Debabrata
     TextView activitySearchDetails_tv_property_images, activitySearchDetails_tv_rate_payable, activitySearchDetails_tv_assessment_history, activitySearchDetails_tv_landlord_details, activitySearchDetails_tv_property_details, activitySearchDetails_tv_occupancy_details,
             activitySearchDetails_tv_assessment_details, activitySearchDetails_tv_geo_registry_details,
-            activitySearchDetails_tv_councillor_adjustment, activitySearchDetails_tv_cashier_receipt, activitySearchDetails_tv_pensioner_receipt, activitySearchDetails_tv_disability_receipt,
-            activitySearchDetails_tv_council_discount, activitySearchDetails_tv_government_policy;
+            activitySearchDetails_tv_councillor_adjustment, activitySearchDetails_tv_cashier_receipt,
+            activitySearchDetails_tv_council_discount, activitySearchDetails_tv_government_policy, tvPensionerDiscount, tvDisabilityDiscount, tvDiscountedRatePayable;
 
 
     Boolean expand_property_image = false, expand__rate_payable = false, expand_assessment_history = false, expand_landlord_details = false, expand_property_details = false,
@@ -168,10 +177,11 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
     // FIXME: 23-09-2021
     AlertDialog dialogLandlord;
+    AlertDialog dialogOccupancy;
 
     ApiRequest apiRequest;
 
-    Button btn_edit_landlord, btn_edit_property_details;
+    Button btn_edit_landlord, btn_edit_property_details, btn_edit_occupancy_details;
 
     // FIXME: 08-10-2021
     ImageView img_verification_document, img_address_proof;
@@ -181,6 +191,33 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
     String old_street_flag = "0";
 
+    SearchPropertyModel propertyModel;
+    AlertDialog dialogLandlordProperty;
+
+    ImageView img_address_proof_property, img_lin_conveyance_capture_property;
+    LinearLayout lin_address_proof_property, lin_conveyance_capture_property;
+
+    private static final int CODE_ADDRESS_PROOF_PROPERTY = 103;
+    private static final int CODE_CONVEYANCE_CAPTURE_PROPERTY = 104;
+
+    List<PART> list_file_landlord = new ArrayList<>();
+    HashMap<String, File> list_map_landlord = new HashMap<>();
+    String old_street_flag_landlord = "0";
+
+    List<PART> list_file_landlord_property = new ArrayList<>();
+    HashMap<String, File> list_map_landlord_property = new HashMap<>();
+    String old_street_flag_property = "0";
+
+    File file_address_proof_property, file_conveyance_capture_property;
+
+    RecyclerView recycler_view_receipt;
+
+    List<String> list_occupancy_type;
+    List<TitlesItem> list_occupancy_title;
+
+
+    String OccupancyType = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,6 +225,8 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_user_details);
         apiRequest = new ApiRequest(this, this);
+
+        getOccupancyType();
 
         initializeViews();
         initializeListeners();
@@ -201,6 +240,8 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
     private void setData() {
 
         try {
+
+            getReceipt();
 
             dataItem = new Gson().fromJson(getIntent().getStringExtra(KEY_PROPERTY_DETAILS + "1"), Assessment.class);
 
@@ -286,10 +327,12 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
         btn_edit_landlord = findViewById(R.id.btn_edit_landlord);
         btn_edit_property_details = findViewById(R.id.btn_edit_property_details);
-        btn_edit_property_details.setVisibility(View.GONE);
+        btn_edit_occupancy_details = findViewById(R.id.btn_edit_occupancy_details);
+        // btn_edit_property_details.setVisibility(View.GONE);
 
         recyclerview_image_property = findViewById(R.id.recyclerview_image_property);
         recyclerview_image_cashier = findViewById(R.id.recyclerview_image_cashier);
+        recycler_view_receipt = findViewById(R.id.recycler_view_receipt);
         recyclerview_image_disability = findViewById(R.id.recyclerview_image_disability);
         recyclerview_image_pensioner = findViewById(R.id.recyclerview_image_pensioner);
 
@@ -301,11 +344,11 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         recyclerview_image_cashier.setHasFixedSize(true);
         recyclerview_image_cashier.setFocusable(false);
 
-        recyclerview_image_disability.setHasFixedSize(true);
-        recyclerview_image_disability.setFocusable(false);
-
-        recyclerview_image_pensioner.setHasFixedSize(true);
-        recyclerview_image_pensioner.setFocusable(false);
+        //   recyclerview_image_disability.setHasFixedSize(true);
+        //   recyclerview_image_disability.setFocusable(false);
+//
+        //   recyclerview_image_pensioner.setHasFixedSize(true);
+        //   recyclerview_image_pensioner.setFocusable(false);
 
 
         tv_assesment_year_value = findViewById(R.id.activityDetailsAssesmentHistory_tv_assesment_year_value);
@@ -336,11 +379,14 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         activitySearchDetails_tv_occupancy_details = findViewById(R.id.activitySearchDetails_tv_occupancy_details);
         activitySearchDetails_tv_geo_registry_details = findViewById(R.id.activitySearchDetails_tv_geo_registry_details);
         activitySearchDetails_tv_cashier_receipt = findViewById(R.id.activitySearchDetails_tv_cashier_receipt);
-        activitySearchDetails_tv_pensioner_receipt = findViewById(R.id.activitySearchDetails_tv_pensioner_receipt);
-        activitySearchDetails_tv_disability_receipt = findViewById(R.id.activitySearchDetails_tv_disability_receipt);
+        // activitySearchDetails_tv_pensioner_receipt = findViewById(R.id.activitySearchDetails_tv_pensioner_receipt);
+        // activitySearchDetails_tv_disability_receipt = findViewById(R.id.activitySearchDetails_tv_disability_receipt);
         activitySearchDetails_tv_councillor_adjustment = findViewById(R.id.activitySearchDetails_tv_councillor_adjustment);
         activitySearchDetails_tv_council_discount = findViewById(R.id.activitySearchDetails_tv_council_discount);
         activitySearchDetails_tv_government_policy = findViewById(R.id.activitySearchDetails_tv_government_policy);
+        tvPensionerDiscount = findViewById(R.id.tvPensionerDiscount);
+        tvDisabilityDiscount = findViewById(R.id.tvDisabilityDiscount);
+        tvDiscountedRatePayable = findViewById(R.id.tvDiscountedRatePayable);
 
         activitySearchDetails_tv_payment = findViewById(R.id.activitySearchDetails_tv_payment);
 
@@ -354,8 +400,8 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         include_assessment_details = findViewById(R.id.include_assessment_details);
         include_geo_registry_details = findViewById(R.id.include_geo_registry_details);
         include_tv_cashier_receipt = findViewById(R.id.include_tv_cashier_receipt);
-        include_tv_pensioner_receipt = findViewById(R.id.include_tv_pensioner_receipt);
-        include_tv_disability_receipt = findViewById(R.id.include_tv_disability_receipt);
+        // include_tv_pensioner_receipt = findViewById(R.id.include_tv_pensioner_receipt);
+        // include_tv_disability_receipt = findViewById(R.id.include_tv_disability_receipt);
         include_councillor_adjustment = findViewById(R.id.include_councillor_adjustment);
         include_tv_council_discount = findViewById(R.id.include_tv_council_discount);
         include_tv_government_policy = findViewById(R.id.include_tv_government_policy);
@@ -395,18 +441,18 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         councillor_list.add(new DataModel("Window type percentage", dataItem.getWindowTypePercentage() + "%"));
         councillor_list.add(new DataModel("pensioner_discount", dataItem.getPensionerDiscount() == 1 ? "Yes" : "No"));
         councillor_list.add(new DataModel("disability_discount", dataItem.getDisabilityDiscount() == 1 ? "Yes" : "No"));*/
-        councillor_list.add(new DataModel("water", dataItem.getWaterPercentage() + "%"));
-        councillor_list.add(new DataModel("electricity", dataItem.getElectricityPercentage() + "%"));
-        councillor_list.add(new DataModel("waste_management", dataItem.getWasteManagementPercentage() + "%"));
-        councillor_list.add(new DataModel("market", dataItem.getMarketPercentage() + "%"));
-        councillor_list.add(new DataModel("hazardous", dataItem.getHazardousPrecentage() + "%"));
-        councillor_list.add(new DataModel("drainage", dataItem.getDrainagePercentage() + "%"));
+        councillor_list.add(new DataModel("No Water Supply (Section)", dataItem.getWaterPercentage() + "%"));
+        councillor_list.add(new DataModel("No Electricity (Section)", dataItem.getElectricityPercentage() + "%"));
+        councillor_list.add(new DataModel("No Waste Management/Services/Points (Ward)", dataItem.getWasteManagementPercentage() + "%"));
+        councillor_list.add(new DataModel("No Market (Ward)", dataItem.getMarketPercentage() + "%"));
+        councillor_list.add(new DataModel("Hazardous Location/Environment ", dataItem.getHazardousPrecentage() + "%"));
+        councillor_list.add(new DataModel("No Drainage", dataItem.getDrainagePercentage() + "%"));
         councillor_list.add(new DataModel("informal_settlement", dataItem.getInformalSettlementPercentage() + "%"));
-        councillor_list.add(new DataModel("easy_street_access", dataItem.getEasyStreetAccessPercentage() + "%"));
-        councillor_list.add(new DataModel("paved_tarred_street", dataItem.getPavedTarredStreetPercentage() + "%"));
+        councillor_list.add(new DataModel("Difficult Street Access", dataItem.getEasyStreetAccessPercentage() + "%"));
+        councillor_list.add(new DataModel("Unpaved/Untarred Street/Road", dataItem.getPavedTarredStreetPercentage() + "%"));
         //councillor_list.add(new DataModel("council_group_name", dataItem.getCouncilGroupName() + ""));
 
-        DataViewAdapter adapter = new DataViewAdapter(councillor_list);
+        DataViewAdapter adapter = new DataViewAdapter(councillor_list, R.layout.rowview_council_adjustment_details);
         rv_councillor_adjustment.setAdapter(adapter);
     }
 
@@ -454,15 +500,16 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
     }
 
     private void initAdjustedPayable(String value) {
-        rvRatePayable = findViewById(R.id.rvRatePayable);
+/*        rvRatePayable = findViewById(R.id.rvRatePayable);
         rvRatePayable.setLayoutManager(new LinearLayoutManager(this));
         rvRatePayable.setFocusable(false);
         ViewCompat.setNestedScrollingEnabled(rv_government_policy, false);
 
         List<DataModel> councillor_list = new ArrayList<>();
         councillor_list.add(new DataModel("Discounted Rate Payable 2022", StringUtils.AmountWithComma(value)));
-        DataViewAdapter adapter = new DataViewAdapter(councillor_list);
-        rvRatePayable.setAdapter(adapter);
+        DataViewAdapter adapter = new DataViewAdapter(councillor_list);*/
+        tvDiscountedRatePayable.setText(value);
+        // rvRatePayable.setAdapter(adapter);
     }
 
     private void initPropertyImages(List<String> listOfImages) {
@@ -505,7 +552,6 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
             recyclerview_image_cashier.setLayoutManager(new GridLayoutManager(ActivityMainDetails.this, 1));
         else if (listOfImages.size() == 2)
             recyclerview_image_cashier.setLayoutManager(new GridLayoutManager(ActivityMainDetails.this, 2));
-
 
 
         recyclerview_image_cashier.setAdapter(new CashierImageAdapter(this, listOfImages, "C"));
@@ -715,7 +761,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         ivProfilePicLandload = findViewById(R.id.ivProfilePicLandload);
         rvLandload = findViewById(R.id.rvLandload);
         rvLandload.setLayoutManager(new LinearLayoutManager(this));
-        adapterLandload = new DataViewAdapter(listLandload);
+        adapterLandload = new DataViewAdapter(listLandload, R.layout.rowview_landlord_details);
         rvLandload.setAdapter(adapterLandload);
         rvLandload.setFocusable(false);
         ViewCompat.setNestedScrollingEnabled(rvLandload, false);
@@ -817,7 +863,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
 */
 
-                try {
+             /*   try {
 
                     DataModel model0 = new DataModel();
                     model0.setKey("Property ID");
@@ -825,7 +871,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
                     listLandload.add(model0);
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                }
+                }*/
 
 
                 if (mMainObject.optBoolean("is_organization")) {
@@ -960,7 +1006,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
                 try {
                     DataModel model5 = new DataModel();
                     model5.setKey("Street Number");
-                    model5.setValue(landlordModel.getStreet_numbernew());
+                    model5.setValue(landlordModel.getStreetNumber());
                     listLandload.add(model5);
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -1038,16 +1084,27 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         try {
             if (propertyObject != null) {
 
-                SearchPropertyModel propertyModel = (SearchPropertyModel) CommonUtils.getObjectFromJson(propertyObject.toString().trim(), SearchPropertyModel.class);
+                propertyModel = (SearchPropertyModel) CommonUtils.getObjectFromJson(propertyObject.toString().trim(), SearchPropertyModel.class);
 
-                DataModel model22 = new DataModel();
+                try {
+
+                    DataModel model0 = new DataModel();
+                    model0.setKey("Property ID");
+                    model0.setValue("" + landlordModel.getPropertyId());
+                    listProperty.add(model0);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+
+                /*DataModel model22 = new DataModel();
                 model22.setKey("New Street Number");
                 model22.setValue(propertyModel.getStreet_numbernew());
-                listProperty.add(model22);
+                listProperty.add(model22);*/
 
 
                 DataModel model1 = new DataModel();
-                model1.setKey("Old Street Number");
+                model1.setKey("Street Number");
                 model1.setValue(propertyModel.getStreetNumber());
                 listProperty.add(model1);
 
@@ -1056,6 +1113,12 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
                 model2.setKey("Street Name");
                 model2.setValue(propertyModel.getStreetName());
                 listProperty.add(model2);
+
+
+                DataModel model4 = new DataModel();
+                model4.setKey("Section");
+                model4.setValue(propertyModel.getSection());
+                listProperty.add(model4);
 
 
                 DataModel model3 = new DataModel();
@@ -1072,11 +1135,6 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
                 model12.setValue(Constituency);
                 listProperty.add(model12);
 
-
-                DataModel model4 = new DataModel();
-                model4.setKey("Section");
-                model4.setValue(propertyModel.getSection());
-                listProperty.add(model4);
 
                 DataModel model5 = new DataModel();
                 model5.setKey("Chiefdom");
@@ -1216,11 +1274,13 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
     }
 
+    SearchOccupancyModel occupancyModel;
+
     private void setOccupancyData(JSONObject occupancyObject, JSONObject JSONMainObj) {
         try {
             if (occupancyObject != null) {
 
-                SearchOccupancyModel occupancyModel = (SearchOccupancyModel) CommonUtils.getObjectFromJson(occupancyObject.toString().trim(), SearchOccupancyModel.class);
+                occupancyModel = (SearchOccupancyModel) CommonUtils.getObjectFromJson(occupancyObject.toString().trim(), SearchOccupancyModel.class);
 
 
                 try {
@@ -1238,6 +1298,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
                     String mFinalStr = getAppendListDataWithSpacialCharacter(mList, ",");
 
+                    OccupancyType = mFinalStr;
                     DataModel model1 = new DataModel();
                     model1.setKey("Occupancy Type");
                     model1.setValue(mFinalStr);
@@ -1295,6 +1356,10 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         try {
             if (assessmentObject != null) {
 
+                tvPensionerDiscount.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(assessmentObject.optString("pensioner_discount")))));
+                tvDisabilityDiscount.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(assessmentObject.optString("disability_discount")))));
+
+
                 SearchAssessmentModel assessmentModel = (SearchAssessmentModel) CommonUtils.getObjectFromJson(assessmentObject.toString().trim(), SearchAssessmentModel.class);
 
                 List<String> propertyImages = new ArrayList<>();
@@ -1329,7 +1394,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
                 try {
 
-                    listAssessment.add(new DataModel("Dimension", "" + dataItem.getSquareMeter()));
+                    listAssessment.add(new DataModel("Dimension", "" + dataItem.getSquareMeter() + " (sq mt) "));
                 } catch (Exception ex) {
                     listAssessment.add(new DataModel("Dimension", ""));
                     ex.printStackTrace();
@@ -1438,7 +1503,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
                     mStrFinal = getAppendListDataWithSpacialCharacter(list, ",");
 
                     DataModel model6 = new DataModel();
-                    model6.setKey("Value Added Assessment Parameters");
+                    model6.setKey("Value Added Parameters");
                     model6.setValue("" + mStrFinal);
                     listAssessment.add(model6);
                 } catch (Exception ex) {
@@ -1637,6 +1702,8 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         toolbar_iv_search.setOnClickListener(this);
 
         btn_edit_landlord.setOnClickListener(this);
+        btn_edit_property_details.setOnClickListener(this);
+        btn_edit_occupancy_details.setOnClickListener(this);
 
 
         activitySearchDetails_tv_rate_payable.setOnClickListener(this);
@@ -1649,8 +1716,8 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         activitySearchDetails_tv_geo_registry_details.setOnClickListener(this);
         activitySearchDetails_tv_payment.setOnClickListener(this);
         activitySearchDetails_tv_cashier_receipt.setOnClickListener(this);
-        activitySearchDetails_tv_pensioner_receipt.setOnClickListener(this);
-        activitySearchDetails_tv_disability_receipt.setOnClickListener(this);
+        //activitySearchDetails_tv_pensioner_receipt.setOnClickListener(this);
+        //activitySearchDetails_tv_disability_receipt.setOnClickListener(this);
         activitySearchDetails_tv_councillor_adjustment.setOnClickListener(this);
         activitySearchDetails_tv_council_discount.setOnClickListener(this);
         activitySearchDetails_tv_government_policy.setOnClickListener(this);
@@ -1726,6 +1793,35 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         EditText edt_landlord_email = deleteDialogView.findViewById(R.id.edt_landlord_email);
         EditText edt_landlord_mobile_1 = deleteDialogView.findViewById(R.id.edt_landlord_mobile_1);
         Button btn_save_landlord_info = deleteDialogView.findViewById(R.id.btn_save_landlord_info);
+
+        // FIXME: 13-05-2022
+        RadioButton rb_male = deleteDialogView.findViewById(R.id.rb_male);
+        RadioButton rb_female = deleteDialogView.findViewById(R.id.rb_female);
+        EditText edt_landlord_postcode = deleteDialogView.findViewById(R.id.edt_landlord_postcode);
+        EditText edt_landlord_province = deleteDialogView.findViewById(R.id.edt_landlord_province);
+        EditText edt_landlord_district = deleteDialogView.findViewById(R.id.edt_landlord_district);
+        EditText edt_landlord_chiefdom = deleteDialogView.findViewById(R.id.edt_landlord_chiefdom);
+        EditText edt_landlord_ward = deleteDialogView.findViewById(R.id.edt_landlord_ward);
+        EditText edt_landlord_section = deleteDialogView.findViewById(R.id.edt_landlord_section);
+        EditText edt_landlord_mobile_2 = deleteDialogView.findViewById(R.id.edt_landlord_mobile_2);
+        EditText edt_landlord_title = deleteDialogView.findViewById(R.id.edt_landlord_title);
+        EditText edt_landlord_constituency = deleteDialogView.findViewById(R.id.edt_landlord_constituency);
+
+        if (searchResponseModel.getSex().equalsIgnoreCase("M"))
+            rb_male.setChecked(true);
+        else rb_female.setChecked(true);
+
+        edt_landlord_postcode.setText(searchResponseModel.getPostcode());
+        edt_landlord_province.setText(searchResponseModel.getProvince());
+        edt_landlord_district.setText(searchResponseModel.getDistrict());
+        edt_landlord_chiefdom.setText(searchResponseModel.getChiefdom());
+        edt_landlord_constituency.setText(searchResponseModel.getConstituency());
+        edt_landlord_ward.setText(searchResponseModel.getWard());
+        edt_landlord_section.setText(searchResponseModel.getSection());
+        edt_landlord_mobile_2.setText(searchResponseModel.getMobile2());
+        edt_landlord_title.setText(searchResponseModel.getTitles().getLabel());
+
+
         img_verification_document = deleteDialogView.findViewById(R.id.img_verification_document);
         img_address_proof = deleteDialogView.findViewById(R.id.img_address_proof);
         edt_note_address_proof = deleteDialogView.findViewById(R.id.edt_note_address_proof);
@@ -1740,7 +1836,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         edt_landlord_first_name.setText(searchResponseModel.getFirstName());
         edt_landlord_middle_name.setText(searchResponseModel.getMiddleName());
         edt_landlord_surname.setText(searchResponseModel.getSurname());
-        edt_landlord_street_number.setText(searchResponseModel.getStreet_numbernew());
+        edt_landlord_street_number.setText(searchResponseModel.getStreetNumber());
         edt_landlord_street_name.setText(searchResponseModel.getStreetName());
         edt_landlord_email.setText("" + searchResponseModel.getEmail());
         edt_landlord_mobile_1.setText(searchResponseModel.getMobile1());
@@ -1831,8 +1927,6 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
                 }
             }
         });
-
-
         edt_landlord_street_number.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -1860,7 +1954,6 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
                 }
             }
         });
-
         edt_landlord_street_name.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -1936,6 +2029,21 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
             req_params.put("old_street_flag", "" + old_street_flag);
             req_params.put("requested_by", "cashier");
 
+            // FIXME: 13-05-2022
+
+
+            req_params.put("landlord_ownerTitle_id", "" + edt_landlord_title.getText().toString());
+            req_params.put("landlord_ward", "" + edt_landlord_ward.getText().toString());
+            req_params.put("landlord_constituency", "" + edt_landlord_constituency.getText().toString());
+            req_params.put("landlord_section", "" + edt_landlord_section.getText().toString());
+            req_params.put("landlord_chiefdom", "" + edt_landlord_chiefdom.getText().toString());
+            req_params.put("landlord_district", "" + edt_landlord_district.getText().toString());
+            req_params.put("landlord_province", "" + edt_landlord_province.getText().toString());
+            req_params.put("landlord_postcode", "" + edt_landlord_postcode.getText().toString());
+            req_params.put("landlord_mobile_2", "" + edt_landlord_mobile_2.getText().toString());
+            req_params.put("landlord_sex", rb_male.isChecked() ? "M" : "F");
+            // req_params.put("landlord_ownerTitle_id", "" + edt_landlord_title.getText().toString());
+
 
           /*  adapterLandload.updateItems(new DataModel("Email Address", edt_landlord_email.getText().toString()));
             adapterLandload.updateItems(new DataModel("First Name", edt_landlord_first_name.getText().toString()));
@@ -1948,6 +2056,9 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
 
             String finalURL = URL_CASHIER_LANDLORD_EDIT_PROFILE + getIntent().getStringExtra("property_id");
+
+            Log.d("request", req_params.toString());
+            Log.d("request_url", finalURL);
 
             if (isIdRequired && isAddressRequired) {
                 if (file_verification_document != null && file_address_proof != null) {
@@ -2000,6 +2111,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
     }
 
+
     // FIXME: 19-09-2021
     private void OpenCamera(int code) {
         ImagePicker.Companion.with(this)
@@ -2022,8 +2134,23 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
             } else if (requestCode == CODE_ADDRESS_PROOF) {
                 img_address_proof.setImageURI(Uri.fromFile(ImagePicker.Companion.getFile(data)));
                 file_address_proof = ImagePicker.Companion.getFile(data);
+            } else if (requestCode == CODE_ADDRESS_PROOF_PROPERTY) {
+                img_address_proof_property.setImageURI(Uri.fromFile(ImagePicker.Companion.getFile(data)));
+                file_address_proof_property = ImagePicker.Companion.getFile(data);
+                // list_file.add(new PART("address_document", file_address_proof));
+                // replaceFile(new PART("address_document", file_address_proof));
+
+                list_map_landlord_property.put("address_document", file_address_proof_property);
+
+            } else if (requestCode == CODE_CONVEYANCE_CAPTURE_PROPERTY) {
+                img_lin_conveyance_capture_property.setImageURI(Uri.fromFile(ImagePicker.Companion.getFile(data)));
+                file_conveyance_capture_property = ImagePicker.Companion.getFile(data);
+                // list_file.add(new PART("conveyance_proof", file_conveyance_capture));
+                //  replaceFile(new PART("conveyance_proof", file_conveyance_capture));
+                list_map_landlord_property.put("conveyance_proof", file_conveyance_capture_property);
             }
         }
+
 
     }
 
@@ -2031,12 +2158,23 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         Intent intent = null;
         switch (v.getId()) {
+
             case R.id.toolbar_iv_home:
                 onBackPressed();
                 break;
             case R.id.toolbar_iv_search:
                 //  intent = new Intent(mContext, ActDe)
                 break;
+
+            case R.id.btn_edit_property_details:
+                initLandlordPropertyDialog(propertyModel);
+                //   if (dialogLandlord != null) dialogLandlord.show();
+                break;
+            case R.id.btn_edit_occupancy_details:
+                initOccupancyDialog();
+                //   if (dialogLandlord != null) dialogLandlord.show();
+                break;
+
             case R.id.btn_edit_landlord:
                 initLandlordDialog(landlordModel);
                 //   if (dialogLandlord != null) dialogLandlord.show();
@@ -2236,7 +2374,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
                 break;
 
 
-            case R.id.activitySearchDetails_tv_pensioner_receipt:
+           /* case R.id.activitySearchDetails_tv_pensioner_receipt:
 
                 try {
                     if (expand_pensioner_receipt_details) {
@@ -2258,9 +2396,9 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
                     ex.printStackTrace();
                 }
 
-                break;
+                break;*/
 
-            case R.id.activitySearchDetails_tv_disability_receipt:
+           /* case R.id.activitySearchDetails_tv_disability_receipt:
 
                 try {
                     if (expand_disability_receipt_details) {
@@ -2283,7 +2421,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
                 }
 
                 break;
-
+*/
             case R.id.activitySearchDetails_tv_councillor_adjustment:
 
                 try {
@@ -2363,6 +2501,229 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
     }
 
+    public void initLandlordPropertyDialog(SearchPropertyModel searchResponseModel) {
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View deleteDialogView = factory.inflate(R.layout.dialog_edit_landlord_property_details, null);
+        dialogLandlordProperty = new AlertDialog.Builder(this).create();
+        dialogLandlordProperty.setView(deleteDialogView);
+
+        WindowManager.LayoutParams params = dialogLandlordProperty.getWindow().getAttributes();
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.height = WindowManager.LayoutParams.MATCH_PARENT;
+        params.gravity = Gravity.CENTER;
+        dialogLandlordProperty.getWindow().setAttributes(params);
+        dialogLandlordProperty.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+
+        Button btn_save_ = deleteDialogView.findViewById(R.id.btn_save_);
+
+
+        EditText edt_landlord_street_number = deleteDialogView.findViewById(R.id.edt_landlord_street_number);
+        EditText edt_landlord_street_name = deleteDialogView.findViewById(R.id.edt_landlord_street_name);
+        EditText edt_landlord_new_street_number = deleteDialogView.findViewById(R.id.edt_landlord_new_street_number);
+
+        img_address_proof_property = deleteDialogView.findViewById(R.id.img_address_proof_property);
+        img_lin_conveyance_capture_property = deleteDialogView.findViewById(R.id.img_lin_conveyance_capture_property);
+
+        lin_address_proof_property = deleteDialogView.findViewById(R.id.lin_address_proof_property);
+        lin_conveyance_capture_property = deleteDialogView.findViewById(R.id.lin_conveyance_capture_property);
+
+        //  img_address_proof = deleteDialogView.findViewById(R.id.img_address_proof);
+
+
+        // FIXME: 16-05-2022
+
+        EditText edt_landlord_section = deleteDialogView.findViewById(R.id.edt_landlord_section);
+        EditText edt_landlord_constituency = deleteDialogView.findViewById(R.id.edt_landlord_constituency);
+        EditText edt_landlord_ward = deleteDialogView.findViewById(R.id.edt_landlord_ward);
+        EditText edt_landlord_chiefdom = deleteDialogView.findViewById(R.id.edt_landlord_chiefdom);
+        EditText edt_landlord_postcode = deleteDialogView.findViewById(R.id.edt_landlord_postcode);
+        EditText edt_landlord_province = deleteDialogView.findViewById(R.id.edt_landlord_province);
+        EditText edt_landlord_district = deleteDialogView.findViewById(R.id.edt_landlord_district);
+
+        edt_landlord_postcode.setText(searchResponseModel.getPostcode());
+        edt_landlord_province.setText(searchResponseModel.getProvince());
+        edt_landlord_district.setText(searchResponseModel.getDistrict());
+        edt_landlord_chiefdom.setText(searchResponseModel.getChiefdom());
+        edt_landlord_constituency.setText(searchResponseModel.getConstituency());
+        edt_landlord_ward.setText(searchResponseModel.getWard() + "");
+        edt_landlord_section.setText(searchResponseModel.getSection());
+
+
+        // FIXME: 20-09-2021
+
+        edt_landlord_street_number.setText(searchResponseModel.getStreetNumber());
+        edt_landlord_street_name.setText(searchResponseModel.getStreetName());
+        edt_landlord_new_street_number.setText(searchResponseModel.getStreet_numbernew());
+
+
+        dialogLandlordProperty.show();
+
+
+        img_address_proof_property.setOnClickListener(v -> OpenCamera(CODE_ADDRESS_PROOF_PROPERTY));
+        img_lin_conveyance_capture_property.setOnClickListener(v -> OpenCamera(CODE_CONVEYANCE_CAPTURE_PROPERTY));
+
+
+        edt_landlord_street_name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (searchResponseModel.getStreetName() == null || searchResponseModel.getStreetName().isEmpty()) {
+                    lin_address_proof_property.setVisibility(View.VISIBLE);
+                    lin_conveyance_capture_property.setVisibility(View.VISIBLE);
+                    isAddressRequired = true;
+                    old_street_flag_landlord = "1";
+                } else if (!searchResponseModel.getStreetName().equalsIgnoreCase(s.toString())) {
+                    lin_address_proof_property.setVisibility(View.VISIBLE);
+                    lin_conveyance_capture_property.setVisibility(View.VISIBLE);
+                    isAddressRequired = true;
+                    old_street_flag_landlord = "1";
+                } else {
+                    lin_address_proof_property.setVisibility(View.GONE);
+                    lin_conveyance_capture_property.setVisibility(View.GONE);
+                    isAddressRequired = false;
+                    old_street_flag_landlord = "0";
+
+                }
+            }
+        });
+        ///// newly added
+        edt_landlord_street_number.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (searchResponseModel.getStreetNumber() == null || searchResponseModel.getStreetNumber().isEmpty()) {
+                    if (s.length() > 0) {
+                        lin_address_proof_property.setVisibility(View.VISIBLE);
+                        lin_conveyance_capture_property.setVisibility(View.VISIBLE);
+                        isAddressRequired = true;
+                        old_street_flag_landlord = "1";
+                    }
+                } else if (!searchResponseModel.getStreetNumber().equalsIgnoreCase(s.toString())) {
+                    lin_address_proof_property.setVisibility(View.VISIBLE);
+                    lin_conveyance_capture_property.setVisibility(View.VISIBLE);
+                    isAddressRequired = true;
+                    old_street_flag_landlord = "1";
+                } else {
+                    lin_address_proof_property.setVisibility(View.GONE);
+                    lin_conveyance_capture_property.setVisibility(View.GONE);
+                    isAddressRequired = false;
+                    old_street_flag_landlord = "0";
+
+                }
+            }
+        });
+
+        edt_landlord_new_street_number.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (searchResponseModel.getStreet_numbernew() == null || searchResponseModel.getStreet_numbernew().isEmpty()) {
+                    if (s.length() > 0) {
+                        lin_address_proof_property.setVisibility(View.VISIBLE);
+                        lin_conveyance_capture_property.setVisibility(View.VISIBLE);
+                        isAddressRequired = true;
+                        old_street_flag_landlord = "1";
+                    }
+                } else if (!searchResponseModel.getStreet_numbernew().equalsIgnoreCase(s.toString())) {
+                    lin_address_proof_property.setVisibility(View.VISIBLE);
+                    lin_conveyance_capture_property.setVisibility(View.VISIBLE);
+                    isAddressRequired = true;
+                    old_street_flag_landlord = "1";
+                } else {
+                    lin_address_proof_property.setVisibility(View.GONE);
+                    lin_conveyance_capture_property.setVisibility(View.GONE);
+                    isAddressRequired = false;
+                    old_street_flag_landlord = "0";
+
+                }
+            }
+        });
+
+        btn_save_.setOnClickListener(v -> {
+            HashMap<String, String> req_params = new HashMap<>();
+
+            // FIXME: 20-09-2021
+
+            req_params.put("landlord_street_number", "" + edt_landlord_street_number.getText().toString());
+            req_params.put("landlord_street_numbernew", "" + edt_landlord_new_street_number.getText().toString());
+            req_params.put("landlord_street_name", "" + edt_landlord_street_name.getText().toString());
+            //req_params.put("old_street_flag", "" + old_street_flag_landlord);
+            req_params.put("requested_by", "Cashier");
+
+
+            // FIXME: 16-05-2022
+
+            req_params.put("temp_ward", "" + edt_landlord_ward.getText().toString());
+            req_params.put("temp_constituency", "" + edt_landlord_constituency.getText().toString());
+            req_params.put("temp_section", "" + edt_landlord_section.getText().toString());
+            req_params.put("temp_chiefdom", "" + edt_landlord_chiefdom.getText().toString());
+            req_params.put("temp_district", "" + edt_landlord_district.getText().toString());
+            req_params.put("temp_province", "" + edt_landlord_province.getText().toString());
+            req_params.put("temp_postcode", "" + edt_landlord_postcode.getText().toString());
+
+
+            //  if (isAddressRequired) {
+            if (!list_map_landlord_property.containsKey("address_document")) {
+                Toast.makeText(ActivityMainDetails.this, "Please select address document", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            //  }
+
+            list_file_landlord_property = new ArrayList<>();
+            for (Map.Entry<String, File> entry : list_map_landlord_property.entrySet()) {
+                list_file_landlord_property.add(new PART(entry.getKey(), entry.getValue()));
+            }
+
+            if (list_file_landlord_property.size() == 0) {
+                Toast.makeText(ActivityMainDetails.this, "Image shouldn't be empty", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+
+            String finalURL = URL_LANDLORD_PROPERTY_APPROVE + landlordModel.getPropertyId();
+
+            apiRequest.callMultiFileUpload(
+                    finalURL,
+                    req_params,
+                    list_file_landlord_property,
+                    // PrefUtil.getAuthType(mContext) + " " + PrefUtil.getToken(mContext),
+                    PrefUtil.getAuthType(mContext) + " " + PrefUtil.getToken(mContext),
+                    "upload_data_property");
+
+
+        });
+
+    }
+
+
     @Override
     public void OnCallBackSuccess(String tag, String response) {
 
@@ -2387,11 +2748,166 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
 
         }
+        if (tag.equalsIgnoreCase("upload_data_property")) {
+
+            list_map_landlord_property.clear();
+            list_file_landlord_property.clear();
+
+            if (dialogLandlordProperty != null && dialogLandlordProperty.isShowing())
+                dialogLandlordProperty.dismiss();
+
+            lin_address_proof_property.setVisibility(View.GONE);
+            img_address_proof_property.setImageDrawable(getDrawable(R.drawable.placeholder));
+
+
+            try {
+                JSONObject object = new JSONObject(response);
+                Toast.makeText(this, "" + object.getString("status") + " Please wait for approval", Toast.LENGTH_SHORT).show();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+        if (tag.equalsIgnoreCase("upload_data_occupancy")) {
+
+
+
+            try {
+                JSONObject object = new JSONObject(response);
+                Log.d("upload_data_occupancy",object.toString());
+                Toast.makeText(this, "" + object.getString("status") + " Please wait for approval", Toast.LENGTH_SHORT).show();
+                dialogOccupancy.dismiss();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+        if (tag.equalsIgnoreCase("getReceipt")) {
+
+            ReceiptResponse receiptResponse = new Gson().fromJson(response, ReceiptResponse.class);
+
+            recycler_view_receipt.setHasFixedSize(true);
+            recycler_view_receipt.setFocusable(false);
+
+            recycler_view_receipt.setAdapter(new ReceiptAdapter(receiptResponse.getDatas() != null ? receiptResponse.getDatas() : new ArrayList<>(), ActivityMainDetails.this));
+
+
+        }
+        if (tag.equalsIgnoreCase("getOccupancyType")) {
+            OccupancyTypeResponse res = new Gson().fromJson(response, OccupancyTypeResponse.class);
+            list_occupancy_type = res.getDatas().getOccupancyType();
+            list_occupancy_title = res.getDatas().getTitles();
+
+
+        }
 
     }
 
     @Override
     public void OnCallBackError(String tag, String error, int i) {
+
+    }
+
+    // FIXME: 16-05-2022
+    public void getReceipt() {
+
+        String url = "http://mrms.sigmaventuressl.com/apiv2/get-recipts/" + getIntent().getStringExtra("property_id");
+        apiRequest.callGetRequest(url, "getReceipt");
+
+    }
+
+    public void getOccupancyType() {
+        String url = "http://mrms.sigmaventuressl.com/apiv2/get-occupency-types";
+        apiRequest.callGetRequest(url, "getOccupancyType");
+
+    }
+
+
+    public void initOccupancyDialog() {
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View deleteDialogView = factory.inflate(R.layout.dialog_edit_occupency_details, null);
+        dialogOccupancy = new AlertDialog.Builder(this).create();
+        dialogOccupancy.setView(deleteDialogView);
+
+        WindowManager.LayoutParams params = dialogOccupancy.getWindow().getAttributes();
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.height = WindowManager.LayoutParams.MATCH_PARENT;
+        params.gravity = Gravity.CENTER;
+        dialogOccupancy.getWindow().setAttributes(params);
+        dialogOccupancy.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+        EditText edt_first_name = deleteDialogView.findViewById(R.id.edt_first_name);
+        EditText edt_middle_name = deleteDialogView.findViewById(R.id.edt_middle_name);
+        EditText edt_sur_name = deleteDialogView.findViewById(R.id.edt_sur_name);
+        EditText edt_landlord_mobile_1 = deleteDialogView.findViewById(R.id.edt_landlord_mobile_1);
+        EditText edt_landlord_mobile_2 = deleteDialogView.findViewById(R.id.edt_landlord_mobile_2);
+       Spinner spinner_occupancy_type = deleteDialogView.findViewById(R.id.spinner_occupancy_type);
+        Spinner spinner_tenant_title = deleteDialogView.findViewById(R.id.spinner_tenant_title);
+        Button btn_save_ = deleteDialogView.findViewById(R.id.btn_save_);
+
+        List<String> title = new ArrayList<>();
+
+        for (TitlesItem item : list_occupancy_title) {
+            title.add(item.getLabel());
+        }
+
+        ArrayAdapter<String> adapter_type = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list_occupancy_type);
+        adapter_type.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_occupancy_type.setAdapter(adapter_type);
+
+        ArrayAdapter<String> adapter_title = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, title);
+        adapter_title.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_tenant_title.setAdapter(adapter_title);
+
+
+        if (!OccupancyType.isEmpty())
+            spinner_occupancy_type.setSelection(list_occupancy_type.indexOf(OccupancyType));
+
+
+        spinner_tenant_title.setSelection(title.indexOf(occupancyModel.getTitles().getLabel()));
+
+        edt_first_name.setText(occupancyModel.getTenantFirstName());
+        edt_middle_name.setText(occupancyModel.getMiddleName());
+        edt_sur_name.setText(occupancyModel.getSurname());
+        edt_landlord_mobile_1.setText(occupancyModel.getMobile1());
+        edt_landlord_mobile_2.setText(occupancyModel.getMobile2());
+
+
+        dialogOccupancy.show();
+
+
+        btn_save_
+                .setOnClickListener(v -> {
+                    HashMap<String, String> req_params = new HashMap<>();
+
+                    // FIXME: 20-09-2021
+                    req_params.put("tenant_first_name", "" + edt_first_name.getText().toString());
+                    req_params.put("middle_name", "" + edt_first_name.getText().toString());
+                    req_params.put("surname", "" + edt_first_name.getText().toString());
+                    req_params.put("mobile_1", "" + edt_first_name.getText().toString());
+                    req_params.put("mobile_2", "" + edt_first_name.getText().toString());
+                    req_params.put("ownerTenantTitle", "" + spinner_tenant_title.getSelectedItem().toString());
+                    req_params.put("occupancy_type", "" + spinner_occupancy_type.getSelectedItem().toString());
+
+                    req_params.put("requested_by", "cashier");
+
+
+                    String finalURL = URL_CASHIER_LANDLORD_EDIT_PROFILE + getIntent().getStringExtra("property_id");
+
+                    Log.d("request", req_params.toString());
+                    Log.d("request_url", finalURL);
+
+                    apiRequest.callPostFormData(
+                            finalURL,
+                            req_params,
+                            "",
+                            "upload_data_occupancy"
+                    );
+
+
+                });
 
     }
 }
