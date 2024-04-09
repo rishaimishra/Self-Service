@@ -3,6 +3,9 @@ package com.dpm.payment.activities.cep;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,8 +17,7 @@ import java.util.ArrayList;
 
 public class ActivityCep extends AppCompatActivity {
 
-    private RecyclerView rvCep;
-    private ArrayList<CepModel> cepList;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,27 +27,49 @@ public class ActivityCep extends AppCompatActivity {
     }
 
     private void initView(){
-        rvCep = findViewById(R.id.rvCep);
-        setData();
+        startFragment(CEPMenuFragment.newInstance());
     }
 
-    private void setData(){
-        cepList = new ArrayList<>();
-        cepList.add(new CepModel("Complaints",R.drawable.ic_complaints));
-        cepList.add(new CepModel("Forms/Resources",R.drawable.ic_forms_resources));
-        cepList.add(new CepModel("Information",R.drawable.ic_information));
-        cepList.add(new CepModel("Places",R.drawable.ic_places));
-        cepList.add(new CepModel("Disaster Management",R.drawable.ic_disaster_management));
-        cepList.add(new CepModel("Reporting",R.drawable.ic_reporting));
-        cepList.add(new CepModel("Newsletter",R.drawable.ic_newsletter));
-        cepList.add(new CepModel("Blog",R.drawable.ic_blog));
-        setAdapter();
+    void startFragment(Fragment fragment, Boolean clearBackStack ) {
+        doStartFragment( fragment, clearBackStack);
     }
 
-    private void setAdapter(){
-        CEPAdapter adapter=new CEPAdapter(this,cepList);
-        GridLayoutManager layoutManager=new GridLayoutManager(this,2);
-        rvCep.setLayoutManager(layoutManager);
-        rvCep.setAdapter(adapter);
+    void startFragment( Fragment fragment) {
+        doStartFragment( fragment, false);
     }
+
+    private void doStartFragment(Fragment fragment, Boolean clearBackStack
+    ) {
+        if (clearBackStack) {
+            clearBackStack();
+            //showHideBack(false)
+        }
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.setCustomAnimations(
+                android.R.anim.slide_in_left,
+                android.R.anim.slide_out_right,
+                android.R.anim.slide_in_left,
+                android.R.anim.slide_out_right
+        );
+
+        fragmentTransaction.replace(R.id.frmlayout, fragment);
+        fragmentTransaction.addToBackStack(fragment.getClass().getName());
+
+        fragmentTransaction.commit();
+    }
+
+    private void clearBackStack() {
+        FragmentManager manager = getSupportFragmentManager();
+        int count = manager.getBackStackEntryCount();
+        if (count > 1) {
+            for (int i=0;i<count;i++) {
+                manager.popBackStack();
+            }
+        }
+
+    }
+
 }

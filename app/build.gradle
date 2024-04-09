@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "com.dpm.payment"
         minSdkVersion 21
-        targetSdkVersion 30
+       // targetSdkVersion 30
         versionCode 1
         versionName "1.0.0"
 
@@ -119,6 +119,16 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java', 'src/main/kotlin']
+            res.srcDirs = ['src/main/resource/res',
+                           'src/main/resource/cep',
+                           'src/main/resource/complaints']
+        }
+        main.java.srcDirs += 'src/main/kotlin'
     }
 
 }

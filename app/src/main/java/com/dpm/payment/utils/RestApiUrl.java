@@ -6,7 +6,7 @@ import static com.payment.BuildConfig.BASE_URL_TERMS;*/
 
 import androidx.core.content.ContextCompat;
 
-import com.payment.BuildConfig;
+//import com.payment.BuildConfig;
 
 public interface RestApiUrl {
 
