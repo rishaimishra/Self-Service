@@ -46,14 +46,14 @@ public class CEPMenuFragment extends Fragment {
         cepList = new ArrayList<>();
         cepList.add(new CepModel("Complaints & Reporting",R.drawable.ic_complaints));
         cepList.add(new CepModel("Forms & Resources",R.drawable.ic_forms_resources));
-        cepList.add(new CepModel("Schedule Appointment",R.drawable.ic_forms_resources));
+        cepList.add(new CepModel("Schedule Appointment",R.drawable.ic_schedule_appointment));
         cepList.add(new CepModel("Information & Tips",R.drawable.ic_information));
-        cepList.add(new CepModel("Garbage Collection",R.drawable.ic_information));
+        cepList.add(new CepModel("Garbage Collection",R.drawable.ic_garbage_collection));
         cepList.add(new CepModel("Places",R.drawable.ic_places));
         cepList.add(new CepModel("Disaster Management",R.drawable.ic_disaster_management));
         cepList.add(new CepModel("Newsletter",R.drawable.ic_newsletter));
         cepList.add(new CepModel("Community Blog",R.drawable.ic_blog));
-        cepList.add(new CepModel("Emergency Services",R.drawable.ic_reporting));
+        cepList.add(new CepModel("Emergency Services",R.drawable.ic_emergency_services));
         setAdapter();
     }
 

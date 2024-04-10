@@ -9,17 +9,13 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dpm.payment.adapters.CEPAdapter;
+import com.dpm.payment.activities.cep.ActivityCep;
 import com.dpm.payment.adapters.ComplaintsAdapter;
-import com.dpm.payment.interfaces.OnItemClickListener;
-import com.dpm.payment.models.cep.CepModel;
 import com.dpm.payment.models.cep.ComplaintsModel;
 import com.payment.R;
 
@@ -64,23 +60,26 @@ public class ComplaintsFragment extends Fragment {
     }
     private void setData(){
         complaintsList = new ArrayList<>();
-        complaintsList.add(new ComplaintsModel("Demand Note",R.drawable.ic_complaints));
-        complaintsList.add(new ComplaintsModel("Electricity",R.drawable.ic_forms_resources));
-        complaintsList.add(new ComplaintsModel("Water",R.drawable.ic_forms_resources));
-        complaintsList.add(new ComplaintsModel("Motorable Access Road",R.drawable.ic_information));
-        complaintsList.add(new ComplaintsModel("Damaged/Flooding Roads",R.drawable.ic_information));
-        complaintsList.add(new ComplaintsModel("Drainage",R.drawable.ic_places));
-        complaintsList.add(new ComplaintsModel("Waste Management",R.drawable.ic_disaster_management));
-        complaintsList.add(new ComplaintsModel("Garbage Dumping",R.drawable.ic_newsletter));
-        complaintsList.add(new ComplaintsModel("Market",R.drawable.ic_blog));
-        complaintsList.add(new ComplaintsModel("Sand Mining",R.drawable.ic_reporting));
-        complaintsList.add(new ComplaintsModel("Logging",R.drawable.ic_reporting));
+        complaintsList.add(new ComplaintsModel("Demand Note",R.drawable.ic_demand_note));
+        complaintsList.add(new ComplaintsModel("Electricity",R.drawable.ic_electricity));
+        complaintsList.add(new ComplaintsModel("Water",R.drawable.ic_water));
+        complaintsList.add(new ComplaintsModel("Motorable Access Road",R.drawable.ic_motorable_acess_road));
+        complaintsList.add(new ComplaintsModel("Damaged/Flooding Roads",R.drawable.ic_flooded_roads));
+        complaintsList.add(new ComplaintsModel("Drainage",R.drawable.ic_drainage));
+        complaintsList.add(new ComplaintsModel("Waste Management",R.drawable.ic_waste_management));
+        complaintsList.add(new ComplaintsModel("Garbage Dumping",R.drawable.ic_garbage_dumping));
+        complaintsList.add(new ComplaintsModel("Market",R.drawable.ic_market));
+        complaintsList.add(new ComplaintsModel("Sand Mining",R.drawable.ic_sand_mining));
+        complaintsList.add(new ComplaintsModel("Logging",R.drawable.ic_logging));
         setAdapter();
     }
 
     private void setAdapter(){
         ComplaintsAdapter adapter=new ComplaintsAdapter(requireActivity(), complaintsList, (view, position) -> {
-
+            switch (position){
+                case 0: ((ActivityCep)requireActivity()).startFragment(DemandNoteFragment.newInstance());
+                    break;
+            }
 
         });
         LinearLayoutManager layoutManager=new LinearLayoutManager(requireActivity());

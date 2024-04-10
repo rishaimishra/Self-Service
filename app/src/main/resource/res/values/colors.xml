@@ -43,10 +43,10 @@
     <color name="maroon">#800000</color>
     <color name="icon_leaf_color">#6cbd45</color>
     <color name="navy_blue">#000080</color>
+    <color name="lightGray1">#DFDFDF</color>
 
 
-
-   <!-- <color name="colorPrimary">#2275cf</color>
-    <color name="colorPrimaryDark">#1E63AD</color>-->
+    <!-- <color name="colorPrimary">#2275cf</color>
+     <color name="colorPrimaryDark">#1E63AD</color>-->
 
 </resources>

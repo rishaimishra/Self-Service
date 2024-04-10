@@ -297,6 +297,12 @@
     <string name="check_in">Check In</string>
     <string name="self_service">Self Service portal</string>
     <string name="council_cashier">Council cashier</string>
+    <string name="press_back_again">Press back again to exit</string>
+    <string name="capture_image">Capture Image</string>
+    <string name="disclaimer">Disclaimer:</string>
+    <string name="additional_description">Additional Description:</string>
+    <string name="tag_location">Tag Location</string>
+    <string name="images">Images</string>
     <string-array name="payment_type">
         <item>Part Payment</item>
         <item>Full Payment</item>

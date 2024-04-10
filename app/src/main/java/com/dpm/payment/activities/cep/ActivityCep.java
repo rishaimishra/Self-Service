@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dpm.payment.adapters.CEPAdapter;
 import com.dpm.payment.models.cep.CepModel;
+import com.dpm.payment.retrofit.Utills.ToastUtils;
 import com.payment.R;
 
 import java.util.ArrayList;
@@ -26,15 +27,21 @@ public class ActivityCep extends AppCompatActivity {
         initView();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        doBack();
+    }
+
     private void initView(){
         startFragment(CEPMenuFragment.newInstance());
     }
 
-    void startFragment(Fragment fragment, Boolean clearBackStack ) {
+    public  void startFragment(Fragment fragment, Boolean clearBackStack ) {
         doStartFragment( fragment, clearBackStack);
     }
 
-    void startFragment( Fragment fragment) {
+   public void startFragment( Fragment fragment) {
         doStartFragment( fragment, false);
     }
 
@@ -70,6 +77,18 @@ public class ActivityCep extends AppCompatActivity {
             }
         }
 
+    }
+    private int TIME_INTERVAL =
+            2000; // # milliseconds, desired time passed between two back presses.
+    private Long mBackPressed = 0L;
+    private void doBack(){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        int count = fragmentManager.getBackStackEntryCount();
+        if (count == 0) {
+            finish();
+        } else {
+            getFragmentManager().popBackStack();
+        }
     }
 
 }
