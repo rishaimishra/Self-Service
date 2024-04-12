@@ -30,7 +30,7 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/disclaimer"
+                    android:text="@string/information"
                     android:textAllCaps="true"
                     android:textColor="@color/navy_blue"
                     android:textSize="@dimen/textSmall12sp"

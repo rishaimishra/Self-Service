@@ -79,6 +79,22 @@ public class ComplaintsFragment extends Fragment {
             switch (position){
                 case 0: ((ActivityCep)requireActivity()).startFragment(DemandNoteFragment.newInstance());
                     break;
+                case 1: ((ActivityCep)requireActivity()).startFragment(ElectricityFragment.newInstance());
+                    break;
+                case 2: ((ActivityCep)requireActivity()).startFragment(WaterFragment.newInstance());
+                    break;
+                case 3: ((ActivityCep)requireActivity()).startFragment(MotorableAccessRoadFragment.newInstance());
+                    break;
+                case 4: ((ActivityCep)requireActivity()).startFragment(FloodingRoadFragment.newInstance());
+                    break;
+                case 5: ((ActivityCep)requireActivity()).startFragment(DrainageFragment.newInstance());
+                    break;
+                case 6: ((ActivityCep)requireActivity()).startFragment(WasteManagementFragment.newInstance());
+                    break;
+                case 7: ((ActivityCep)requireActivity()).startFragment(GarbageDumpingFragment.newInstance());
+                    break;
+                case 8: ((ActivityCep)requireActivity()).startFragment(MarketFragment.newInstance());
+                    break;
             }
 
         });

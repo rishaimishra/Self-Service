@@ -174,7 +174,7 @@
             android:layout_height="@dimen/dimen40dp"
             android:layout_gravity="end"
             android:layout_marginTop="@dimen/dimen12dp"
-            android:layout_marginEnd="@dimen/dimen30dp"
+            android:layout_marginEnd="@dimen/dimen24dp"
             android:background="@drawable/bg_btn_login"
             android:gravity="center"
             android:paddingHorizontal="@dimen/dimen16dp"

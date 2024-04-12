@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MRMS      Seff Service</string>
+    <string name="app_name">MRMS Self Service</string>
     <string name="cashier_login">Cashier Sign In</string>
     <string name="cashier">Sigma Cashier</string>
     <string name="user">User</string>
@@ -299,7 +299,7 @@
     <string name="council_cashier">Council cashier</string>
     <string name="press_back_again">Press back again to exit</string>
     <string name="capture_image">Capture Image</string>
-    <string name="disclaimer">Disclaimer:</string>
+    <string name="information">Information:</string>
     <string name="additional_description">Additional Description:</string>
     <string name="tag_location">Tag Location</string>
     <string name="images">Images</string>
