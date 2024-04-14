@@ -1,35 +1,32 @@
 package com.dpm.payment.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dpm.payment.interfaces.OnItemClickListener;
-import com.dpm.payment.models.TransactionModel;
 import com.dpm.payment.models.cep.CepModel;
+import com.dpm.payment.models.cep.TimeModel;
 import com.payment.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class CEPAdapter extends RecyclerView.Adapter<CEPAdapter.ViewHolder> {
+public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.ViewHolder> {
 
 
     private Context mContext;
-    private List<CepModel> list;
+    private List<TimeModel> list;
     private OnItemClickListener mOnItemClickListener;
 
-    public CEPAdapter(Context mContext, List<CepModel> list, OnItemClickListener mOnItemClickListener) {
+    public TimeAdapter(Context mContext, List<TimeModel> list, OnItemClickListener mOnItemClickListener) {
         this.mContext = mContext;
         this.list = list;
         this.mOnItemClickListener = mOnItemClickListener;
@@ -38,18 +35,14 @@ public class CEPAdapter extends RecyclerView.Adapter<CEPAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.adapter_cep, parent, false));
+        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.adapter_time, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        CepModel item = list.get(position);
-        holder.ivCep.setImageResource(item.getCepIcon());
-        holder.tvTitle.setText(item.getCepTitle());
-        holder.frmlytCepMenu.setOnClickListener(v -> {
-            mOnItemClickListener.onItemClick(v,position);
-        });
-
+        TimeModel item = list.get(position);
+        holder.tvTime.setText(item.getTimeRange());
+        holder.rbTime.setChecked(item.getSelected());
     }
 
 
@@ -60,15 +53,12 @@ public class CEPAdapter extends RecyclerView.Adapter<CEPAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivCep;
-        AppCompatTextView tvTitle;
-        FrameLayout frmlytCepMenu;
-
+        AppCompatTextView tvTime;
+        AppCompatRadioButton rbTime;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            ivCep = itemView.findViewById(R.id.ivCep);
-            tvTitle = itemView.findViewById(R.id.tvTitle);
-            frmlytCepMenu = itemView.findViewById(R.id.frmlytCepMenu);
+            tvTime = itemView.findViewById(R.id.tvTime);
+            rbTime = itemView.findViewById(R.id.rbTime);
         }
     }
 }

@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.codesgood.views.JustifiedTextView;
+import com.dpm.payment.activities.cep.ActivityCep;
 import com.dpm.payment.adapters.CEPImagesAdapter;
 import com.dpm.payment.adapters.RadioButtonAdapter;
 import com.payment.R;
@@ -25,6 +27,7 @@ public class DemandNoteFragment extends Fragment {
     private RecyclerView rvDemandNote;
     private ArrayList<String> demandNoteList;
     private RecyclerView rvImages;
+    private JustifiedTextView tvInfo;
     public static DemandNoteFragment newInstance(){
         return new DemandNoteFragment();
     }
@@ -55,6 +58,8 @@ public class DemandNoteFragment extends Fragment {
     private void initView(View view) {
         rvDemandNote = view.findViewById(R.id.rvDemandNote);
         rvImages = view.findViewById(R.id.rvImages);
+        tvInfo = view.findViewById(R.id.tvInfo);
+        tvInfo.setText(getString(R.string.demand_note_info));
         setData();
     }
     private void setData() {
@@ -67,7 +72,7 @@ public class DemandNoteFragment extends Fragment {
     }
 
     private void setAdapter(){
-        RadioButtonAdapter adapter=new RadioButtonAdapter(requireActivity(), demandNoteList, (view, position) -> {
+        RadioButtonAdapter adapter=new RadioButtonAdapter(((ActivityCep)requireActivity()), demandNoteList, (view, position) -> {
 
 
         });

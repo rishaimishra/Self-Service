@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_header_back" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:fadingEdge="none">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen120dp"
+                android:layout_margin="@dimen/dimen12dp"
+                android:background="@drawable/rounded_corner_grey1"
+                android:orientation="vertical"
+                android:padding="@dimen/dimen8dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/information"
+                    android:textAllCaps="true"
+                    android:textColor="@color/navy_blue"
+                    android:textSize="@dimen/textSmall12sp"
+                    android:textStyle="bold" />
+                <com.codesgood.views.JustifiedTextView
+                    android:id="@+id/tvInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/information"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/textSmall12sp"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/schedule_garbage_collection"
+                android:textAllCaps="true"
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/textSmall12sp"
+                android:textStyle="bold"
+                android:layout_marginHorizontal="@dimen/dimen12dp"/>
+
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen12dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/dimen8dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dimen4dp"
+                    android:gravity="center"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/pick_up_location"
+                    android:textAllCaps="true"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="@dimen/textSmall12sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:background="@drawable/rounded_corner_solid_blue"
+                    android:gravity="center"
+                    android:layout_marginStart="@dimen/dimen8dp"
+                    android:paddingVertical="@dimen/dimen8dp"
+                    android:text="@string/select_from_digital_address"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textSmall12sp"
+                    android:textStyle="bold" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/select_date_amp_time_below"
+                android:textAllCaps="true"
+                android:textColor="@color/dark_grey"
+                android:layout_marginTop="@dimen/dimen8dp"
+                android:textSize="@dimen/textSmall12sp"
+                android:textStyle="bold"
+                android:layout_marginHorizontal="@dimen/dimen12dp"/>
+
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/dimen12dp"
+                android:dateTextAppearance="@style/CalenderViewDateCustomText"
+                android:theme="@style/CalenderViewCustom"
+                android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"
+                android:background="@drawable/rounded_corner_grey2"
+                android:layout_marginHorizontal="@dimen/dimen12dp"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen12dp"
+                android:layout_marginTop="@dimen/dimen12dp">
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="@drawable/rounded_corner_solid_blue"
+                android:gravity="center"
+                android:paddingVertical="@dimen/dimen8dp"
+                android:paddingHorizontal="@dimen/dimen24dp"
+                android:text="@string/time"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textSmall12sp"
+                android:textStyle="bold" />
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_alignParentEnd="true" >
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/rbTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/lightGreen"
+                    android:checked="true"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/dimen4dp"
+                        android:gravity="center"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/_8am_9am"
+                        android:padding="@dimen/dimen4dp"
+                        android:textAllCaps="true"
+                        android:background="@drawable/rounded_corner_grey1"
+                        android:textColor="@color/dark_grey"
+                        android:textSize="@dimen/textSmall12sp"
+                        android:textStyle="bold" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </RelativeLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/rounded_corner_solid_green"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dimen32dp"
+                android:layout_marginTop="@dimen/dimen40dp"
+                android:layout_marginBottom="@dimen/dimen48dp"
+                android:paddingVertical="@dimen/dimen8dp"
+                android:text="@string/schedule_collection"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textSmall12sp"
+                android:textStyle="bold" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
+</androidx.appcompat.widget.LinearLayoutCompat>

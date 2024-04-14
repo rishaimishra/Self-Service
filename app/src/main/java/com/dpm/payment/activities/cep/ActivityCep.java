@@ -6,12 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.dpm.payment.adapters.CEPAdapter;
-import com.dpm.payment.models.cep.CepModel;
-import com.dpm.payment.retrofit.Utills.ToastUtils;
 import com.payment.R;
 
 import java.util.ArrayList;

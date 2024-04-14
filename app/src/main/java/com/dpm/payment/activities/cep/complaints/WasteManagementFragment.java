@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.codesgood.views.JustifiedTextView;
 import com.dpm.payment.adapters.CEPImagesAdapter;
 import com.dpm.payment.adapters.RadioButtonAdapter;
 import com.payment.R;
@@ -25,6 +26,7 @@ public class WasteManagementFragment extends Fragment {
     private RecyclerView rvWasteManagement;
     private ArrayList<String> wasteManagementList;
     private RecyclerView rvImages;
+    private JustifiedTextView tvInfo;
     public static WasteManagementFragment newInstance(){
         return new WasteManagementFragment();
     }
@@ -55,6 +57,8 @@ public class WasteManagementFragment extends Fragment {
     private void initView(View view) {
         rvWasteManagement = view.findViewById(R.id.rvDemandNote);
         rvImages = view.findViewById(R.id.rvImages);
+        tvInfo = view.findViewById(R.id.tvInfo);
+        tvInfo.setText(getString(R.string.waste_management_info));
         setData();
     }
     private void setData() {

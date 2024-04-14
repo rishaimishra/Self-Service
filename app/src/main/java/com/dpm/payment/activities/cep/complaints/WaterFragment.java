@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.codesgood.views.JustifiedTextView;
 import com.dpm.payment.adapters.CEPImagesAdapter;
 import com.dpm.payment.adapters.RadioButtonAdapter;
 import com.payment.R;
@@ -25,6 +26,7 @@ public class WaterFragment extends Fragment {
     private RecyclerView rvWater;
     private ArrayList<String> waterList;
     private RecyclerView rvImages;
+    private JustifiedTextView tvInfo;
     public static WaterFragment newInstance(){
         return new WaterFragment();
     }
@@ -55,6 +57,8 @@ public class WaterFragment extends Fragment {
     private void initView(View view) {
         rvWater = view.findViewById(R.id.rvDemandNote);
         rvImages = view.findViewById(R.id.rvImages);
+        tvInfo = view.findViewById(R.id.tvInfo);
+        tvInfo.setText(getString(R.string.water_info));
         setData();
     }
     private void setData() {

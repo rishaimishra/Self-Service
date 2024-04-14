@@ -1,4 +1,4 @@
-package com.dpm.payment.activities.cep.complaints;
+package com.dpm.payment.activities.cep.emergencyservice;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -22,13 +22,13 @@ import com.payment.R;
 
 import java.util.ArrayList;
 
-public class DrainageFragment extends Fragment {
+public class FireForceFragment extends Fragment {
     private RecyclerView rvDrainage;
-    private ArrayList<String> drainageList;
+    private ArrayList<String> fireForceList;
     private RecyclerView rvImages;
     private JustifiedTextView tvInfo;
-    public static DrainageFragment newInstance(){
-        return new DrainageFragment();
+    public static FireForceFragment newInstance(){
+        return new FireForceFragment();
     }
 
     @Nullable
@@ -48,7 +48,7 @@ public class DrainageFragment extends Fragment {
     private void initToolbar(View view){
         AppCompatTextView tvTitle = view.findViewById(R.id.toolbar_tv_header);
         ImageView ivHome = view.findViewById(R.id.toolbar_iv_home);
-        tvTitle.setText("Drainage");
+        tvTitle.setText("Fire Force");
         ivHome.setOnClickListener(v -> {
             getParentFragmentManager().popBackStack();
         });
@@ -58,20 +58,20 @@ public class DrainageFragment extends Fragment {
         rvDrainage = view.findViewById(R.id.rvDemandNote);
         rvImages = view.findViewById(R.id.rvImages);
         tvInfo = view.findViewById(R.id.tvInfo);
-        tvInfo.setText(getString(R.string.drainage_info));
+        tvInfo.setText("");
         setData();
     }
     private void setData() {
-        drainageList = new ArrayList<>();
-        drainageList.add("No road drainage on my road");
-        drainageList.add("No road drainage in my Area/Section");
-        drainageList.add("Drainage Hazard");
+        fireForceList = new ArrayList<>();
+        fireForceList.add("House burning");
+        fireForceList.add("Multiple houses/structures burning");
+        fireForceList.add("Fire hazard");
         setAdapter();
         setImagesAdapter();
     }
 
     private void setAdapter(){
-        RadioButtonAdapter adapter=new RadioButtonAdapter(requireActivity(), drainageList, (view, position) -> {
+        RadioButtonAdapter adapter=new RadioButtonAdapter(requireActivity(), fireForceList, (view, position) -> {
 
 
         });

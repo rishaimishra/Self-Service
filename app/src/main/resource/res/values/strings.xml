@@ -312,6 +312,25 @@
         <item>2022</item>
 
     </string-array>
-
-
+    <string name="demand_note_info">Here we can make complaints relating to your demand notes for instances of assessment; specifically ownership and biodata mistakes. Your complaint will be forwarded to the respective individual/team for resolution with subsequent feedback to you by means of a notification in the app.</string>
+    <string name="water_info">Here we can make complaints relating to the provisioning and availability of pipe borne water, well water or Water Tank placement all for access to clean and safe drinking water;  Your complaint will be forwarded to the respective individual/team for resolution with subsequent feedback to you by means of a notification in the app.</string>
+    <string name="electricity_info">Here we can make complaints relating to the provisioning and availability of an electrical power grid for electrification of your homes. Your complaint will be forwarded to the respective individual/team for resolution with subsequent feedback to you by means of a notification in the app.</string>
+    <string name="motorable_access_road_info">Here we can make complaints relating to the availability of a motrable acces road to your home/house. specifically you could also identify the harzardss that is causing you. Your complaint will be forwarded to the respective individual/team for resolution with subsequent feedback to you by means of a notification in the app.</string>
+    <string name="flooding_roads_info">Here we can make complaints relating to damaged roads roads that are vulnerable to flooding and its hazards. Your complaint will be forwarded to the respective individual/team for resolution with subsequent feedback to you by means of a notification in the app.</string>
+    <string name="drainage_info">Here we can make complaints relating to the provisioning of a road drainage system/network that minimizes flooding and eventual road damage.  Your complaint will be forwarded to the respective individual/team for resolution with subsequent feedback to you by means of a notification in the app.</string>
+    <string name="waste_management_info">Here we can make complaints relating to the provisioning of Waste Management Services in your locality. specifically a dumpsite/skiff/landfill and the possible hazards that is causing you. Your complaint will be forwarded to the respective individual/team for resolution with subsequent feedback to you by means of a notification in the app.</string>
+    <string name="garbage_dumping_info">Here we can make complaints relating to the habit of dumping garbage in undesignated locations as mandated by the council. Your complaint will be forwarded to the respective individual/team for resolution with subsequent feedback to you by means of a notification in the app.</string>
+    <string name="market_info">Here we can make complaints relating to the provisioning of a market where community inhabitatnts can shop for groceries and other food items. The boundary delimitation for such a complaing is limited provisioning the same on a WARD level Your complaint will be forwarded to the respective individual/team for resolution with subsequent feedback to you by means of a notification in the app.</string>
+    <string name="sand_mining_info">Here we can make complaints relating to the destructive habit of sandmining along the coastline which eradicated the natural beauty of the beaches and destroy the eco friendly nature of their existence. Your complaint will be forwarded to the respective individual/team for resolution with subsequent feedback to you by means of a notification in the app.</string>
+    <string name="logging_info">Here we can make complaints relating to the destructive exercise of deforestation and logging which is a catalyst for global warming and other nature destroying effects. Your complaint will be forwarded to the respective individual/team for resolution with subsequent feedback to you by means of a notification in the app.</string>
+    <string name="pick_up_location">Pick Up Location</string>
+    <string name="schedule_garbage_collection">Schedule garbage collection</string>
+    <string name="select_from_digital_address">Select from digital address</string>
+    <string name="time">Time</string>
+    <string name="_8am_9am">8am-9am</string>
+    <string name="schedule_collection">Schedule collection</string>
+    <string name="select_date_amp_time_below">select date &amp; time below</string>
+    <string name="schedule_appointment">Schedule Appointment</string>
+    <string name="garbage_collection">Garbage Collection</string>
+    <string name="schedule_appointment_with">schedule appointment with</string>
 </resources>
