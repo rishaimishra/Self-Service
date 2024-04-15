@@ -95,6 +95,10 @@ public class ComplaintsFragment extends Fragment {
                     break;
                 case 8: ((ActivityCep)requireActivity()).startFragment(MarketFragment.newInstance());
                     break;
+                case 9: ((ActivityCep)requireActivity()).startFragment(SandMiningFragment.newInstance());
+                    break;
+                case 10: ((ActivityCep)requireActivity()).startFragment(LoggingFragment.newInstance());
+                    break;
             }
 
         });

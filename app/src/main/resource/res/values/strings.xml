@@ -333,4 +333,9 @@
     <string name="schedule_appointment">Schedule Appointment</string>
     <string name="garbage_collection">Garbage Collection</string>
     <string name="schedule_appointment_with">schedule appointment with</string>
+    <string name="add_select_digital_address">Add/Select Digital Address</string>
+    <string name="sample_address">Popsy house</string>
+    <string name="sample_address1">6CW8FP3Q+V2</string>
+    <string name="fire_incident_location">Fire incident location</string>
+    <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</string>
 </resources>

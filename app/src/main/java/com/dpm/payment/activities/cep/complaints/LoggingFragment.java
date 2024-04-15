@@ -1,4 +1,4 @@
-package com.dpm.payment.activities.cep.emergencyservice;
+package com.dpm.payment.activities.cep.complaints;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -22,20 +22,19 @@ import com.payment.R;
 
 import java.util.ArrayList;
 
-public class PoliceFragment extends Fragment {
-    private RecyclerView rvDrainage;
-    private ArrayList<String> policeList;
+public class LoggingFragment extends Fragment {
+    private RecyclerView rvWater;
+    private ArrayList<String> waterList;
     private RecyclerView rvImages;
     private JustifiedTextView tvInfo;
-    private AppCompatTextView tvLocationTitle;
-    public static PoliceFragment newInstance(){
-        return new PoliceFragment();
+    public static LoggingFragment newInstance(){
+        return new LoggingFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_fire_force,container,false);
+        return inflater.inflate(R.layout.fragment_demand_note,container,false);
     }
 
     @Override
@@ -49,40 +48,35 @@ public class PoliceFragment extends Fragment {
     private void initToolbar(View view){
         AppCompatTextView tvTitle = view.findViewById(R.id.toolbar_tv_header);
         ImageView ivHome = view.findViewById(R.id.toolbar_iv_home);
-        tvTitle.setText("Police");
-
+        tvTitle.setText("Logging");
         ivHome.setOnClickListener(v -> {
             getParentFragmentManager().popBackStack();
         });
     }
 
     private void initView(View view) {
-        rvDrainage = view.findViewById(R.id.rvDemandNote);
+        rvWater = view.findViewById(R.id.rvDemandNote);
         rvImages = view.findViewById(R.id.rvImages);
         tvInfo = view.findViewById(R.id.tvInfo);
-        tvInfo.setText(getString(R.string.lorem_ipsum));
-        tvLocationTitle = view.findViewById(R.id.tvLocationTitle);
-        tvLocationTitle.setText("Pickup Location");
+        tvInfo.setText(getString(R.string.logging_info));
         setData();
     }
     private void setData() {
-        policeList = new ArrayList<>();
-        policeList.add("Fighting");
-        policeList.add("Assault");
-        policeList.add("Drug Abuse");
-        policeList.add("Traffic Violation");
+        waterList = new ArrayList<>();
+        waterList.add("Logging activities");
+        waterList.add("Logging Hazards/deforestation");
         setAdapter();
         setImagesAdapter();
     }
 
     private void setAdapter(){
-        RadioButtonAdapter adapter=new RadioButtonAdapter(requireActivity(), policeList, (view, position) -> {
+        RadioButtonAdapter adapter=new RadioButtonAdapter(requireActivity(), waterList, (view, position) -> {
 
 
         });
         LinearLayoutManager layoutManager=new LinearLayoutManager(requireActivity());
-        rvDrainage.setLayoutManager(layoutManager);
-        rvDrainage.setAdapter(adapter);
+        rvWater.setLayoutManager(layoutManager);
+        rvWater.setAdapter(adapter);
     }
 
     private void setImagesAdapter(){

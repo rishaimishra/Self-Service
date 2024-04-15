@@ -34,7 +34,7 @@ public class FireForceFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_demand_note,container,false);
+        return inflater.inflate(R.layout.fragment_fire_force,container,false);
     }
 
     @Override
@@ -58,14 +58,13 @@ public class FireForceFragment extends Fragment {
         rvDrainage = view.findViewById(R.id.rvDemandNote);
         rvImages = view.findViewById(R.id.rvImages);
         tvInfo = view.findViewById(R.id.tvInfo);
-        tvInfo.setText("");
+        tvInfo.setText(getString(R.string.lorem_ipsum));
         setData();
     }
     private void setData() {
         fireForceList = new ArrayList<>();
-        fireForceList.add("House burning");
-        fireForceList.add("Multiple houses/structures burning");
-        fireForceList.add("Fire hazard");
+        fireForceList.add("Requesting Fire Force presence");
+        fireForceList.add("Hous(es) on fire");
         setAdapter();
         setImagesAdapter();
     }

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -26,6 +27,7 @@ public class NemsFragment extends Fragment {
     private RecyclerView rvDrainage;
     private ArrayList<String> nemsList;
     private RecyclerView rvImages;
+    private AppCompatTextView tvLocationTitle;
     private JustifiedTextView tvInfo;
     public static NemsFragment newInstance(){
         return new NemsFragment();
@@ -34,7 +36,7 @@ public class NemsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_demand_note,container,false);
+        return inflater.inflate(R.layout.fragment_fire_force,container,false);
     }
 
     @Override
@@ -58,13 +60,14 @@ public class NemsFragment extends Fragment {
         rvDrainage = view.findViewById(R.id.rvDemandNote);
         rvImages = view.findViewById(R.id.rvImages);
         tvInfo = view.findViewById(R.id.tvInfo);
-        tvInfo.setText("");
+        tvLocationTitle = view.findViewById(R.id.tvLocationTitle);
+        tvInfo.setText(getString(R.string.lorem_ipsum));
+        tvLocationTitle.setText("Pickup Location");
         setData();
     }
     private void setData() {
         nemsList = new ArrayList<>();
-        nemsList.add("No Market in my Ward");
-        nemsList.add("No Market in my Area/Section");
+        nemsList.add("Requesting Ambulance pickup");
         setAdapter();
         setImagesAdapter();
     }

@@ -145,5 +145,6 @@
     <dimen name="dimen224dp">224dp</dimen>
     <dimen name="dimen48dp">48dp</dimen>
     <dimen name="dimen32dp">32dp</dimen>
+    <dimen name="dimen10sp">10sp</dimen>
 </resources>
 
