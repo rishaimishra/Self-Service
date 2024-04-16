@@ -1,5 +1,6 @@
 package com.dpm.payment.adapters;
 
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +82,11 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.MyView
             } else {
                 holder.tvValue.setText(object.getValue());
             }
-
+            if(object.getKey().equalsIgnoreCase("assessed Value") ||
+                    object.getKey().equalsIgnoreCase("net assessed value")||
+                    object.getKey().equalsIgnoreCase("rate payable 2022")){
+                holder.tvValue.setTypeface(null, Typeface.BOLD);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

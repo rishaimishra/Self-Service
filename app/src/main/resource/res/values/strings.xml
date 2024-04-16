@@ -180,7 +180,7 @@
 
     <string name="_2020_assesment">2020 Assesment</string>
     <string name="dummy_amount">100,040</string>
-    <string name="arrear_due">Arrear Due</string>
+    <string name="arrear_due">Arrears Due</string>
     <string name="penalty">Penalty</string>
     <string name="amount_paid">Amount Paid</string>
     <string name="balance">Balance</string>
@@ -323,9 +323,9 @@
     <string name="market_info">Here we can make complaints relating to the provisioning of a market where community inhabitatnts can shop for groceries and other food items. The boundary delimitation for such a complaing is limited provisioning the same on a WARD level Your complaint will be forwarded to the respective individual/team for resolution with subsequent feedback to you by means of a notification in the app.</string>
     <string name="sand_mining_info">Here we can make complaints relating to the destructive habit of sandmining along the coastline which eradicated the natural beauty of the beaches and destroy the eco friendly nature of their existence. Your complaint will be forwarded to the respective individual/team for resolution with subsequent feedback to you by means of a notification in the app.</string>
     <string name="logging_info">Here we can make complaints relating to the destructive exercise of deforestation and logging which is a catalyst for global warming and other nature destroying effects. Your complaint will be forwarded to the respective individual/team for resolution with subsequent feedback to you by means of a notification in the app.</string>
-    <string name="pick_up_location">Pick Up Location</string>
+    <string name="pick_up_location">PickUp Location</string>
     <string name="schedule_garbage_collection">Schedule garbage collection</string>
-    <string name="select_from_digital_address">Select from digital address</string>
+    <string name="select_from_digital_address">Select digital address</string>
     <string name="time">Time</string>
     <string name="_8am_9am">8am-9am</string>
     <string name="schedule_collection">Schedule collection</string>

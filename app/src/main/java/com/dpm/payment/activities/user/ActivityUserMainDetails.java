@@ -235,7 +235,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_details);
 
-        getOccupancyType();
+       // getOccupancyType();
         initializeViews();
         initializeListeners();
         setData();
@@ -321,7 +321,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
             e.printStackTrace();
         }
 
-        getReceipt();
+        //getReceipt();
 
     }
 
@@ -773,12 +773,12 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
      /*   councillor_list.add(new DataModel("mill_rate", dataItem.getAssessment().getMillRate() + ""));
         councillor_list.add(new DataModel("council_group_name", dataItem.getAssessment().getGroupName() + ""));*/
         String value = taxable_value_Hashmap.get(dataItem.getAssessment().getPropertyId().toString());
-        councillor_list.add(new DataModel("Net Assessed Value", dataItem.getAssessment().getProperty_net_assessed_value() + ""));
+        councillor_list.add(new DataModel("NET ASSESSED VALUE", dataItem.getAssessment().getProperty_net_assessed_value() + ""));
         councillor_list.add(new DataModel("Taxable Property Value", value));
         councillor_list.add(new DataModel("Council_Group/Category", dataItem.getAssessment().getGroupName() + ""));
         councillor_list.add(new DataModel("Mill_Rate", dataItem.getAssessment().getMillRate() + ""));
 
-        councillor_list.add(new DataModel("Rate Payable 2022",   StringUtils.AmountWithComma(StringUtils.roundStringValue(dataItem.getAssessment().getRate_payable()))));
+        councillor_list.add(new DataModel("RATE PAYABLE 2022",   StringUtils.AmountWithComma(StringUtils.roundStringValue(dataItem.getAssessment().getRate_payable()))));
 
         DataViewAdapter adapter = new DataViewAdapter(councillor_list);
         rv_government_policy.setAdapter(adapter);
@@ -793,7 +793,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         String value = discounted_value_Hashmap.get(dataItem.getAssessment().getPropertyId().toString());
 
         List<DataModel> councillor_list = new ArrayList<>();
-        councillor_list.add(new DataModel("Discounted Rate Payable 2022", value != null ? StringUtils.AmountWithComma(StringUtils.roundStringValue(value)) : ""));
+        councillor_list.add(new DataModel("discounted rate payable 2022", value != null ? StringUtils.AmountWithComma(StringUtils.roundStringValue(value)) : ""));
         DataViewAdapter adapter = new DataViewAdapter(councillor_list);
 
         tvDiscountedRatePayable.setText(value != null ? StringUtils.AmountWithComma(StringUtils.roundStringValue(value)) : "");
@@ -989,15 +989,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                     }
 
 
-                    try {
-                        String mEmail = ((landlordModel.getEmail() == null) ? "" : "" + landlordModel.getEmail());
-                        DataModel model18 = new DataModel();
-                        model18.setKey("Email Address");
-                        model18.setValue("" + mEmail);
-                        listLandload.add(model18);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
+
 
 
                     try {
@@ -1090,6 +1082,16 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                 model17.setKey("Mobile Number 2");
                 model17.setValue(landlordModel.getMobile2());
                 listLandload.add(model17);
+
+                try {
+                    String mEmail = ((landlordModel.getEmail() == null) ? "" : "" + landlordModel.getEmail());
+                    DataModel model18 = new DataModel();
+                    model18.setKey("Email");
+                    model18.setValue("" + mEmail);
+                    listLandload.add(model18);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
 
                 adapterLandload.notifyDataSetChanged();
             }
@@ -1324,7 +1326,11 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
                 DataModel model3 = new DataModel();
                 model3.setKey("Middle Name");
-                model3.setValue(occupancyModel.getMiddleName());
+                if(occupancyModel.getMiddleName()==null ||
+                        occupancyModel.getMiddleName().trim().equals("")){
+                    model3.setValue("--");
+                }else
+                    model3.setValue(occupancyModel.getMiddleName());
                 listOccupancy.add(model3);
 
 
@@ -1700,10 +1706,10 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
 
                 try {
-                    String PropertyRateWithoutGst = ((assessmentModel.getPropertyRateWithoutGst() == null) ? "" : "Le " + StringUtils.AmountWithComma(StringUtils.roundStringValue(assessmentModel.getPropertyRateWithoutGst())));
+                    String PropertyRateWithoutGst = ((assessmentModel.getPropertyRateWithoutGst() == null) ? "" : "NLE " + StringUtils.AmountWithComma(StringUtils.roundStringValue(assessmentModel.getPropertyRateWithoutGst())));
 
                     DataModel model9 = new DataModel();
-                    model9.setKey("Assessed Value");
+                    model9.setKey("ASSESSED VALUE");
                     model9.setValue(PropertyRateWithoutGst);
                     listAssessment.add(model9);
                     LogUtils.showErrorLog("Calculated Property Rate ", "Calculated Property Rate " + PropertyRateWithoutGst);

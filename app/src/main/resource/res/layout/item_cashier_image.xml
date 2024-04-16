@@ -16,17 +16,17 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 app:cardCornerRadius="@dimen/dimen5dp">
 
                 <ImageView
                     android:id="@+id/img_physical_receipt_image"
-                    android:layout_width="match_parent"
+                    android:layout_width="@dimen/dimen100dp"
                     android:layout_height="@dimen/dimen100dp"
                     android:adjustViewBounds="true"
-                    android:scaleType="centerInside"
+                    android:scaleType="fitXY"
                     android:src="@drawable/ic_camera"
 
                     />

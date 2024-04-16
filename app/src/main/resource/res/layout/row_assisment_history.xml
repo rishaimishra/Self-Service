@@ -349,7 +349,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
-            android:text="Balance Due"
+            android:text="Amount Due"
             android:textColor="@color/navy_blue"
             android:textSize="13sp"
             android:textStyle="bold" />

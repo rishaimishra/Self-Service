@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/tvKey"
@@ -11,13 +12,10 @@
         android:layout_marginStart="@dimen/dimen10dp"
         android:layout_marginEnd="@dimen/dimen10dp"
         android:text="@string/first_name"
+        android:layout_weight="0.4"
         android:textColor="@color/navy_blue"
         android:textStyle="bold"
-        android:textSize="13sp"
-        app:layout_constraintEnd_toStartOf="@+id/tvValue"
-        app:layout_constraintHorizontal_weight=".50"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="13sp"/>
 
     <TextView
         android:id="@+id/tvValue"
@@ -25,13 +23,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/dimen10dp"
         android:text="@string/my_profile"
+        android:layout_weight="0.6"
         android:gravity="end"
         android:textSize="13sp"
-        android:textColor="@color/navy_blue"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight=".50"
-        app:layout_constraintStart_toEndOf="@+id/tvKey"
-        app:layout_constraintTop_toTopOf="@id/tvKey" />
+        android:textColor="@color/navy_blue"/>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

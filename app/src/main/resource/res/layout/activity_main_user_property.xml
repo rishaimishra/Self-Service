@@ -473,7 +473,7 @@
                         android:layout_marginTop="@dimen/dimen2dp"
                         android:layout_marginEnd="@dimen/dimen10dp"
                         android:layout_weight=".7"
-                        android:text="Balance Due"
+                        android:text="Amount Due"
                         android:textColor="@color/colorBlack"
                         android:textStyle="bold" />
 
