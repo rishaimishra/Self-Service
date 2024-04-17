@@ -5,13 +5,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.dpm.payment.activities.cep.complaints.ComplaintsFragment;
 import com.dpm.payment.activities.cep.emergencyservice.EmergencyServicesFragment;
 import com.dpm.payment.adapters.CEPAdapter;
@@ -80,6 +78,8 @@ public class CEPMenuFragment extends Fragment {
                     break;
                 case 4:
                     ((ActivityCep) requireActivity()).startFragment(GarbageCollectionFragment.newInstance());
+                    break;
+                case 7: ((ActivityCep) requireActivity()).startFragment(NewsLetterFragment.newInstance());
                     break;
                 case 9: ((ActivityCep) requireActivity()).startFragment(EmergencyServicesFragment.newInstance());
                     break;

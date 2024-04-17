@@ -371,8 +371,26 @@
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activitySearchDetails_tv_geo_registry_details" />
-
-
+            <TextView
+                android:id="@+id/activitySearchDetails_tv_demand_note"
+                style="@style/styleButtonWrapContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_between_text5dp"
+                android:background="@drawable/square_corner_solid_grey"
+                android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                android:text="demand note"
+                android:textAllCaps="true"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/include_assessment_details" />
+            <include
+                android:id="@+id/include_search_details_demand_note"
+                layout="@layout/activity_search_details_demand_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
         </LinearLayout>
 
 

@@ -106,19 +106,21 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
     TextView activitySearchDetails_tv_property_images, activitySearchDetails_tv_rate_payable, activitySearchDetails_tv_assessment_history, activitySearchDetails_tv_landlord_details, activitySearchDetails_tv_property_details, activitySearchDetails_tv_occupancy_details,
             activitySearchDetails_tv_assessment_details, activitySearchDetails_tv_geo_registry_details,
             activitySearchDetails_tv_councillor_adjustment, activitySearchDetails_tv_cashier_receipt, activitySearchDetails_tv_pensioner_receipt, activitySearchDetails_tv_disability_receipt,
-            activitySearchDetails_tv_council_discount, activitySearchDetails_tv_government_policy,tvPensionerDiscount,tvDisabilityDiscount,tvDiscountedRatePayable;
+            activitySearchDetails_tv_council_discount, activitySearchDetails_tv_government_policy,tvPensionerDiscount,tvDisabilityDiscount,tvDiscountedRatePayable,
+            activitySearchDetails_tv_demand_note;
 
 
     Boolean expand_property_image = false, expand__rate_payable = false, expand_assessment_history = false, expand_landlord_details = false, expand_property_details = false,
             expand_occupancy_details = false, expand_assessment_details = false, expand_geo_registry_details = false, expand_payment_trans_details = false,
             expand_councillor_adjustment = false, expand_cashier_receipt_details = false, expand_pensioner_receipt_details = false, expand_disability_receipt_details = false,
-            expand_council_discount = false, expand_government_policy = false;
+            expand_council_discount = false, expand_government_policy = false,expand_demand_note = false;
 
 
     View include_property_images, include_tv_rate_payable, include_assessment_history, include_landlord_details, include_property_details, include_occupancy_details, include_assessment_details, include_geo_registry_details,
             include_councillor_adjustment, include_tv_cashier_receipt, include_tv_pensioner_receipt, include_tv_disability_receipt,
-            include_tv_council_discount, include_tv_government_policy;
+            include_tv_council_discount, include_tv_government_policy,include_search_details_demand_note;
 
+    Spinner spnrDemandNoteYear;
 
     View include_payment_details;
     ImageView ivProfilePicLandload;
@@ -239,7 +241,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         initializeViews();
         initializeListeners();
         setData();
-
+        setDemandNoteYearAdapter();
     }
 
     private void setData() {
@@ -494,7 +496,10 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         activitySearchDetails_tv_geo_registry_details = findViewById(R.id.activitySearchDetails_tv_geo_registry_details);
         activitySearchDetails_tv_geo_registry_details = findViewById(R.id.activitySearchDetails_tv_geo_registry_details);
         activitySearchDetails_tv_payment = findViewById(R.id.activitySearchDetails_tv_payment);
-
+        //Demand Note
+        activitySearchDetails_tv_demand_note = findViewById(R.id.activitySearchDetails_tv_demand_note);
+        spnrDemandNoteYear= findViewById(R.id.spnrDemandNoteYear);
+        include_search_details_demand_note = findViewById(R.id.include_search_details_demand_note);
 
         initAssessmentHistoryView();
         initLandlordView();
@@ -1785,6 +1790,9 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         activitySearchDetails_tv_councillor_adjustment.setOnClickListener(this);
         activitySearchDetails_tv_council_discount.setOnClickListener(this);
         activitySearchDetails_tv_government_policy.setOnClickListener(this);
+        // Demand Note
+        activitySearchDetails_tv_demand_note.setOnClickListener(this);
+
     }
 
 
@@ -2164,7 +2172,31 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
                 break;
 
+        case R.id.activitySearchDetails_tv_demand_note:
+
+        try {
+            if (expand_demand_note) {
+                include_search_details_demand_note.setVisibility(View.GONE);
+                activitySearchDetails_tv_demand_note.setBackground(getDrawable(R.drawable.square_corner_solid_grey));
+                activitySearchDetails_tv_demand_note.setTextColor(getResources().getColor(R.color.colorBlack));
+                activitySearchDetails_tv_demand_note.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_baseline_keyboard_arrow_down_24), null);
+                expand_demand_note = false;
+
+            } else {
+                include_search_details_demand_note.setVisibility(View.VISIBLE);
+                activitySearchDetails_tv_demand_note.setBackground(getDrawable(R.drawable.square_corner_solid_blue));
+                activitySearchDetails_tv_demand_note.setTextColor(getResources().getColor(R.color.colorWhite));
+                activitySearchDetails_tv_demand_note.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_baseline_keyboard_arrow_up_24), null);
+
+                expand_demand_note = true;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
+
+        break;
+
+    }
         if (intent != null) {
             startActivity(intent);
         }
@@ -3026,5 +3058,11 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
                 });
 
+    }
+    private final String[] year = { "2020", "2021", "2022", "2023", "2024"};
+    private void setDemandNoteYearAdapter(){
+        ArrayAdapter aa = new ArrayAdapter(mContext,R.layout.adapter_text,year);
+        aa.setDropDownViewResource(R.layout.adapter_text);
+        spnrDemandNoteYear.setAdapter(aa);
     }
 }

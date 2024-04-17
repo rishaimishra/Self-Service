@@ -245,7 +245,7 @@
     <string name="not_cashier_please_click_here_to_sign_in">Landlord/Property Owner ? Please <font color='#2196F3'>Click here to Sign In</font></string>
     <string name="hi_user_please_enter_your_mobile_number_to_sign_in">Please enter your mobile number to Sign In</string>
     <string name="valid_number_associated_with_your_property_id">*Valid Number associated with your Property ID</string>
-    <string name="cashier_please_click_here_to_sign_in">Cashier ? Please <font color='#2196F3'>Click here to Sign In</font></string>
+    <string name="cashier_please_click_here_to_sign_in">Council Cashier ? Please <font color='#2196F3'>Click here to Sign In</font></string>
     <string name="one_time_password_otp_nverification">One Time Password(OTP) \nVERIFICATION</string>
     <string name="to_resend_otp">Sec to <font color='#2196F3'>Resend OTP</font></string>
     <string name="property">Property</string>
@@ -338,4 +338,6 @@
     <string name="sample_address1">6CW8FP3Q+V2</string>
     <string name="fire_incident_location">Fire incident location</string>
     <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</string>
+    <string name="the_video">The video may contain light pattern or images thst could trigger seizures or cause discomfort for people with visual sensibilities</string>
+    <string name="by_stephen_quillen_virginia">By <b>Stephen Quillen,Virginia</b></string>
 </resources>
