@@ -24,7 +24,7 @@
             android:textAllCaps="true"
             android:gravity="center_horizontal"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/dimen16sp"
+            android:textSize="@dimen/dimen18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -35,7 +35,7 @@
             android:text="@string/self_service"
             android:textAllCaps="true"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/dimen16sp"
+            android:textSize="@dimen/dimen18sp"
             android:textStyle="bold" />
 
 
@@ -119,13 +119,14 @@
                     android:background="@drawable/bg_square_blue_border"
                     android:digits="0123456789"
                     android:ems="5"
+                    android:text="@string/_232"
                     android:gravity="center"
                     android:hint="@string/isd_code"
                     android:inputType="phone"
                     android:maxLength="3"
                     android:paddingStart="10dp"
                     android:textSize="14sp" />
-               <!-- android:text="@string/_232"-->
+               <!-- -->
                 <EditText
                     android:id="@+id/etPhone"
                     android:layout_width="match_parent"
@@ -133,11 +134,12 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/bg_square_blue_border"
                     android:hint="Mobile Number*"
+                    android:text="76100100"
                     android:inputType="phone"
                     android:maxLength="13"
                     android:paddingStart="10dp"
                     android:textSize="14sp" />
-               <!-- android:text="76100100"-->
+               <!-- -->
             </LinearLayout>
 
 

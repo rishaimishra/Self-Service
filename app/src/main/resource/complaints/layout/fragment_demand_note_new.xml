@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/information"
                     android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/textSmall12sp"
+                    android:textSize="@dimen/textMedium14sp"
                     android:justificationMode="inter_word"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -82,7 +82,7 @@
                     android:lines="5"
                     android:padding="@dimen/dimen4dp"
                     android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/textSmall12sp" />
+                    android:textSize="@dimen/textMedium14sp" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

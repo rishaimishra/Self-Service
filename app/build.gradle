@@ -47,7 +47,7 @@ android {
 
                 applicationVariants.all { variant ->
                     variant.outputs.each { output ->
-                        project.ext { appName = 'Sigma_Payments' }
+                        project.ext { appName = 'self_service' }
                         def formattedDate = new Date().format('E,dd-MMM-yyyy')
                         def newName = output.outputFile.name
                         newName = newName.replace("app-", "$project.ext.appName-") //"MyAppName" -> I set my app variables in the root project
@@ -64,7 +64,7 @@ android {
                 proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
                 applicationVariants.all { variant ->
                     variant.outputs.each { output ->
-                        project.ext { appName = 'Sigma_Payments' }
+                        project.ext { appName = 'self_service' }
                         def formattedDate = new Date().format('E,dd-MMM-yyyy')
                         def newName = output.outputFile.name
                         newName = newName.replace("app-", "$project.ext.appName-") //"MyAppName" -> I set my app variables in the root project
@@ -127,7 +127,8 @@ android {
             res.srcDirs = ['src/main/resource/res',
                            'src/main/resource/cep',
                            'src/main/resource/complaints',
-                           'src/main/resource/emergencyservice']
+                           'src/main/resource/emergencyservice',
+                           'src/main/resource/login']
         }
         main.java.srcDirs += 'src/main/kotlin'
     }
@@ -167,6 +168,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-scalars:2.8.1'
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
     implementation 'com.codesgood:justifiedtextview:1.1.0'
+    implementation 'com.hbb20:ccp:2.7.0'
     //implementation 'com.google.android.material:material:1.11.0'
     //implementation 'sun.bob:mcalendarview:1.0.0'
    // implementation 'com.applandeo:material-calendar-view:1.9.2'

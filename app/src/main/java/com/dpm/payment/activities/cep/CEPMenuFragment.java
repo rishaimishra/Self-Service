@@ -73,6 +73,9 @@ public class CEPMenuFragment extends Fragment {
                 case 0:
                     ((ActivityCep) requireActivity()).startFragment(ComplaintsFragment.newInstance());
                     break;
+                case 1:
+                    ((ActivityCep) requireActivity()).startFragment(FormsResourcesFragment.newInstance());
+                    break;
                 case 2:
                     ((ActivityCep) requireActivity()).startFragment(ScheduleAppointmentFragment.newInstance());
                     break;

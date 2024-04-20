@@ -50,7 +50,7 @@ public class EmergencyServicesFragment extends Fragment {
     private void initToolbar(View view){
         AppCompatTextView tvTitle = view.findViewById(R.id.toolbar_tv_header);
         ImageView ivHome = view.findViewById(R.id.toolbar_iv_home);
-        tvTitle.setText("National Emergency Medical Service");
+        tvTitle.setText("Emergency Services");
         ivHome.setOnClickListener(v -> {
             getParentFragmentManager().popBackStack();
         });

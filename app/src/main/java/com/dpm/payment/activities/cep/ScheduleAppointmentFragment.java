@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class ScheduleAppointmentFragment extends Fragment {
     private AppCompatSpinner appointmentSpinner;
-    private final String[] apppointmentWith = { "Chief Administrator", "Chief Administrator", "Chief Administrator", "Chief Administrator", "Chief Administrator"};
+    private final String[] apppointmentWith = { "Chairman", "Chief Administrator", "Valuator", "Finance", "Legal"};
     private Context mContext;
     private ArrayList<TimeModel> mTimeList;
     private RecyclerView rvTime;

@@ -293,7 +293,7 @@
     <string name="landlord_property_owner_sign_in">Landlord/Property Owner</string>
     <string name="_2020_assessed_value">2020 Assessed Value</string>
     <string name="municipal_rate_management_system">municipal rate management system</string>
-    <string name="community_engagement_platform">community engagement platform (CEP)</string>
+    <string name="community_engagement_platform">community engagement platform</string>
     <string name="check_in">Check In</string>
     <string name="self_service">Self Service portal</string>
     <string name="council_cashier">Council cashier</string>
@@ -340,4 +340,6 @@
     <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</string>
     <string name="the_video">The video may contain light pattern or images thst could trigger seizures or cause discomfort for people with visual sensibilities</string>
     <string name="by_stephen_quillen_virginia">By <b>Stephen Quillen,Virginia</b></string>
+    <string name="existing_user">Existing User ? <font color='#6199BA'>LOGIN</font></string>
+    <string name="new_user">New User ? <font color='#6199BA'>REGISTER</font></string>
 </resources>
