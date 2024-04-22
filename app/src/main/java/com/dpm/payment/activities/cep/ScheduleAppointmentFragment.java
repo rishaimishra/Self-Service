@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
@@ -57,6 +58,14 @@ public class ScheduleAppointmentFragment extends Fragment {
         tvTitle.setText(R.string.schedule_appointment);
         ivHome.setOnClickListener(v -> {
             getParentFragmentManager().popBackStack();
+        });
+        AppCompatImageView ivProfile = view.findViewById(R.id.ivProfile);
+        AppCompatImageView ivNotification = view.findViewById(R.id.ivNotification);
+        ivProfile.setOnClickListener(v -> {
+            ((ActivityCep)requireActivity()).startFragment(ProfileFragment.newInstance());
+        });
+        ivNotification.setOnClickListener(v -> {
+            ((ActivityCep)requireActivity()).startFragment(NotificationFragment.newInstance());
         });
     }
 

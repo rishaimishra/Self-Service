@@ -340,6 +340,10 @@
     <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</string>
     <string name="the_video">The video may contain light pattern or images thst could trigger seizures or cause discomfort for people with visual sensibilities</string>
     <string name="by_stephen_quillen_virginia">By <b>Stephen Quillen,Virginia</b></string>
-    <string name="existing_user">Existing User ? <font color='#6199BA'>LOGIN</font></string>
-    <string name="new_user">New User ? <font color='#6199BA'>REGISTER</font></string>
+    <string name="existing_user">Existing User ? <b><font color='#2275cf'>LOGIN</font></b></string>
+    <string name="new_user">New User ? <b><font color='#2275cf'>REGISTER</font></b></string>
+    <string name="schedule_app_info">Here we can schedule appointments with council key stakeholders and designated members of staff for a contact meetings.</string>
+    <string name="garbage_collection_info">Here you can mschedule pickup/collection of your domestic, solid and other waste types. This service is being offered at a cost of Le 10 per every  50 Kg rice-bag.</string>
+    <string name="emergency_service_info">This is a hailing service in terms of Emergencies. The top 3 and most important respondents as listed The Police, Fire force and Ambulance/Medical Service will be part of this service ensuring its fulfilment as expected</string>
+
 </resources>

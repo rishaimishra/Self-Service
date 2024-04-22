@@ -13,27 +13,25 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dpm.payment.activities.cep.complaints.ComplaintsFragment;
-import com.dpm.payment.activities.cep.emergencyservice.EmergencyServicesFragment;
-import com.dpm.payment.adapters.CEPAdapter;
-import com.dpm.payment.adapters.NewsLetterAdapter;
-import com.dpm.payment.models.cep.CepModel;
+import com.dpm.payment.activities.cep.emergencyservice.FireForceFragment;
+import com.dpm.payment.activities.cep.emergencyservice.NemsFragment;
+import com.dpm.payment.activities.cep.emergencyservice.PoliceFragment;
+import com.dpm.payment.adapters.EmergencyServiceAdapter;
+import com.dpm.payment.adapters.NotificationAdapter;
 import com.payment.R;
 
 import java.util.ArrayList;
 
-public class NewsLetterFragment extends Fragment {
-    private RecyclerView rvNewsLetter;
+public class NotificationFragment extends Fragment {
+    private RecyclerView rvCep;
     private Context mContext;
 
-    public static NewsLetterFragment newInstance() {
-        return new NewsLetterFragment();
+    public static NotificationFragment newInstance() {
+        return new NotificationFragment();
     }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -43,7 +41,7 @@ public class NewsLetterFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_news_letter, container, false);
+        return inflater.inflate(R.layout.fragment_emergency_service, container, false);
     }
 
     @Override
@@ -58,36 +56,33 @@ public class NewsLetterFragment extends Fragment {
     private void initToolbar(View view){
         AppCompatTextView tvTitle = view.findViewById(R.id.toolbar_tv_header);
         ImageView ivHome = view.findViewById(R.id.toolbar_iv_home);
-        tvTitle.setText("Newsletter");
+        AppCompatImageView ivProfile = view.findViewById(R.id.ivProfile);
+        AppCompatImageView ivNotification = view.findViewById(R.id.ivNotification);
+        ivNotification.setVisibility(View.GONE);
+        ivProfile.setVisibility(View.GONE);
+        tvTitle.setText("Notifications");
         ivHome.setOnClickListener(v -> {
             getParentFragmentManager().popBackStack();
         });
-        AppCompatImageView ivProfile = view.findViewById(R.id.ivProfile);
-        AppCompatImageView ivNotification = view.findViewById(R.id.ivNotification);
-        ivProfile.setOnClickListener(v -> {
-            ((ActivityCep)requireActivity()).startFragment(ProfileFragment.newInstance());
-        });
-        ivNotification.setOnClickListener(v -> {
-            ((ActivityCep)requireActivity()).startFragment(NotificationFragment.newInstance());
-        });
     }
 
+
     private void initView(View view) {
-        rvNewsLetter = view.findViewById(R.id.rvNewsLetter);
+        rvCep = view.findViewById(R.id.rvCep);
         setData();
     }
 
     private void setData() {
-
         setAdapter();
     }
 
-    private void setAdapter() {
-        NewsLetterAdapter adapter = new NewsLetterAdapter(mContext,  (view, position) -> {
+    private void setAdapter(){
+        NotificationAdapter adapter = new NotificationAdapter(mContext,  (view, position) -> {
 
         });
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
-        rvNewsLetter.setLayoutManager(layoutManager);
-        rvNewsLetter.setAdapter(adapter);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(requireActivity());
+        rvCep.setLayoutManager(layoutManager);
+        rvCep.setAdapter(adapter);
     }
+
 }

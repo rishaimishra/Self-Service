@@ -17,6 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codesgood.views.JustifiedTextView;
+import com.dpm.payment.activities.cep.ActivityCep;
+import com.dpm.payment.activities.cep.NotificationFragment;
+import com.dpm.payment.activities.cep.ProfileFragment;
 import com.dpm.payment.adapters.CEPImagesAdapter;
 import com.dpm.payment.adapters.RadioButtonAdapter;
 import com.payment.R;
@@ -54,6 +57,14 @@ public class NemsFragment extends Fragment {
         ivHome.setOnClickListener(v -> {
             getParentFragmentManager().popBackStack();
         });
+        AppCompatImageView ivProfile = view.findViewById(R.id.ivProfile);
+        AppCompatImageView ivNotification = view.findViewById(R.id.ivNotification);
+        ivProfile.setOnClickListener(v -> {
+            ((ActivityCep)requireActivity()).startFragment(ProfileFragment.newInstance());
+        });
+        ivNotification.setOnClickListener(v -> {
+            ((ActivityCep)requireActivity()).startFragment(NotificationFragment.newInstance());
+        });
     }
 
     private void initView(View view) {
@@ -61,7 +72,7 @@ public class NemsFragment extends Fragment {
         rvImages = view.findViewById(R.id.rvImages);
         tvInfo = view.findViewById(R.id.tvInfo);
         tvLocationTitle = view.findViewById(R.id.tvLocationTitle);
-        tvInfo.setText(getString(R.string.lorem_ipsum));
+        tvInfo.setText(getString(R.string.emergency_service_info));
         tvLocationTitle.setText("Pickup Location");
         setData();
     }

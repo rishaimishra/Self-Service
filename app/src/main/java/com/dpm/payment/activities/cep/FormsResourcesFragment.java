@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -55,6 +56,14 @@ public class FormsResourcesFragment extends Fragment {
         ivHome.setOnClickListener(v -> {
             getParentFragmentManager().popBackStack();
         });
+        AppCompatImageView ivProfile = view.findViewById(R.id.ivProfile);
+        AppCompatImageView ivNotification = view.findViewById(R.id.ivNotification);
+        ivProfile.setOnClickListener(v -> {
+            ((ActivityCep)requireActivity()).startFragment(ProfileFragment.newInstance());
+        });
+        ivNotification.setOnClickListener(v -> {
+            ((ActivityCep)requireActivity()).startFragment(NotificationFragment.newInstance());
+        });
     }
 
     private void initView(View view) {
@@ -67,7 +76,7 @@ public class FormsResourcesFragment extends Fragment {
         mformsList.add("Business Registration");
         mformsList.add("Business License");
         mformsList.add("Clearance Certificate");
-        mformsList.add("Road/naming");
+        mformsList.add("Road Naming");
         setAdapter();
     }
 

@@ -28,13 +28,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/toolbar_iv_search"
-        android:layout_width="@dimen/toolbar_back_height30dp"
-        android:layout_height="@dimen/toolbar_back_height30dp"
-        android:src="@drawable/ic_search_24"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivProfile"
+        android:layout_width="@dimen/dimen24dp"
+        android:layout_height="@dimen/dimen24dp"
+        android:src="@drawable/ic_edit_profile"
         android:layout_marginEnd="@dimen/dimen16dp"
-        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivNotification"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivNotification"
+        android:layout_width="@dimen/dimen24dp"
+        android:layout_height="@dimen/dimen24dp"
+        android:src="@drawable/ic_notification"
+        android:layout_marginEnd="@dimen/dimen16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -37,7 +37,7 @@
                 android:textAllCaps="true"
                 android:layout_marginTop="@dimen/dimen32dp"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/dimen18sp"
+                android:textSize="@dimen/dimen17sp"
                 android:textStyle="bold" />
 
 
@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dimen32dp"
-            android:layout_marginTop="@dimen/dimen12dp"
+            android:layout_marginTop="@dimen/dimen48dp"
             android:background="@drawable/bg_square_blue_border1"
             android:orientation="horizontal"
             android:paddingHorizontal="@dimen/dimen6dp">

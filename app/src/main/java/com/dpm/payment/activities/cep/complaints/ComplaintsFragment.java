@@ -9,12 +9,15 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dpm.payment.activities.cep.ActivityCep;
+import com.dpm.payment.activities.cep.NotificationFragment;
+import com.dpm.payment.activities.cep.ProfileFragment;
 import com.dpm.payment.adapters.ComplaintsAdapter;
 import com.dpm.payment.models.cep.ComplaintsModel;
 import com.payment.R;
@@ -48,9 +51,18 @@ public class ComplaintsFragment extends Fragment {
     private void initToolbar(View view){
         AppCompatTextView tvTitle = view.findViewById(R.id.toolbar_tv_header);
         ImageView ivHome = view.findViewById(R.id.toolbar_iv_home);
+
         tvTitle.setText("Complaints");
         ivHome.setOnClickListener(v -> {
             getParentFragmentManager().popBackStack();
+        });
+        AppCompatImageView ivProfile = view.findViewById(R.id.ivProfile);
+        AppCompatImageView ivNotification = view.findViewById(R.id.ivNotification);
+        ivProfile.setOnClickListener(v -> {
+            ((ActivityCep)requireActivity()).startFragment(ProfileFragment.newInstance());
+        });
+        ivNotification.setOnClickListener(v -> {
+            ((ActivityCep)requireActivity()).startFragment(NotificationFragment.newInstance());
         });
     }
 

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -17,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.codesgood.views.JustifiedTextView;
 import com.dpm.payment.activities.cep.ActivityCep;
+import com.dpm.payment.activities.cep.NotificationFragment;
+import com.dpm.payment.activities.cep.ProfileFragment;
 import com.dpm.payment.adapters.CEPImagesAdapter;
 import com.dpm.payment.adapters.RadioButtonAdapter;
 import com.payment.R;
@@ -52,6 +55,14 @@ public class DemandNoteFragment extends Fragment {
         tvTitle.setText("Demand Note");
         ivHome.setOnClickListener(v -> {
             getParentFragmentManager().popBackStack();
+        });
+        AppCompatImageView ivProfile = view.findViewById(R.id.ivProfile);
+        AppCompatImageView ivNotification = view.findViewById(R.id.ivNotification);
+        ivProfile.setOnClickListener(v -> {
+            ((ActivityCep)requireActivity()).startFragment(ProfileFragment.newInstance());
+        });
+        ivNotification.setOnClickListener(v -> {
+            ((ActivityCep)requireActivity()).startFragment(NotificationFragment.newInstance());
         });
     }
 

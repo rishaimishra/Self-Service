@@ -24,7 +24,7 @@
             android:textAllCaps="true"
             android:gravity="center_horizontal"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/dimen18sp"
+            android:textSize="@dimen/dimen17sp"
             android:textStyle="bold" />
 
         <TextView
@@ -35,7 +35,7 @@
             android:text="@string/self_service"
             android:textAllCaps="true"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/dimen18sp"
+            android:textSize="@dimen/dimen17sp"
             android:textStyle="bold" />
 
 
@@ -91,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dimen24dp"
-            android:layout_marginTop="@dimen/dimen20dp">
+            android:layout_marginTop="@dimen/dimen40dp">
 
             <TextView
                 android:id="@+id/tvHeader"
@@ -134,12 +134,11 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/bg_square_blue_border"
                     android:hint="Mobile Number*"
-                    android:text="76100100"
                     android:inputType="phone"
                     android:maxLength="13"
                     android:paddingStart="10dp"
                     android:textSize="14sp" />
-               <!-- -->
+               <!-- android:text="76100100"-->
             </LinearLayout>
 
 
