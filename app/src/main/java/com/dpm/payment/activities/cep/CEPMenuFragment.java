@@ -1,12 +1,17 @@
 package com.dpm.payment.activities.cep;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,17 +41,31 @@ public class CEPMenuFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_cep_menu, container, false);
+        return inflater.inflate(R.layout.fragment_complaints, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
-
+        initToolbar(view);
 
     }
-
+    @SuppressLint("SetTextI18n")
+    private void initToolbar(View view){
+        AppCompatTextView tvTitle = view.findViewById(R.id.toolbar_tv_header);
+        ImageView ivHome = view.findViewById(R.id.toolbar_iv_home);
+        tvTitle.setText(getString(R.string.community_engagement_platform_1));
+        ivHome.setVisibility(View.GONE);
+        AppCompatImageView ivProfile = view.findViewById(R.id.ivProfile);
+        AppCompatImageView ivNotification = view.findViewById(R.id.ivNotification);
+        ivProfile.setOnClickListener(v -> {
+            ((ActivityCep)requireActivity()).startFragment(ProfileFragment.newInstance());
+        });
+        ivNotification.setOnClickListener(v -> {
+            ((ActivityCep)requireActivity()).startFragment(NotificationFragment.newInstance());
+        });
+    }
     private void initView(View view) {
         rvCep = view.findViewById(R.id.rvCep);
         setData();

@@ -49,6 +49,8 @@
     <color name="color_light_grey2">#FDFDFD</color>
     <color name="colorYellow">#F38800</color>
     <color name="colorBorder">#8EA5AA</color>
+    <color name="colorDarkGreen">#00A300</color>
+    <color name="colorRed1">#E25D56</color>
     <!-- <color name="colorPrimary">#2275cf</color>
      <color name="colorPrimaryDark">#1E63AD</color>-->
 

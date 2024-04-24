@@ -294,6 +294,7 @@
     <string name="_2020_assessed_value">2020 Assessed Value</string>
     <string name="municipal_rate_management_system">municipal rate management system</string>
     <string name="community_engagement_platform">community engagement platform</string>
+    <string name="community_engagement_platform_1">Community Engagement Platform</string>
     <string name="check_in">Check In</string>
     <string name="self_service">Self Service portal</string>
     <string name="council_cashier">Council cashier</string>
@@ -343,7 +344,33 @@
     <string name="existing_user">Existing User ? <b><font color='#2275cf'>LOGIN</font></b></string>
     <string name="new_user">New User ? <b><font color='#2275cf'>REGISTER</font></b></string>
     <string name="schedule_app_info">Here we can schedule appointments with council key stakeholders and designated members of staff for a contact meetings.</string>
-    <string name="garbage_collection_info">Here you can mschedule pickup/collection of your domestic, solid and other waste types. This service is being offered at a cost of Le 10 per every  50 Kg rice-bag.</string>
+    <string name="garbage_collection_info">Here you can schedule pickup/collection of your domestic, solid and other waste types. This service is being offered at a cost of Le 10 per every  50 Kg rice-bag.</string>
     <string name="emergency_service_info">This is a hailing service in terms of Emergencies. The top 3 and most important respondents as listed The Police, Fire force and Ambulance/Medical Service will be part of this service ensuring its fulfilment as expected</string>
+    <string name="check_in_info">This services and features in this module are council specific. Please select the council you wish to connect with for an associated and tailored service provisioning.</string>
+    <string name="set_as_default_council">Set as default council</string>
 
+    <string-array name="arrayDistrictName">
+        <item>Kailahun District</item>
+        <item>Kenema District</item>
+        <item>Kono District </item>
+        <item>Bombali District</item>
+        <item>Falaba District</item>
+        <item>Koinadugu District</item>
+        <item>Tonkolili District</item>
+        <item>Kambia District</item>
+        <item>Karene District </item>
+        <item>Port Loko District</item>
+        <item>Bo District </item>
+        <item>Bonthe District</item>
+        <item>Moyamba District</item>
+        <item>Pujehun District</item>
+        <item>Western Rural District</item>
+        <item>Freetown City</item>
+        <item>Bo City</item>
+        <item>Bonthe Municipal</item>
+        <item>Kenema City</item>
+        <item>Port Loko City</item>
+        <item>Koidu New Sembehun City</item>
+        <item>Makeni City</item>
+    </string-array>
 </resources>

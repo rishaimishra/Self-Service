@@ -37,11 +37,12 @@
                     android:textStyle="bold" />
                 <com.codesgood.views.JustifiedTextView
                     android:id="@+id/tvInfo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/information"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/colorDarkGreen"
                     android:textSize="@dimen/textMedium14sp"
+                    android:textStyle="bold"
                     android:justificationMode="inter_word"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
 

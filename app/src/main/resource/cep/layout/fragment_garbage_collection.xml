@@ -41,8 +41,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/garbage_collection_info"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/textMedium14sp"/>
+                    android:textColor="@color/colorDarkGreen"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/textMedium14sp"
+                    android:justificationMode="inter_word"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <com.google.android.material.textview.MaterialTextView

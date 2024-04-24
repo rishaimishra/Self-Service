@@ -73,7 +73,7 @@ public class ProfileFragment extends Fragment {
 
     private void setSpinnerAdapter(){
         ArrayList<String> districtList= new ArrayList<>();
-        districtList.add(" Kailahun District");
+        districtList.add("Kailahun District");
         districtList.add("Kenema District");
         districtList.add("Kono District");
         districtList.add("Bombali District");
@@ -89,6 +89,13 @@ public class ProfileFragment extends Fragment {
         districtList.add("Pujehun District");
         districtList.add("Western Rural District");
         districtList.add("Western Area Urban District");
+        districtList.add("Freetown City");
+        districtList.add("Bo City");
+        districtList.add("Bonthe Municipal");
+        districtList.add("Kenema City");
+        districtList.add("Port Loko City");
+        districtList.add("Koidu New Sembehun City");
+        districtList.add("Makeni City");
         ArrayAdapter aa = new ArrayAdapter(mContext,R.layout.adapter_profile_spinner,R.id.text,districtList);
         aa.setDropDownViewResource(R.layout.adapter_profile_spinner);
         spnrDistrict.setAdapter(aa);

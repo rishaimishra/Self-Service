@@ -56,6 +56,7 @@
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:hint="Username"
+                android:textColor="@color/colorBlack"
                 android:inputType="textPersonName"
                 android:padding="@dimen/dimen12dp"
                 android:textSize="@dimen/textMedium14sp" />
@@ -80,6 +81,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/colorBlack"
                 android:background="@android:color/transparent"
                 android:hint="Password"
                 android:inputType="textPassword"

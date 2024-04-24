@@ -1,17 +1,24 @@
 package com.dpm.payment.activities.cashier;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.dpm.payment.activities.cep.ActivityCep;
@@ -24,6 +31,7 @@ import com.dpm.payment.utils.LogUtils;
 import com.dpm.payment.utils.PrefUtil;
 import com.dpm.payment.utils.RestApiRequestListener;
 import com.dpm.payment.utils.RestApiUrl;
+import com.google.android.material.textview.MaterialTextView;
 import com.payment.R;
 
 import org.json.JSONObject;
@@ -51,7 +59,7 @@ public class ActivityCashierLogin extends AppCompatActivity implements View.OnCl
     TextView tvCashier;
     Button btUserLogin;
     private AppCompatTextView btCheckIn;
-
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,8 +180,7 @@ public class ActivityCashierLogin extends AppCompatActivity implements View.OnCl
                 }
                 break;
             case R.id.btCheckIn:
-                Intent mIntent = new Intent(mContext, ActivityCep.class);
-                startActivity(mIntent);
+               showCepInfoDialog();
                 break;
         }
     }
@@ -351,6 +358,44 @@ public class ActivityCashierLogin extends AppCompatActivity implements View.OnCl
 
         startActivity(new Intent(mContext, ActivityMainCashierProperty.class));
 
+
+    }
+
+    private void showCepInfoDialog(){
+        dialog =  new Dialog(this);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        dialog.getWindow().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels;
+       // requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_cep_info);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.getWindow().setLayout((int)(width/1.2), FrameLayout.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(false);
+
+        MaterialTextView btnCancel = dialog.findViewById(R.id.btnCancel);
+        MaterialTextView  btnContinue = dialog.findViewById(R.id.btnContinue);
+        AppCompatSpinner spnrDistrict = dialog.findViewById(R.id.spnrDistrict);
+        ArrayAdapter aa = new ArrayAdapter(mContext,R.layout.adapter_text,getResources().getStringArray(R.array.arrayDistrictName));
+        aa.setDropDownViewResource(R.layout.adapter_text);
+        spnrDistrict.setAdapter(aa);
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        btnContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                Intent mIntent = new Intent(mContext, ActivityCep.class);
+                startActivity(mIntent);
+            }
+        });
+
+        dialog.show();
 
     }
 
