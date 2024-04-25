@@ -26,12 +26,13 @@
                 android:layout_width="@dimen/dimen224dp"
                 android:layout_height="@dimen/dimen224dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/ic_splash_1" />
+                android:src="@drawable/ic_logo" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dimen24dp"
+                android:layout_marginTop="@dimen/dimen48dp"
                 android:gravity="center_horizontal"
                 android:text="@string/municipal_rate_management_system"
                 android:textAllCaps="true"
@@ -77,10 +78,11 @@
                 android:paddingVertical="@dimen/dimen4dp">
 
                 <com.hbb20.CountryCodePicker
+                    android:id="@+id/ccp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    app:ccp_defaultNameCode="US"
+                    app:ccp_defaultNameCode="SL"
                     app:ccp_showNameCode="false"
                     app:ccp_textSize="@dimen/textMedium14sp"/>
 

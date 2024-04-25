@@ -29,7 +29,7 @@ public class ActivityLogin extends AppCompatActivity {
     }
 
     private void initView(){
-        startFragment(RegisterFragment.newInstance());
+        startFragment(LoginFragment.newInstance());
     }
 
     public  void startFragment(Fragment fragment, Boolean clearBackStack ) {

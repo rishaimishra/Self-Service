@@ -20,12 +20,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dpm.payment.adapters.TimeAdapter;
 import com.dpm.payment.interfaces.OnItemClickListener;
 import com.dpm.payment.models.cep.TimeModel;
+import com.hbb20.CountryCodePicker;
 import com.payment.R;
 
 import java.util.ArrayList;
 
 public class RegisterFragment extends Fragment implements View.OnClickListener {
     private AppCompatTextView tvRegister,tvLogin;
+    private CountryCodePicker ccp;
     private Context mContext;
     public static RegisterFragment newInstance(){
         return new RegisterFragment();
@@ -54,6 +56,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     private void initView(View view) {
         tvRegister = view.findViewById(R.id.btRegister);
         tvLogin = view.findViewById(R.id.tvLogin);
+        ccp = view.findViewById(R.id.ccp);
         tvRegister.setOnClickListener(this);
         tvLogin.setOnClickListener(this);
     }
@@ -64,7 +67,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()){
            case R.id.btRegister:
             case R.id.tvLogin:
-                ((ActivityLogin) requireActivity()).startFragment(LoginFragment.newInstance());
+                ((ActivityLogin) requireActivity()).onBackPressed();
                break;
         }
     }

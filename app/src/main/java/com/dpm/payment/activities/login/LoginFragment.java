@@ -58,7 +58,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                startUserLogin();
                break;
             case R.id.tvLogin:
-                ((ActivityLogin) requireActivity()).onBackPressed();
+                ((ActivityLogin) requireActivity()).startFragment(RegisterFragment.newInstance());
                 break;
         }
     }
