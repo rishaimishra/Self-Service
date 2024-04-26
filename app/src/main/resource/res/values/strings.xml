@@ -333,7 +333,7 @@
     <string name="select_date_amp_time_below">select date &amp; time below</string>
     <string name="schedule_appointment">Schedule Appointment</string>
     <string name="garbage_collection">Garbage Collection</string>
-    <string name="schedule_appointment_with">schedule appointment with</string>
+    <string name="schedule_appointment_with">book appointment with</string>
     <string name="add_select_digital_address">Add/Select Digital Address</string>
     <string name="sample_address">Popsy house</string>
     <string name="sample_address1">6CW8FP3Q+V2</string>
@@ -350,27 +350,27 @@
     <string name="set_as_default_council">Set as default council</string>
 
     <string-array name="arrayDistrictName">
-        <item>Kailahun District</item>
-        <item>Kenema District</item>
-        <item>Kono District </item>
-        <item>Bombali District</item>
-        <item>Falaba District</item>
-        <item>Koinadugu District</item>
-        <item>Tonkolili District</item>
-        <item>Kambia District</item>
-        <item>Karene District </item>
-        <item>Port Loko District</item>
-        <item>Bo District </item>
-        <item>Bonthe District</item>
-        <item>Moyamba District</item>
-        <item>Pujehun District</item>
-        <item>Western Rural District</item>
-        <item>Freetown City</item>
-        <item>Bo City</item>
-        <item>Bonthe Municipal</item>
-        <item>Kenema City</item>
-        <item>Port Loko City</item>
-        <item>Koidu New Sembehun City</item>
-        <item>Makeni City</item>
+        <item>Kailahun District Council</item>
+        <item>Kenema District Council</item>
+        <item>Kono District Council</item>
+        <item>Bombali District Council</item>
+        <item>Falaba District Council</item>
+        <item>Koinadugu District Council</item>
+        <item>Tonkolili District Council</item>
+        <item>Kambia District Council</item>
+        <item>Karene District Council</item>
+        <item>Port Loko District Council</item>
+        <item>Bo District Council</item>
+        <item>Bonthe District Council</item>
+        <item>Moyamba District Council</item>
+        <item>Pujehun District Council</item>
+        <item>Western Rural District Council</item>
+        <item>Freetown City Council</item>
+        <item>Bo City Council</item>
+        <item>Bonthe Municipal Council</item>
+        <item>Kenema City Council</item>
+        <item>Port Loko City Council</item>
+        <item>Koidu New Sembehun City Council</item>
+        <item>Makeni City Council</item>
     </string-array>
 </resources>

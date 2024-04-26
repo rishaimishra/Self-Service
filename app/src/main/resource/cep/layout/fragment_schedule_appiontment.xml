@@ -34,7 +34,7 @@
                     android:text="@string/information"
                     android:textAllCaps="true"
                     android:textColor="@color/navy_blue"
-                    android:textSize="@dimen/textSmall12sp"
+                    android:textSize="@dimen/textMedium14sp"
                     android:textStyle="bold" />
 
                 <com.codesgood.views.JustifiedTextView
