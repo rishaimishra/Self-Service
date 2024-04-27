@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MRMS Self Service</string>
+    <string name="app_name">Self Service</string>
     <string name="cashier_login">Cashier Sign In</string>
     <string name="cashier">Sigma Cashier</string>
     <string name="user">User</string>
@@ -350,6 +350,7 @@
     <string name="set_as_default_council">Set as default council</string>
 
     <string-array name="arrayDistrictName">
+        <item>Select Council</item>
         <item>Kailahun District Council</item>
         <item>Kenema District Council</item>
         <item>Kono District Council</item>

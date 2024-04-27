@@ -21,29 +21,25 @@
             android:textStyle="bold"
             android:textSize="@dimen/dimen16sp"
             android:justificationMode="inter_word"/>
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/dimen12dp">
+
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/etSelectArea"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginTop="@dimen/dimen16dp"
             android:background="@drawable/bg_square_blue_border1"
             android:hint="Select Area"
-            android:layout_marginEnd="@dimen/dimen8dp"
+            android:textColorHint="@color/gray_text_color"
             android:textColor="@color/colorBlack"
             android:inputType="textPersonName"
             android:padding="@dimen/dimen8dp"
             android:textSize="@dimen/textMedium14sp" />
             <FrameLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginTop="@dimen/dimen16dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/dimen8dp"
                 android:background="@drawable/rounded_corner_grey1">
 
                 <androidx.appcompat.widget.AppCompatSpinner
@@ -56,26 +52,25 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="@dimen/dimen32dp"
                     android:layout_height="@dimen/dimen32dp"
-                    android:layout_gravity="end"
+                    android:layout_gravity="end|center_vertical"
                     app:srcCompat="@drawable/ic_baseline_arrow_drop_down_24" />
             </FrameLayout>
 
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
         <CheckBox
             android:id="@+id/chkboxSetDefault"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/textLightGrey"
             android:textSize="@dimen/textMedium14sp"
-            android:layout_marginTop="@dimen/dimen12dp"
+            android:layout_marginTop="@dimen/dimen16dp"
             android:textStyle="bold"
             android:text="@string/set_as_default_council"/>
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="@dimen/dimen12dp">
+        android:layout_marginTop="@dimen/dimen16dp">
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/btnCancel"
             android:layout_width="0dp"

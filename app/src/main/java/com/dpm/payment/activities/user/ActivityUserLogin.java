@@ -297,8 +297,8 @@ public class ActivityUserLogin extends AppCompatActivity implements View.OnClick
         MaterialTextView btnCancel = dialog.findViewById(R.id.btnCancel);
         MaterialTextView  btnContinue = dialog.findViewById(R.id.btnContinue);
         AppCompatSpinner spnrDistrict = dialog.findViewById(R.id.spnrDistrict);
-        ArrayAdapter aa = new ArrayAdapter(mContext,R.layout.adapter_text,getResources().getStringArray(R.array.arrayDistrictName));
-        aa.setDropDownViewResource(R.layout.adapter_text);
+        ArrayAdapter aa = new ArrayAdapter(mContext,R.layout.adapter_text_1,getResources().getStringArray(R.array.arrayDistrictName));
+        aa.setDropDownViewResource(R.layout.adapter_text_1);
         spnrDistrict.setAdapter(aa);
 
         btnCancel.setOnClickListener(new View.OnClickListener() {

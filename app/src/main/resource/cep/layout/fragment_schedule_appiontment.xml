@@ -70,7 +70,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:gravity="center"
                     android:text="@string/schedule_appointment_with"
                     android:textAllCaps="true"
                     android:textColor="@color/dark_grey"

@@ -72,31 +72,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setSpinnerAdapter(){
-        ArrayList<String> districtList= new ArrayList<>();
-        districtList.add("Kailahun District Council");
-        districtList.add("Kenema District Council");
-        districtList.add("Kono District Council");
-        districtList.add("Bombali District Council");
-        districtList.add("Falaba District Council");
-        districtList.add("Koinadugu District Council");
-        districtList.add("Tonkolili District Council");
-        districtList.add("Kambia District Council");
-        districtList.add("Karene District Council");
-        districtList.add("Port Loko District Council");
-        districtList.add("Bo District Council");
-        districtList.add("Bonthe District Council");
-        districtList.add("Moyamba District Council");
-        districtList.add("Pujehun District Council");
-        districtList.add("Western Rural District Council");
-        districtList.add("Western Area Urban District Council");
-        districtList.add("Freetown City Council");
-        districtList.add("Bo City Council");
-        districtList.add("Bonthe Municipal Council");
-        districtList.add("Kenema City Council");
-        districtList.add("Port Loko City Council");
-        districtList.add("Koidu New Sembehun City Council");
-        districtList.add("Makeni City Council");
-        ArrayAdapter aa = new ArrayAdapter(mContext,R.layout.adapter_profile_spinner,R.id.text,districtList);
+        ArrayAdapter aa = new ArrayAdapter(mContext,R.layout.adapter_profile_spinner,R.id.text,getResources().getStringArray(R.array.arrayDistrictName));
         aa.setDropDownViewResource(R.layout.adapter_profile_spinner);
         spnrDistrict.setAdapter(aa);
     }

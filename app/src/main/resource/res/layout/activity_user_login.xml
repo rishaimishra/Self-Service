@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorWhite">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/ic_lion_bg"/>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    android:fadingEdge="none">
 
 
     <LinearLayout
@@ -14,7 +26,7 @@
             android:layout_width="@dimen/dimen224dp"
             android:layout_height="@dimen/dimen224dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_splash"/>
+            android:src="@drawable/ic_splash_logo"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -287,3 +299,4 @@
     </LinearLayout>
 
 </ScrollView>
+</FrameLayout>
