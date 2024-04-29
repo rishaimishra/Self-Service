@@ -977,7 +977,11 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                     try {
                         DataModel model2 = new DataModel();
                         model2.setKey("Middle Name");
-                        model2.setValue(landlordModel.getMiddleName());
+                        if(landlordModel.getMiddleName()==null ||
+                                landlordModel.getMiddleName().trim().equals("")){
+                            model2.setValue("--");
+                        }else
+                            model2.setValue(landlordModel.getMiddleName());
                         listLandload.add(model2);
                     } catch (Exception ex) {
                         ex.printStackTrace();
@@ -3061,8 +3065,8 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
     }
     private final String[] year = { "2020", "2021", "2022", "2023", "2024"};
     private void setDemandNoteYearAdapter(){
-        ArrayAdapter aa = new ArrayAdapter(mContext,R.layout.adapter_text,year);
-        aa.setDropDownViewResource(R.layout.adapter_text);
+        ArrayAdapter aa = new ArrayAdapter(mContext,R.layout.adapter_text_blue,year);
+        aa.setDropDownViewResource(R.layout.adapter_text_blue);
         spnrDemandNoteYear.setAdapter(aa);
     }
 }

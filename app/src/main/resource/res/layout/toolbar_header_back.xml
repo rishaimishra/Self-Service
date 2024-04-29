@@ -7,9 +7,9 @@
 
     <ImageView
         android:id="@+id/toolbar_iv_home"
-        android:layout_width="@dimen/toolbar_back_height30dp"
-        android:layout_height="@dimen/toolbar_back_height30dp"
-        android:layout_marginStart="@dimen/dimen16dp"
+        android:layout_width="@dimen/dimen32dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/dimen8dp"
         android:src="@drawable/ic_back_foreground"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,15 +18,17 @@
 
     <TextView
         android:id="@+id/toolbar_tv_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:text="Details"
         android:textColor="@color/colorWhite"
-        android:textStyle="bold"
         android:textSize="@dimen/textMedium14sp"
+        android:layout_marginStart="@dimen/dimen12dp"
+        android:gravity="center_vertical"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/ivProfile"
+        app:layout_constraintStart_toEndOf="@+id/toolbar_iv_home"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
