@@ -24,10 +24,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dpm.payment.activities.cep.ActivityCep;
 import com.dpm.payment.activities.user.ActivityUserLogin;
 import com.dpm.payment.models.SearchResponseModel;
 import com.dpm.payment.models.propertydetail.Assessment;
@@ -143,6 +145,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
         list_file = new ArrayList<>();
         initializeViews();
         initializeListeners();
+        initToolbar();
         onClick();
         setOnTextChanges();
         activityMain_view_search.setVisibility(View.GONE);
@@ -163,6 +166,18 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
         } else {
             activityUserSearchResult_et_cheque_no.setEnabled(false);
         }
+    }
+    private void initToolbar(){
+        ImageView ivHome =findViewById(R.id.toolbar_iv_home);
+        ivHome.setVisibility(View.GONE);
+        AppCompatImageView ivProfile = findViewById(R.id.ivProfile);
+        AppCompatImageView ivNotification = findViewById(R.id.ivNotification);
+        ivProfile.setOnClickListener(v -> {
+            showProfileOrNotification("profile");
+        });
+        ivNotification.setOnClickListener(v -> {
+            showProfileOrNotification("notification");
+        });
     }
 
     private void initializeViews() {
@@ -1300,6 +1315,10 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
         Log.d("response", error.toString());
         LogUtils.showErrorLog("reqNormalLogin", error);
     }
-
+    private void showProfileOrNotification(String type){
+        Intent mIntent = new Intent(mContext, ActivityCep.class);
+        mIntent.putExtra("type",type);
+        startActivity(mIntent);
+    }
 
 }

@@ -7,14 +7,18 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 
+import com.dpm.payment.activities.cep.ActivityCep;
 import com.dpm.payment.utils.AlertDialogUtils;
 import com.dpm.payment.utils.Constant;
 import com.dpm.payment.utils.DataUtils;
@@ -67,13 +71,27 @@ public class ActivityUserOTP extends AppCompatActivity {
         setUI();
         onClick();
         reverseTimer(OTPSendTime);
-
+        initToolbar();
 
         //  String dataSMS = "Your otp for the login is 7832. This code will expire at 12:43:09PM";
         // String OTP= parseCode(dataSMS);
         // Toast.makeText(ActivityUserOTP.this,"OTP "+OTP,Toast.LENGTH_LONG).show();
 
         SMSRead();
+    }
+    private void initToolbar(){
+        TextView tvTitle = findViewById(R.id.toolbar_tv_header);
+        ImageView ivHome =findViewById(R.id.toolbar_iv_home);
+        tvTitle.setText(getString(R.string.one_time_password));
+        ivHome.setVisibility(View.GONE);
+        AppCompatImageView ivProfile = findViewById(R.id.ivProfile);
+        AppCompatImageView ivNotification = findViewById(R.id.ivNotification);
+        ivProfile.setOnClickListener(v -> {
+            showProfileOrNotification("profile");
+        });
+        ivNotification.setOnClickListener(v -> {
+            showProfileOrNotification("notification");
+        });
     }
 
     private void SMSRead() {
@@ -527,6 +545,11 @@ public class ActivityUserOTP extends AppCompatActivity {
 
             }
         }.start();
+    }
+    private void showProfileOrNotification(String type){
+        Intent mIntent = new Intent(mContext, ActivityCep.class);
+        mIntent.putExtra("type",type);
+        startActivity(mIntent);
     }
 
 }

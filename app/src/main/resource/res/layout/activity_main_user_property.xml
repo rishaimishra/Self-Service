@@ -11,9 +11,7 @@
         android:orientation="vertical">
 
         <include
-            layout="@layout/header_top"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen50dp" />
+            layout="@layout/toolbar_header_back"/>
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

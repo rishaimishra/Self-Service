@@ -15,10 +15,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dpm.payment.activities.cashier.ActivityCashierLogin;
+import com.dpm.payment.activities.cep.ActivityCep;
 import com.dpm.payment.models.SearchPropertyModel;
 import com.dpm.payment.models.propertydetail.PropertyItem;
 import com.dpm.payment.utils.CommonUtils;
@@ -82,6 +84,21 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
         initializeViews();
         initializeListeners();
         setSearchResult();
+        initToolbar();
+    }
+    private void initToolbar(){
+        ImageView ivHome =findViewById(R.id.toolbar_iv_home);
+        AppCompatImageView ivProfile = findViewById(R.id.ivProfile);
+        AppCompatImageView ivNotification = findViewById(R.id.ivNotification);
+        ivHome.setOnClickListener(v -> {
+            onBackPressed();
+        });
+        ivProfile.setOnClickListener(v -> {
+            showProfileOrNotification("profile");
+        });
+        ivNotification.setOnClickListener(v -> {
+            showProfileOrNotification("notification");
+        });
     }
 
     private void setSearchResult() {
@@ -170,7 +187,7 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
         tvInputAmountl = findViewById(R.id.tvInputAmount);
         tvLeToPound = findViewById(R.id.tvLeToPound);
         tvGDPLevel = findViewById(R.id.tvLeToPound);
-        btBack = findViewById(R.id.btBack);
+        //btBack = findViewById(R.id.btBack);
 
 
     }
@@ -179,7 +196,7 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
 
         activityUserSearchResult_bt_view_details.setOnClickListener(this);
         activityOrderDetails_bt_save.setOnClickListener(this);
-        btBack.setOnClickListener(view -> finish());
+       // btBack.setOnClickListener(view -> finish());
 
         activityUserSearchResult_et_paying_amount.addTextChangedListener(new TextWatcher() {
             @Override
@@ -507,6 +524,10 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
         }
 
     }
-
+    private void showProfileOrNotification(String type){
+        Intent mIntent = new Intent(mContext, ActivityCep.class);
+        mIntent.putExtra("type",type);
+        startActivity(mIntent);
+    }
 
 }

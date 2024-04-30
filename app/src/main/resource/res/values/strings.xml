@@ -247,6 +247,7 @@
     <string name="valid_number_associated_with_your_property_id">*Valid Number associated with your Property ID</string>
     <string name="cashier_please_click_here_to_sign_in">Council Cashier ? Please <font color='#2196F3'>Click here to Sign In</font></string>
     <string name="one_time_password_otp_nverification">One Time Password(OTP) \nVERIFICATION</string>
+    <string name="one_time_password">One Time Password</string>
     <string name="to_resend_otp">Sec to <font color='#2196F3'>Resend OTP</font></string>
     <string name="property">Property</string>
     <string name="property_list">Property list</string>
@@ -298,6 +299,7 @@
     <string name="check_in">Check In</string>
     <string name="self_service">Self Service portal</string>
     <string name="council_cashier">Council cashier</string>
+    <string name="council_cashier_1">Council Cashier</string>
     <string name="press_back_again">Press back again to exit</string>
     <string name="capture_image">Capture Image</string>
     <string name="information">Information:</string>

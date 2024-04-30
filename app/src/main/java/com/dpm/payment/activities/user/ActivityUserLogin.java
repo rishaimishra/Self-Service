@@ -1,6 +1,7 @@
 package com.dpm.payment.activities.user;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -16,15 +17,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityCompat;
 
 import com.dpm.payment.activities.cashier.ActivityCashierLogin;
 import com.dpm.payment.activities.cep.ActivityCep;
+import com.dpm.payment.activities.cep.NotificationFragment;
+import com.dpm.payment.activities.cep.ProfileFragment;
 import com.dpm.payment.utils.AlertDialogUtils;
 import com.dpm.payment.utils.DataUtils;
 import com.dpm.payment.utils.LogUtils;
@@ -59,10 +64,25 @@ public class ActivityUserLogin extends AppCompatActivity implements View.OnClick
 
 
         check_permissions();
-
+        initToolbar();
         initializeViews();
         initializeListener();
 
+    }
+    @SuppressLint("SetTextI18n")
+    private void initToolbar(){
+        TextView tvTitle = findViewById(R.id.toolbar_tv_header);
+        ImageView ivHome =findViewById(R.id.toolbar_iv_home);
+        tvTitle.setText(getString(R.string.landlord_property_owner_sign_in));
+        ivHome.setVisibility(View.GONE);
+        AppCompatImageView ivProfile = findViewById(R.id.ivProfile);
+        AppCompatImageView ivNotification = findViewById(R.id.ivNotification);
+        ivProfile.setOnClickListener(v -> {
+            showProfileOrNotification("profile");
+        });
+        ivNotification.setOnClickListener(v -> {
+            showProfileOrNotification("notification");
+        });
     }
 
     public boolean check_permissions() {
@@ -312,13 +332,18 @@ public class ActivityUserLogin extends AppCompatActivity implements View.OnClick
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Intent mIntent = new Intent(mContext, ActivityCep.class);
-                startActivity(mIntent);
+                showProfileOrNotification("cep");
             }
         });
 
         dialog.show();
 
+    }
+
+    private void showProfileOrNotification(String type){
+        Intent mIntent = new Intent(mContext, ActivityCep.class);
+        mIntent.putExtra("type",type);
+        startActivity(mIntent);
     }
 
 

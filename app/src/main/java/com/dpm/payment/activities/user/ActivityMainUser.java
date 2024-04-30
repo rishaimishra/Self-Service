@@ -7,15 +7,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dpm.payment.activities.cashier.ActivityCashierLogin;
+import com.dpm.payment.activities.cep.ActivityCep;
 import com.payment.R;
 
 public class ActivityMainUser extends AppCompatActivity implements View.OnClickListener {
@@ -60,7 +63,7 @@ public class ActivityMainUser extends AppCompatActivity implements View.OnClickL
 
         initializeViews();
         initializeListeners();
-
+        initToolbar();
         //    setDrawerProfile(PrefUtils.getProfile(mContext));
     }
 
@@ -76,7 +79,18 @@ public class ActivityMainUser extends AppCompatActivity implements View.OnClickL
         }
 
     }*/
-
+   private void initToolbar(){
+       ImageView ivHome =findViewById(R.id.toolbar_iv_home);
+       ivHome.setVisibility(View.GONE);
+       AppCompatImageView ivProfile = findViewById(R.id.ivProfile);
+       AppCompatImageView ivNotification = findViewById(R.id.ivNotification);
+       ivProfile.setOnClickListener(v -> {
+           showProfileOrNotification("profile");
+       });
+       ivNotification.setOnClickListener(v -> {
+           showProfileOrNotification("notification");
+       });
+   }
 
     private void initializeViews() {
 
@@ -192,5 +206,10 @@ public class ActivityMainUser extends AppCompatActivity implements View.OnClickL
         if (intent != null) {
             startActivity(intent);
         }
+    }
+    private void showProfileOrNotification(String type){
+        Intent mIntent = new Intent(mContext, ActivityCep.class);
+        mIntent.putExtra("type",type);
+        startActivity(mIntent);
     }
 }

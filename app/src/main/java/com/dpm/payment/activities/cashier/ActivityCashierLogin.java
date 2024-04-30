@@ -14,10 +14,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.AppCompatTextView;
 
@@ -66,7 +68,7 @@ public class ActivityCashierLogin extends AppCompatActivity implements View.OnCl
         mContext = ActivityCashierLogin.this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cashier_login);
-
+        initToolbar();
         initializeViews();
         initializeListener();
 
@@ -112,7 +114,20 @@ public class ActivityCashierLogin extends AppCompatActivity implements View.OnCl
 
         }
     }
-
+    private void initToolbar(){
+        TextView tvTitle = findViewById(R.id.toolbar_tv_header);
+        ImageView ivHome =findViewById(R.id.toolbar_iv_home);
+        tvTitle.setText(getString(R.string.council_cashier_1));
+        ivHome.setVisibility(View.GONE);
+        AppCompatImageView ivProfile = findViewById(R.id.ivProfile);
+        AppCompatImageView ivNotification = findViewById(R.id.ivNotification);
+        ivProfile.setOnClickListener(v -> {
+            showProfileOrNotification("profile");
+        });
+        ivNotification.setOnClickListener(v -> {
+            showProfileOrNotification("notification");
+        });
+    }
     private void initializeViews() {
         activityLogin_et_username = findViewById(R.id.etEmail);
         activityLogin_et_password = findViewById(R.id.etPassword);
@@ -390,13 +405,17 @@ public class ActivityCashierLogin extends AppCompatActivity implements View.OnCl
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Intent mIntent = new Intent(mContext, ActivityCep.class);
-                startActivity(mIntent);
+                showProfileOrNotification("cep");
             }
         });
 
         dialog.show();
 
+    }
+    private void showProfileOrNotification(String type){
+        Intent mIntent = new Intent(mContext, ActivityCep.class);
+        mIntent.putExtra("type",type);
+        startActivity(mIntent);
     }
 
 }

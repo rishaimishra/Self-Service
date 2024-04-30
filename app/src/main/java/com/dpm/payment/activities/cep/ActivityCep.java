@@ -28,7 +28,13 @@ public class ActivityCep extends AppCompatActivity {
     }
 
     private void initView(){
-        startFragment(CEPMenuFragment.newInstance());
+        String type = getIntent().getStringExtra("type");
+        if (type.equalsIgnoreCase("notification")) {
+            startFragment(NotificationFragment.newInstance());
+        } else if (type.equalsIgnoreCase("profile")) {
+            startFragment(ProfileFragment.newInstance());
+        } else
+            startFragment(CEPMenuFragment.newInstance());
     }
 
     public  void startFragment(Fragment fragment, Boolean clearBackStack ) {

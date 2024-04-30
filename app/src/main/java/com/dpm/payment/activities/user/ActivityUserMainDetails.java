@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -33,6 +34,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dpm.payment.activities.cashier.ActivityCashierLogin;
 import com.dpm.payment.activities.cashier.ActivityMainDetails;
+import com.dpm.payment.activities.cep.ActivityCep;
 import com.dpm.payment.adapters.AssessmentHistoryAdapter;
 import com.dpm.payment.adapters.CashierImageAdapter;
 import com.dpm.payment.adapters.DataViewAdapter;
@@ -242,6 +244,18 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         initializeListeners();
         setData();
         setDemandNoteYearAdapter();
+        initToolbar();
+    }
+
+    private void initToolbar(){
+        AppCompatImageView ivProfile = findViewById(R.id.ivProfile);
+        AppCompatImageView ivNotification = findViewById(R.id.ivNotification);
+        ivProfile.setOnClickListener(v -> {
+            showProfileOrNotification("profile");
+        });
+        ivNotification.setOnClickListener(v -> {
+            showProfileOrNotification("notification");
+        });
     }
 
     private void setData() {
@@ -448,7 +462,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
         toolbar_iv_home = findViewById(R.id.toolbar_iv_home);
         toolbar_iv_home.setVisibility(View.VISIBLE);
-        toolbar_iv_search = findViewById(R.id.toolbar_iv_search);
+        //toolbar_iv_search = findViewById(R.id.toolbar_iv_search);
 
 
         activitySearchDetails_tv_property_images = findViewById(R.id.activitySearchDetails_tv_property_images);
@@ -3068,5 +3082,11 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         ArrayAdapter aa = new ArrayAdapter(mContext,R.layout.adapter_text_blue,year);
         aa.setDropDownViewResource(R.layout.adapter_text_blue);
         spnrDemandNoteYear.setAdapter(aa);
+    }
+
+    private void showProfileOrNotification(String type){
+        Intent mIntent = new Intent(mContext, ActivityCep.class);
+        mIntent.putExtra("type",type);
+        startActivity(mIntent);
     }
 }

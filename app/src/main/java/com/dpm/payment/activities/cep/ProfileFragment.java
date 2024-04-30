@@ -60,7 +60,7 @@ public class ProfileFragment extends Fragment {
         ivProfile.setVisibility(View.GONE);
         tvTitle.setText("My Profile");
         ivHome.setOnClickListener(v -> {
-            getParentFragmentManager().popBackStack();
+            ((ActivityCep)requireActivity()).onBackPressed();
         });
         ivNotification.setOnClickListener(v -> {
             ((ActivityCep)requireActivity()).startFragment(NotificationFragment.newInstance());

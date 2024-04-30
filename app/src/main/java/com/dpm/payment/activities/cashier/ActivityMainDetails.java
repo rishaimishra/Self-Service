@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -31,6 +32,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dpm.payment.activities.cep.ActivityCep;
 import com.dpm.payment.adapters.AssessmentHistoryAdapter;
 import com.dpm.payment.adapters.CashierImageAdapter;
 import com.dpm.payment.adapters.DataViewAdapter;
@@ -230,11 +232,24 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
         initializeViews();
         initializeListeners();
-
+        initToolbar();
 
         setData();
 
         //    setDrawerProfile(PrefUtils.getProfile(mContext));
+    }
+
+    private void initToolbar(){
+        ImageView ivHome =findViewById(R.id.toolbar_iv_home);
+        ivHome.setVisibility(View.GONE);
+        AppCompatImageView ivProfile = findViewById(R.id.ivProfile);
+        AppCompatImageView ivNotification = findViewById(R.id.ivNotification);
+        ivProfile.setOnClickListener(v -> {
+            showProfileOrNotification("profile");
+        });
+        ivNotification.setOnClickListener(v -> {
+            showProfileOrNotification("notification");
+        });
     }
 
     private void setData() {
@@ -2909,5 +2924,10 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
                 });
 
+    }
+    private void showProfileOrNotification(String type){
+        Intent mIntent = new Intent(mContext, ActivityCep.class);
+        mIntent.putExtra("type",type);
+        startActivity(mIntent);
     }
 }

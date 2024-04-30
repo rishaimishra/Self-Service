@@ -62,7 +62,7 @@ public class NotificationFragment extends Fragment {
         ivProfile.setVisibility(View.GONE);
         tvTitle.setText("Notifications");
         ivHome.setOnClickListener(v -> {
-            getParentFragmentManager().popBackStack();
+           ((ActivityCep)requireActivity()).onBackPressed();
         });
     }
 
