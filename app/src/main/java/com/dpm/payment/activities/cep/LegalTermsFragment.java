@@ -13,25 +13,25 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.dpm.payment.activities.cep.complaints.ComplaintsFragment;
+
 import com.dpm.payment.activities.cep.emergencyservice.EmergencyServicesFragment;
-import com.dpm.payment.adapters.CEPAdapter;
+import com.dpm.payment.adapters.MyProfileAdapter;
 import com.dpm.payment.models.cep.CepModel;
 import com.payment.R;
 
 import java.util.ArrayList;
 
-public class CEPMenuFragment extends Fragment {
+
+public class LegalTermsFragment extends Fragment{
+
     private RecyclerView rvCep;
     private ArrayList<CepModel> cepList;
     private Context mContext;
-
-    public static CEPMenuFragment newInstance() {
-        return new CEPMenuFragment();
+    public static LegalTermsFragment newInstance(){
+        return new LegalTermsFragment();
     }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -47,20 +47,22 @@ public class CEPMenuFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initView(view);
         initToolbar(view);
+        initView(view);
 
     }
+
     @SuppressLint("SetTextI18n")
     private void initToolbar(View view){
         AppCompatTextView tvTitle = view.findViewById(R.id.toolbar_tv_header);
         ImageView ivHome = view.findViewById(R.id.toolbar_iv_home);
-        tvTitle.setText(getString(R.string.community_engagement_platform_1));
-        ivHome.setVisibility(View.GONE);
+        tvTitle.setText(getString(R.string.legal_terms));
+
         AppCompatImageView ivProfile = view.findViewById(R.id.ivProfile);
         AppCompatImageView ivNotification = view.findViewById(R.id.ivNotification);
-        ivProfile.setOnClickListener(v -> {
-            ((ActivityCep)requireActivity()).startFragment(MyProfileFragment.newInstance());
+        ivProfile.setVisibility(View.GONE);
+        ivHome.setOnClickListener(v -> {
+            ((ActivityCep)requireActivity()).onBackPressed();
         });
         ivNotification.setOnClickListener(v -> {
             ((ActivityCep)requireActivity()).startFragment(NotificationFragment.newInstance());
@@ -73,24 +75,17 @@ public class CEPMenuFragment extends Fragment {
 
     private void setData() {
         cepList = new ArrayList<>();
-        cepList.add(new CepModel("Complaints & Reporting", R.drawable.ic_complaints));
-        cepList.add(new CepModel("Forms & Resources", R.drawable.ic_forms_resources));
-        cepList.add(new CepModel("Schedule Appointment", R.drawable.ic_schedule_appointment));
-        cepList.add(new CepModel("Information & Tips", R.drawable.ic_information));
-        cepList.add(new CepModel("Garbage Collection", R.drawable.ic_garbage_collection));
-        cepList.add(new CepModel("Places", R.drawable.ic_places));
-        cepList.add(new CepModel("Disaster Management", R.drawable.ic_disaster_management));
-        cepList.add(new CepModel("Newsletter", R.drawable.ic_newsletter));
-        cepList.add(new CepModel("Community Blog", R.drawable.ic_blog));
-        cepList.add(new CepModel("Emergency Services", R.drawable.ic_emergency_services));
+        cepList.add(new CepModel("Terms of use", R.drawable.ic_demand_note));
+        cepList.add(new CepModel("Privacy Policy", R.drawable.ic_demand_note));
+        cepList.add(new CepModel("Intellectual Property", R.drawable.ic_demand_note));
         setAdapter();
     }
 
     private void setAdapter() {
-        CEPAdapter adapter = new CEPAdapter(mContext, cepList, (view, position) -> {
+        MyProfileAdapter adapter = new MyProfileAdapter(mContext, cepList, (view, position) -> {
             switch (position) {
                 case 0:
-                    ((ActivityCep) requireActivity()).startFragment(ComplaintsFragment.newInstance());
+                    ((ActivityCep) requireActivity()).startFragment(ProfileFragment.newInstance());
                     break;
                 case 1:
                     ((ActivityCep) requireActivity()).startFragment(FormsResourcesFragment.newInstance());
@@ -108,8 +103,10 @@ public class CEPMenuFragment extends Fragment {
 
             }
         });
-        GridLayoutManager layoutManager = new GridLayoutManager(mContext, 2);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
         rvCep.setLayoutManager(layoutManager);
         rvCep.setAdapter(adapter);
     }
+
+
 }

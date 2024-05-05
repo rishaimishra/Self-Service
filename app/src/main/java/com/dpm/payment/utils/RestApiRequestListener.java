@@ -158,7 +158,6 @@ public class RestApiRequestListener {
                 int mStatusCode = response.statusCode;
                 LogUtils.printf("Status code is  = = = > " + mStatusCode);
                 response.headers.remove(CACHE_CONTROL);
-
                 return super.parseNetworkResponse(response);
             }
 
@@ -235,7 +234,93 @@ public class RestApiRequestListener {
         }
 
     }
+    public void getRequest() {
 
+        LogUtils.showErrorLog("request", "Url:" + mURL);
+        LogUtils.showErrorLog("request", "body: " + mRequestBody);
+
+        DPMPaymentApplication.getInstance().cancelPendingRequests(reqTag);
+
+        setOnRequestListener.onPreExecute();
+
+        StringRequest strReq = new StringRequest(Request.Method.GET, mURL, response -> {
+
+            LogUtils.printf("I am " + reqTag + " response: " + response);
+
+            setOnRequestListener.onSuccessListener(response);
+
+
+        }, error -> {
+
+            boolean isSessionExpire=false;
+            try {
+
+                //      setOnRequestListener.onErrorListener(error.getMessage());
+
+
+                String errorUserMessage = "";
+
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    errorUserMessage = "There is Some error Occurs\n\nNo Connection Available\nTime out error";
+                    //This indicates that the reuest has either time out or there is no connection
+
+                } else if (error instanceof AuthFailureError) {
+                    isSessionExpire=true;
+                    errorUserMessage = "Session expired please login again.";
+                    //Error indicating that there was an Authentication Failure while performing the request
+
+                } else if (error instanceof ServerError) {
+                    errorUserMessage = "Server not responding. Please try again.";
+                    //Indicates that the server responded with a error response
+                } else if (error instanceof NetworkError) {
+
+                    errorUserMessage = "Network error. Please try again.";
+                    //Indicates that there was network error while performing the request
+                } else if (error instanceof ParseError) {
+                    errorUserMessage = "Invalid Data Error. Please try again.";
+                    // Indicates that the server response could not be parsed
+
+                } else {
+                    errorUserMessage = "Unknown Error. Please try again.";
+                }
+                //==========================================
+                setOnRequestListener.onErrorListener("Error");
+                openErrorDialog(errorUserMessage,isSessionExpire);
+            }catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+
+
+            //===================
+        }) {
+            @Override
+            public Priority getPriority() {
+                return Priority.HIGH;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() {
+
+                return mRequestHeader;
+            }
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                response.headers.remove(CACHE_CONTROL);
+                return super.parseNetworkResponse(response);
+            }
+        };
+
+        //===========================
+
+
+        setRetryPolicy(strReq);
+        strReq.setShouldCache(false);
+        DPMPaymentApplication.getInstance().addToRequestQueue(strReq, reqTag);
+
+
+    }
 
     public interface setOnRequestListener {
         void onPreExecute();

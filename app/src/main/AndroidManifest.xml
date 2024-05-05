@@ -113,7 +113,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreenApplication"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name="com.dpm.payment.activities.ActivityMyProfile"
+            android:name="com.dpm.payment.activities.cep.MyProfileFragment"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreenApplication"

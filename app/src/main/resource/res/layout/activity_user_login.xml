@@ -127,9 +127,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tvHeader"
-                        android:orientation="horizontal">
-
-                        <EditText
+                        android:orientation="horizontal"
+                        android:layout_marginTop="@dimen/dimen12dp">
+                        <com.hbb20.CountryCodePicker
+                            android:id="@+id/ccp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
+                            app:ccp_defaultNameCode="SL"
+                            app:ccp_showNameCode="false"
+                            android:background="@drawable/bg_square_blue_border"
+                            app:ccp_textSize="@dimen/textMedium14sp"/>
+                       <!-- <EditText
                             android:id="@+id/etISDPhone"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
@@ -143,18 +153,16 @@
                             android:maxLength="3"
                             android:paddingStart="10dp"
                             android:text="@string/_232"
-                            android:textSize="14sp" />
+                            android:textSize="14sp" />-->
                         <!-- -->
                         <EditText
                             android:id="@+id/etPhone"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginTop="10dp"
                             android:background="@drawable/bg_square_blue_border"
                             android:hint="Mobile Number*"
                             android:inputType="phone"
                             android:maxLength="13"
-                            android:text="76100100"
                             android:paddingStart="10dp"
                             android:textSize="14sp" />
                         <!-- android:text="76100100"-->

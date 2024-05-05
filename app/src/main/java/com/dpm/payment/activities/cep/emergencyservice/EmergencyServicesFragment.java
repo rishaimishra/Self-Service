@@ -9,11 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dpm.payment.activities.cep.ActivityCep;
+import com.dpm.payment.activities.cep.MyProfileFragment;
+import com.dpm.payment.activities.cep.NotificationFragment;
 import com.dpm.payment.adapters.EmergencyServiceAdapter;
 import com.payment.R;
 import java.util.ArrayList;
@@ -53,6 +56,14 @@ public class EmergencyServicesFragment extends Fragment {
         tvTitle.setText("Emergency Services");
         ivHome.setOnClickListener(v -> {
             getParentFragmentManager().popBackStack();
+        });
+        AppCompatImageView ivProfile = view.findViewById(R.id.ivProfile);
+        AppCompatImageView ivNotification = view.findViewById(R.id.ivNotification);
+        ivProfile.setOnClickListener(v -> {
+            ((ActivityCep)requireActivity()).startFragment(MyProfileFragment.newInstance());
+        });
+        ivNotification.setOnClickListener(v -> {
+            ((ActivityCep)requireActivity()).startFragment(NotificationFragment.newInstance());
         });
     }
 

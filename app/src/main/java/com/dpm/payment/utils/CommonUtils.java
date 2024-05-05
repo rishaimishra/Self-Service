@@ -41,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Locale;
 
 import static android.content.Context.WIFI_SERVICE;
@@ -404,5 +405,11 @@ public class CommonUtils {
 
     public interface GetDOBFromDialogCallBack {
         void getDOBFromDialog(String mDOB);
+    }
+
+    public static HashMap<String, String> getHeader(){
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("Accept", "application/json");
+        return headers;
     }
 }

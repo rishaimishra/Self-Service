@@ -1,5 +1,6 @@
 package com.dpm.payment.activities.login;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -12,8 +13,7 @@ import com.dpm.payment.activities.cep.CEPMenuFragment;
 import com.payment.R;
 
 public class ActivityLogin extends AppCompatActivity {
-
-
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +29,7 @@ public class ActivityLogin extends AppCompatActivity {
     }
 
     private void initView(){
+        progressDialog = new ProgressDialog(this);
         startFragment(LoginFragment.newInstance());
     }
 
@@ -83,6 +84,20 @@ public class ActivityLogin extends AppCompatActivity {
             finish();
         } else {
             getFragmentManager().popBackStack();
+        }
+    }
+
+    void showLoading(String message){
+        progressDialog.setMessage(message);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    void hideLoading(){
+        if (progressDialog != null) {
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
         }
     }
 

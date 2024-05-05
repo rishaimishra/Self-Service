@@ -20,5 +20,10 @@ public class ConstantData {
     public static final String AUTH_TYPE_CASHIER = "Bearer";
     public static final String AUTH_TYPE_USER = "User";
 
+    public static final String DISTRICT_NAME="district_name";
+    public static final String TAG_REQUEST_DISTRICT_NAME = "req_district_name";
+
+    public static final String GUEST_INFO="guest_info";
+
 
 }

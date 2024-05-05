@@ -59,7 +59,7 @@ public class FormsResourcesFragment extends Fragment {
         AppCompatImageView ivProfile = view.findViewById(R.id.ivProfile);
         AppCompatImageView ivNotification = view.findViewById(R.id.ivNotification);
         ivProfile.setOnClickListener(v -> {
-            ((ActivityCep)requireActivity()).startFragment(ProfileFragment.newInstance());
+            ((ActivityCep)requireActivity()).startFragment(MyProfileFragment.newInstance());
         });
         ivNotification.setOnClickListener(v -> {
             ((ActivityCep)requireActivity()).startFragment(NotificationFragment.newInstance());

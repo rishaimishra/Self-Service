@@ -5,9 +5,12 @@ import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
 import com.dpm.payment.activities.user.LandlordResponseModel;
 import com.dpm.payment.models.LoginModel;
+import com.dpm.payment.models.cep.GuestUser;
+import com.dpm.payment.models.cep.GuestUserResponse;
 import com.google.gson.Gson;
 
 import static com.dpm.payment.utils.CommonUtils.getObjectFromJson;
+import static com.dpm.payment.utils.ConstantData.GUEST_INFO;
 
 
 public class PrefUtil {
@@ -195,7 +198,33 @@ public class PrefUtil {
 
         SharedPreferences sp = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
         sp.edit().clear().commit();
+    }
 
+    public static void saveCouncilName(Context mContext, String councilName) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
+        sp.edit().putString("council_name", councilName).apply();
+    }
 
+    public static String getCouncilName(Context mContext) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
+        return sp.getString("council_name", null);
+    }
+
+    public static void saveGuestUser(Context mContext, GuestUserResponse mGuestUserResponse){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        if(mGuestUserResponse==null){
+            sharedPreferences.edit().putString(GUEST_INFO, "").apply();
+            return;
+        }
+        String strJson =new Gson().toJson(mGuestUserResponse);
+        sharedPreferences.edit().putString(GUEST_INFO, strJson).apply();
+    }
+
+    public static GuestUserResponse getGuestUser(Context mContext){
+        String strJson = PreferenceManager.getDefaultSharedPreferences(mContext).getString(GUEST_INFO, "");
+        if(strJson==null || strJson.trim()=="")
+            return null;
+        else
+            return new Gson().fromJson(strJson,GuestUserResponse.class);
     }
 }

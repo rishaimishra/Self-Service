@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -27,6 +28,8 @@ import com.dpm.payment.activities.cep.ActivityCep;
 import com.dpm.payment.activities.user.ActivityUserLogin;
 import com.dpm.payment.activities.user.LandlordResponseModel;
 import com.dpm.payment.activities.user.ListPropertyUserActivity;
+import com.dpm.payment.models.cep.CepDistrictNameResponse;
+import com.dpm.payment.models.cep.DistrictItem;
 import com.dpm.payment.utils.AlertDialogUtils;
 import com.dpm.payment.utils.DataUtils;
 import com.dpm.payment.utils.LogUtils;
@@ -34,16 +37,21 @@ import com.dpm.payment.utils.PrefUtil;
 import com.dpm.payment.utils.RestApiRequestListener;
 import com.dpm.payment.utils.RestApiUrl;
 import com.google.android.material.textview.MaterialTextView;
+import com.google.gson.Gson;
 import com.payment.R;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import static com.dpm.payment.utils.CommonUtils.getHeader;
+import static com.dpm.payment.utils.ConstantData.DISTRICT_NAME;
 import static com.dpm.payment.utils.ConstantData.REQUEST_KEY_PASSWORD;
 import static com.dpm.payment.utils.ConstantData.REQUEST_KEY_USERNAME;
+import static com.dpm.payment.utils.ConstantData.TAG_REQUEST_DISTRICT_NAME;
 import static com.dpm.payment.utils.ConstantData.TAG_REQUEST_LOGIN;
 
 
@@ -122,10 +130,10 @@ public class ActivityCashierLogin extends AppCompatActivity implements View.OnCl
         AppCompatImageView ivProfile = findViewById(R.id.ivProfile);
         AppCompatImageView ivNotification = findViewById(R.id.ivNotification);
         ivProfile.setOnClickListener(v -> {
-            showProfileOrNotification("profile");
+            showProfileOrNotification("profile",0);
         });
         ivNotification.setOnClickListener(v -> {
-            showProfileOrNotification("notification");
+            showProfileOrNotification("notification",0);
         });
     }
     private void initializeViews() {
@@ -195,7 +203,7 @@ public class ActivityCashierLogin extends AppCompatActivity implements View.OnCl
                 }
                 break;
             case R.id.btCheckIn:
-               showCepInfoDialog();
+                reqDistrict();
                 break;
         }
     }
@@ -376,7 +384,7 @@ public class ActivityCashierLogin extends AppCompatActivity implements View.OnCl
 
     }
 
-    private void showCepInfoDialog(){
+    private void showCepInfoDialog(List<String> mList){
         dialog =  new Dialog(this);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         dialog.getWindow().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -390,32 +398,82 @@ public class ActivityCashierLogin extends AppCompatActivity implements View.OnCl
         MaterialTextView btnCancel = dialog.findViewById(R.id.btnCancel);
         MaterialTextView  btnContinue = dialog.findViewById(R.id.btnContinue);
         AppCompatSpinner spnrDistrict = dialog.findViewById(R.id.spnrDistrict);
-        ArrayAdapter aa = new ArrayAdapter(mContext,R.layout.adapter_text_1,getResources().getStringArray(R.array.arrayDistrictName));
+        CheckBox chkboxSetDefault = dialog.findViewById(R.id.chkboxSetDefault);
+        ArrayAdapter aa = new ArrayAdapter(mContext,R.layout.adapter_text_1,mList);
         aa.setDropDownViewResource(R.layout.adapter_text_1);
         spnrDistrict.setAdapter(aa);
 
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
 
-        btnContinue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                showProfileOrNotification("cep");
+        btnContinue.setOnClickListener(v -> {
+            if(spnrDistrict.getSelectedItem().toString().equalsIgnoreCase("Select Council")){
+                Toast.makeText(mContext, getString(R.string.please_select_council), Toast.LENGTH_SHORT).show();
+                return;
             }
+            if(chkboxSetDefault.isChecked()){
+                PrefUtil.saveCouncilName(mContext,spnrDistrict.getSelectedItem().toString());
+            }
+            dialog.dismiss();
+            int position = (spnrDistrict.getSelectedItemPosition()-1);
+            showProfileOrNotification("cep",position);
         });
 
         dialog.show();
 
     }
-    private void showProfileOrNotification(String type){
+    private void showProfileOrNotification(String type, int position){
         Intent mIntent = new Intent(mContext, ActivityCep.class);
         mIntent.putExtra("type",type);
+        if(mCepDistrictNameResponse!=null) {
+            DistrictItem mDistrictItem = mCepDistrictNameResponse.getResult().get(position);
+            mIntent.putExtra(DISTRICT_NAME, mDistrictItem);
+        }
         startActivity(mIntent);
+    }
+
+    public void reqDistrict() {
+        progressDialog = new ProgressDialog(mContext);
+        new RestApiRequestListener(this, TAG_REQUEST_DISTRICT_NAME, RestApiUrl.URL_CEP_DISTRICT_DETAILS, getHeader(), null, new RestApiRequestListener.setOnRequestListener() {
+            @Override
+            public void onPreExecute() {
+                progressDialog.setMessage(mContext.getResources().getString(R.string.loading_please_wait));
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+            }
+            @Override
+            public void onSuccessListener(String response) {
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+                parseResponse(response);
+            }
+            @Override
+            public void onErrorListener(String errorMessage) {
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+            }
+        }).getRequest();
+
+
+    }
+    private CepDistrictNameResponse mCepDistrictNameResponse;
+    private void parseResponse(String response) {
+         mCepDistrictNameResponse = new Gson().fromJson(response,CepDistrictNameResponse.class);
+        if(mCepDistrictNameResponse.isSuccess() && mCepDistrictNameResponse.getCode()==200){
+            if(mCepDistrictNameResponse.getResult().size()>0){
+                List<String> mList = new ArrayList<>();
+                mList.add("Select Council");
+                for(int i=0; i<mCepDistrictNameResponse.getResult().size();i++){
+                    mList.add(mCepDistrictNameResponse.getResult().get(i).getCouncilName());
+                }
+                showCepInfoDialog(mList);
+            }
+        }
     }
 
 }

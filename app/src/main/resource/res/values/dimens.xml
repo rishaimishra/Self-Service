@@ -149,5 +149,6 @@
     <dimen name="dimen10sp">10sp</dimen>
     <dimen name="dimen400dp">400dp</dimen>
     <dimen name="dimen13sp">13sp</dimen>
+    <dimen name="dimen32sp">32sp</dimen>
 </resources>
 

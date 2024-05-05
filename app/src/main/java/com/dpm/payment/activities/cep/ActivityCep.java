@@ -1,18 +1,23 @@
 package com.dpm.payment.activities.cep;
 
+import static com.dpm.payment.utils.ConstantData.DISTRICT_NAME;
+
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.dpm.payment.models.cep.DistrictItem;
 import com.payment.R;
 
 import java.util.ArrayList;
 
 public class ActivityCep extends AppCompatActivity {
 
-
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,13 +33,16 @@ public class ActivityCep extends AppCompatActivity {
     }
 
     private void initView(){
+        progressDialog = new ProgressDialog(this);
         String type = getIntent().getStringExtra("type");
         if (type.equalsIgnoreCase("notification")) {
             startFragment(NotificationFragment.newInstance());
         } else if (type.equalsIgnoreCase("profile")) {
-            startFragment(ProfileFragment.newInstance());
-        } else
-            startFragment(CEPMenuFragment.newInstance());
+            startFragment(MyProfileFragment.newInstance());
+        } else {
+            DistrictItem districtName = (DistrictItem)getIntent().getSerializableExtra(DISTRICT_NAME);
+            startFragment(CepCouncilFragment.newInstance(districtName));
+        }
     }
 
     public  void startFragment(Fragment fragment, Boolean clearBackStack ) {
@@ -90,5 +98,20 @@ public class ActivityCep extends AppCompatActivity {
             getFragmentManager().popBackStack();
         }
     }
+
+    void showLoading(String message){
+        progressDialog.setMessage(message);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    void hideLoading(){
+        if (progressDialog != null) {
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+        }
+    }
+
 
 }

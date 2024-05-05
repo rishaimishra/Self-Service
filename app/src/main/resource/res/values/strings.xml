@@ -376,4 +376,16 @@
         <item>Koidu New Sembehun City Council</item>
         <item>Makeni City Council</item>
     </string-array>
+    <string name="legal_terms">Legal terms</string>
+    <string name="sierra_leone">Sierra Leone</string>
+    <string name="country_region">Country &amp; Region</string>
+    <string name="language">Language</string>
+    <string name="welcome_to">Welcome to the Koinadugu District Council</string>
+    <string name="constituencies_colon">constituencies:</string>
+    <string name="district_colon">District:</string>
+    <string name="province_colon">province:</string>
+    <string name="ward_colon">Ward:</string>
+    <string name="continue_dot">Continue...</string>
+    <string name="please_select_council">Please select a council to continue</string>
+    <string name="loading_please_wait">Loading Please Wait ...</string>
 </resources>

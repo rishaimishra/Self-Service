@@ -826,6 +826,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                                 activityUserSearchResult_tv_assesment_year_value.setText(dataModel.getProperty_net_assessed_value());
 
                                 //activityUserSearchResult_tv_discount_applicable_value.setText(dataModel.getDiscounted_value_new());
+                                if(dataModel.getDiscounted_value_new()!=null)
                                 activityUserSearchResult_tv_discount_applicable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getDiscounted_value_new()))));
 
                                 // activityUserSearchResult_tv_rate_payable_value.setText(dataModel.getRate_payable_new());
@@ -844,7 +845,10 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                                 Helper.RATE_PAYABLE = dataModel.getRate_payable();
 
                                 activityUserSearchResult_tv_discount_rate_payable_value.setText(StringUtils.AmountWithComma(dataModel.getDiscounted_rate_payable_2022()));
-                                activityUserSearchResult_tv_council_adjustment_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getCouncil_adjustments_parameters()))));
+
+                                //activityUserSearchResult_tv_council_adjustment_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getCouncil_adjustments_parameters()))));
+                                if(dataModel.getCouncil_adjustments_parameters()!=null)
+                                    activityUserSearchResult_tv_council_adjustment_value.setText(dataModel.getCouncil_adjustments_parameters());
                                 activityUserSearchResult_tv_net_assessed_value.setText(dataModel.getProperty_net_assessed_value());
 
 

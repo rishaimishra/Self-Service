@@ -10,10 +10,10 @@ import androidx.core.content.ContextCompat;
 
 public interface RestApiUrl {
 
-    public static String BASE_URL ="http://18.117.101.215/apiv2";
-    public static String BASE_URL_MAIN ="http://18.117.101.215/apiv2";
+    public static String BASE_URL ="http://3.134.197.245/apiv2";
+    public static String BASE_URL_MAIN ="http://3.134.197.245/apiv2";
     public static String BASE_URL_TERMS ="https:l";
-
+    public static String IMAGE_URL_TERMS ="https://3.134.197.245/";
 
     String URL_CASHIER_LOGIN = BASE_URL + "/admin/login";
     String URL_CASHIER_SEARCH_PROPERTY= BASE_URL + "/admin/search-property";
@@ -29,5 +29,9 @@ public interface RestApiUrl {
     String URL_LANDLORD_PROPERTY_LIST = BASE_URL + "/landlord/search-property";
     String URL_LANDLORD_PAYMENT = BASE_URL_MAIN + "/paypal?";
 
+    //CEP Council
+    String URL_CEP_DISTRICT_DETAILS = BASE_URL + "/get/district";
 
+    String URL_GUEST_USER_LOGIN = BASE_URL + "/guest-user/login";
+    String URL_GUEST_USER_REGISTER = BASE_URL + "/guest-user/register";
 }
