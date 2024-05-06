@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.Fragment;
 import com.dpm.payment.activities.user.ActivityUserLogin;
 import com.dpm.payment.models.cep.GuestUserResponse;
+import com.dpm.payment.utils.CommonUtils;
 import com.dpm.payment.utils.LogUtils;
 import com.dpm.payment.utils.PrefUtil;
 import com.dpm.payment.utils.RestApiRequestListener;
@@ -68,6 +71,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         etUserName = view.findViewById(R.id.etUserName);
         etPassword = view.findViewById(R.id.etPassword);
         ivPassword = view.findViewById(R.id.ivPassword);
+        ivPassword.setImageResource(R.drawable.icon_hide_password);
         tvForgotPassword = view.findViewById(R.id.tvForgotPassword);
         btLogin.setOnClickListener(this);
         tvLogin.setOnClickListener(this);
@@ -75,12 +79,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         ivPassword.setOnClickListener(this);
     }
 
-
+    private String showhide="Show";
     @Override
     public void onClick(View v) {
         switch (v.getId()){
            case R.id.btLogin:
-               startUserLogin();
+               validate();
                break;
             case R.id.tvLogin:
                 ((ActivityLogin) requireActivity()).startFragment(RegisterFragment.newInstance());
@@ -89,6 +93,18 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 ((ActivityLogin) requireActivity()).startFragment(ForgotPasswordFragment.newInstance());
                 break;
             case R.id.ivPassword:
+                if(showhide.equals("Hide"))
+                {
+                    showhide="Show";
+                    etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    ivPassword.setImageResource(R.drawable.icon_hide_password);
+                }
+                else if(showhide.equalsIgnoreCase("Show"))
+                {
+                    showhide="Hide";
+                    etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    ivPassword.setImageResource(R.drawable.icon_show_password);
+                }
                 break;
         }
     }
@@ -121,32 +137,25 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
     public void reqLogin() {
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put("Accept", "application/json");
-
         Map<String, String> req_params = new HashMap<>();
         req_params.put(REQUEST_KEY_USERNAME, getUserName());
         req_params.put(REQUEST_KEY_PASSWORD, getPassword());
 
-        new RestApiRequestListener(requireActivity(), TAG_REQUEST_LOGIN, RestApiUrl.URL_GUEST_USER_LOGIN, headers, req_params, new RestApiRequestListener.setOnRequestListener() {
+        new RestApiRequestListener(requireActivity(), TAG_REQUEST_LOGIN, RestApiUrl.URL_GUEST_USER_LOGIN, CommonUtils.getHeader(), req_params, new RestApiRequestListener.setOnRequestListener() {
             @Override
             public void onPreExecute() {
-                ((ActivityLogin) requireActivity()).showLoading(getString(R.string.loading_please_wait));
+                ((ActivityLogin) requireActivity()).showLoading(getString(R.string.logging_in_please_wait));
             }
-
             @Override
             public void onSuccessListener(String response) {
                 ((ActivityLogin) requireActivity()).hideLoading();
                 if(!TextUtils.isEmpty(response)) {
                     parseLogInResponse(response);
                 }
-
             }
-
             @Override
             public void onErrorListener(String errorMessage) {
                 ((ActivityLogin) requireActivity()).hideLoading();
-
             }
         }).request();
     }

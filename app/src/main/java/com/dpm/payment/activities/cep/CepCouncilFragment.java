@@ -1,10 +1,8 @@
 package com.dpm.payment.activities.cep;
 
 import static com.dpm.payment.utils.ConstantData.DISTRICT_NAME;
-import static com.dpm.payment.utils.RestApiUrl.IMAGE_URL_TERMS;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;

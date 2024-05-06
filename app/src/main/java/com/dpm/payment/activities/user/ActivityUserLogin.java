@@ -282,10 +282,9 @@ public class ActivityUserLogin extends AppCompatActivity implements View.OnClick
         ArrayList<String> errorList = new ArrayList<>();
 
         if (etPhone.getText().toString().trim().length() == 0) {
-            errorList.add("Enter registered  number.");
+            errorList.add("Enter registered number.");
         }
         if (errorList.size() > 0) {
-
             Toast.makeText(mContext, errorList.get(0), Toast.LENGTH_SHORT).show();
             b = false;
         } else {
@@ -313,7 +312,6 @@ public class ActivityUserLogin extends AppCompatActivity implements View.OnClick
         DisplayMetrics displayMetrics = new DisplayMetrics();
         dialog.getWindow().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int width = displayMetrics.widthPixels;
-        // requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_cep_info);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.getWindow().setLayout((int)(width/1.2), FrameLayout.LayoutParams.WRAP_CONTENT);

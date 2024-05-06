@@ -13,7 +13,9 @@ import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.text.format.Formatter;
+import android.util.Patterns;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
@@ -411,5 +413,9 @@ public class CommonUtils {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("Accept", "application/json");
         return headers;
+    }
+
+    public static boolean isValidEmail(CharSequence target) {
+        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 }

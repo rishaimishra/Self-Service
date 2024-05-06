@@ -93,6 +93,7 @@
                     android:background="@android:color/transparent"
                     android:hint=""
                     android:layout_weight="1"
+                    android:maxLength="13"
                     android:inputType="number"
                     android:padding="@dimen/dimen8dp"
                     android:textSize="@dimen/textMedium14sp" />
@@ -172,10 +173,11 @@
                 android:textSize="@dimen/textMedium14sp" />
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivPassword"
                 android:layout_width="@dimen/dimen24dp"
                 android:layout_height="@dimen/dimen24dp"
                 android:layout_gravity="center_vertical"
-                app:srcCompat="@drawable/ic_view" />
+                app:srcCompat="@drawable/icon_hide_password" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.AppCompatTextView

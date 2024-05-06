@@ -388,4 +388,6 @@
     <string name="continue_dot">Continue...</string>
     <string name="please_select_council">Please select a council to continue</string>
     <string name="loading_please_wait">Loading Please Wait ...</string>
+    <string name="registering_please_wait">Registering Please Wait ...</string>
+    <string name="logging_in_please_wait">Logging in Please Wait ...</string>
 </resources>

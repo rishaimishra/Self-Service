@@ -8,6 +8,9 @@ public class ConstantData {
     public static final String REQUEST_KEY_EMAIL = "email";
     public static final String REQUEST_KEY_USERNAME= "username";
     public static final String REQUEST_KEY_PASSWORD = "password";
+    public static final String REQUEST_KEY_PHONE = "phone";
+    public static final String REQUEST_KEY_NAME = "name";
+    public static final String TAG_REQUEST_REGISTER = "REQ_REGISTER";
 
     public static final String TAG_PHONE_NUMBER_VERIFY = "REQ_PHONE_NUMBER_VERIFY";
 
