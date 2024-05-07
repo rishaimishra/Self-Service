@@ -36,6 +36,7 @@ import com.dpm.payment.utils.LogUtils;
 import com.dpm.payment.utils.PrefUtil;
 import com.dpm.payment.utils.RestApiRequestListener;
 import com.dpm.payment.utils.RestApiUrl;
+import com.dpm.payment.utils.StringUtils;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.gson.Gson;
 import com.hbb20.CountryCodePicker;
@@ -391,7 +392,7 @@ public class ActivityUserLogin extends AppCompatActivity implements View.OnClick
                 List<String> mList = new ArrayList<>();
                 mList.add("Select Council");
                 for(int i=0; i<mCepDistrictNameResponse.getResult().size();i++){
-                    mList.add(mCepDistrictNameResponse.getResult().get(i).getCouncilName());
+                    mList.add(StringUtils.capitalizeEachWord(mCepDistrictNameResponse.getResult().get(i).getCouncilName()));
                 }
                 showCepInfoDialog(mList);
             }

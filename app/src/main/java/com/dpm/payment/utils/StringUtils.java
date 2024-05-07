@@ -1,5 +1,7 @@
 package com.dpm.payment.utils;
 
+import android.text.TextUtils;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -11,6 +13,8 @@ public class StringUtils {
 
     public static String AmountWithComma(String sTeam)
     {
+        if(sTeam==null)
+            return "";
         String temp="";
         String temp1="";
         try {
@@ -138,6 +142,19 @@ public class StringUtils {
             ex.printStackTrace();
         }
         return temp;
+    }
+
+    public static String capitalizeEachWord(String str){
+       if(TextUtils.isEmpty(str)){
+           return "";
+       }
+        String[] strArray = str.split(" ");
+        StringBuilder builder = new StringBuilder();
+        for (String s : strArray) {
+            String cap = s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase(Locale.getDefault());
+            builder.append(cap + " ");
+        }
+        return builder.toString();
     }
 
 }

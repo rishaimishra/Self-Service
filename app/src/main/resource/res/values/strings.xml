@@ -384,7 +384,7 @@
     <string name="constituencies_colon">constituencies:</string>
     <string name="district_colon">District:</string>
     <string name="province_colon">province:</string>
-    <string name="ward_colon">Ward:</string>
+    <string name="ward_colon">Wards:</string>
     <string name="continue_dot">Continue...</string>
     <string name="please_select_council">Please select a council to continue</string>
     <string name="loading_please_wait">Loading Please Wait ...</string>

@@ -11,15 +11,16 @@ public class PropertyModelResponse{
 	@SerializedName("landlord")
 	private Landlord landlord;
 
-
-
-
-
 	@SerializedName("property")
 	private List<PropertyItem> property;
 
 	@SerializedName("history")
 	private List<Object> history;
+
+
+
+	@SerializedName("result")
+	private List<AssesssmentData> assesssmentDataList;
 
 	public void setPaymentInQuarter(List<Object> paymentInQuarter){
 		this.paymentInQuarter = paymentInQuarter;
@@ -65,4 +66,8 @@ public class PropertyModelResponse{
 			",history = '" + history + '\'' + 
 			"}";
 		}
+
+	public List<AssesssmentData> getAssesssmentDataList() {
+		return assesssmentDataList;
+	}
 }

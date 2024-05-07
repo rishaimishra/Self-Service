@@ -478,12 +478,29 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
         }
 
 
-
         activityUserSearchResult_tv_assesment_year.setText("Assessed Value 2022");
-        activityUserSearchResult_tv_discount_rate_payable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getDiscounted_rate_payable_2022()))));
-        activityUserSearchResult_tv_assesment_year_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst()))));
-        activityUserSearchResult_tv_council_adjustment_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getCouncil_adjustments_parameters()))));
-        activityUserSearchResult_tv_net_assessed_value.setText(mSearchPropertyModel.getAssessment().getProperty_net_assessed_vaue());
+        if (mSearchPropertyModel.getAssessment().getDiscounted_rate_payable_2022() != null){
+            activityUserSearchResult_tv_discount_rate_payable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getDiscounted_rate_payable_2022()))));
+        }else{
+            activityUserSearchResult_tv_discount_rate_payable_value.setText("");
+        }
+        if (mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst() != null){
+            activityUserSearchResult_tv_assesment_year_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst()))));
+        }else{
+            activityUserSearchResult_tv_assesment_year_value.setText("");
+        }
+
+        if (mSearchPropertyModel.getAssessment().getCouncil_adjustments_parameters() != null){
+            activityUserSearchResult_tv_council_adjustment_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getCouncil_adjustments_parameters()))));
+        }else{
+            activityUserSearchResult_tv_council_adjustment_value.setText("");
+        }
+        if (mSearchPropertyModel.getAssessment().getProperty_net_assessed_vaue() != null){
+            activityUserSearchResult_tv_net_assessed_value.setText(mSearchPropertyModel.getAssessment().getProperty_net_assessed_vaue());
+        }else{
+            activityUserSearchResult_tv_net_assessed_value.setText("");
+        }
+
 
 
         try {

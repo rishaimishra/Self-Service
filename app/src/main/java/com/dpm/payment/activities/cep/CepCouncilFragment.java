@@ -1,10 +1,12 @@
 package com.dpm.payment.activities.cep;
 
 import static com.dpm.payment.utils.ConstantData.DISTRICT_NAME;
+import static com.dpm.payment.utils.StringUtils.capitalizeEachWord;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,8 +61,9 @@ public class CepCouncilFragment extends Fragment{
         AppCompatTextView tvTitle = view.findViewById(R.id.toolbar_tv_header);
         ImageView ivHome = view.findViewById(R.id.toolbar_iv_home);
         try {
-            if(mDistrictItem!=null)
-            tvTitle.setText(mDistrictItem.getCouncilName());
+            if(mDistrictItem!=null && mDistrictItem.getCouncilName()!=null) {
+                tvTitle.setText(capitalizeEachWord(mDistrictItem.getCouncilName()));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -92,17 +95,15 @@ public class CepCouncilFragment extends Fragment{
         tvConstituencies= view.findViewById(R.id.tvConstituencies);
         tvProvince= view.findViewById(R.id.tvProvince);
         tvDistrict.setText(mDistrictItem.getDistrict());
-        tvWelcomeText.setText("Welcome to the "+mDistrictItem.getCouncilName());
+        tvWelcomeText.setText("Welcome to the "+capitalizeEachWord(mDistrictItem.getCouncilName()));
         tvAddress.setText(mDistrictItem.getCouncilAddress());
         tvPhone.setText("Telephone - "+mDistrictItem.getEnquiriesPhone());
         tvEmail.setText("Email - "+mDistrictItem.getEnquiriesEmail());
         tvWard.setText(mDistrictItem.getWards());
         tvConstituencies.setText(mDistrictItem.getConstituencies());
         tvProvince.setText(mDistrictItem.getProvince());
-        if(mDistrictItem.getPrimaryLogo()!=null && !TextUtils.isEmpty(mDistrictItem.getPrimaryLogo()))
+        if(!TextUtils.isEmpty(mDistrictItem.getPrimaryLogo()))
          Picasso.get().load(mDistrictItem.getPrimaryLogo()).into(ivCouncilImage);
-
-
         tvContinue.setOnClickListener(v -> ((ActivityCep)requireActivity()).startFragment(CEPMenuFragment.newInstance()));
     }
 

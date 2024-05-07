@@ -1785,7 +1785,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
     private void initializeListeners() {
         toolbar_iv_home.setOnClickListener(this);
-        toolbar_iv_search.setOnClickListener(this);
+//        toolbar_iv_search.setOnClickListener(this);
         btn_edit_landlord.setOnClickListener(this);
         btn_edit_property_details.setOnClickListener(this);
         btn_edit_occupancy_details.setOnClickListener(this);
