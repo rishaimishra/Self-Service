@@ -124,28 +124,28 @@ public class AssessmentHistory {
 
     private String balance;
     @SerializedName("assessment_year")
-    private  String assessmentYear;
+    private String assessmentYear;
 
     @SerializedName("amount_due")
     private String amountDue;
 
 
- @SerializedName("counsilAdjustment")
+    @SerializedName("counsilAdjustment")
     private String counsilAdjustment;
 
 
- @SerializedName("ratePayable")
+    @SerializedName("ratePayable")
     private String ratePayable;
 
 
- @SerializedName("discountApplicable")
+    @SerializedName("discountApplicable")
     private String discountApplicable;
 
 
- @SerializedName("discountRatePayable")
+    @SerializedName("discountRatePayable")
     private String discountRatePayable;
 
- @SerializedName("assedValue")
+    @SerializedName("assedValue")
     private String assedValue;
 
     @SerializedName("balanceDueNew")

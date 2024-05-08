@@ -47,7 +47,7 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
     final static String KEY_FROM = "form";
     final static String VALUE_FROM_LANDLORD = "ActivityMainUserProperty";
     public static String KEY_PROPERTY_DETAILS = "property_details";
-    static SearchPropertyModel searchResponseModel;
+    private SearchPropertyModel searchResponseModel;
     Context mContext;
     AlertDialog dialog;
     View activityMain_view_search;
@@ -478,12 +478,17 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
         }
 
 
-        activityUserSearchResult_tv_assesment_year.setText("Assessed Value 2022");
-        if (mSearchPropertyModel.getAssessment().getDiscounted_rate_payable_2022() != null){
-            activityUserSearchResult_tv_discount_rate_payable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getDiscounted_rate_payable_2022()))));
-        }else{
-            activityUserSearchResult_tv_discount_rate_payable_value.setText("");
+        activityUserSearchResult_tv_assesment_year.setText("Assessed Value "+searchResponseModel.getAssessment().getAssessmentYear());
+        String discRatePayable="0.00";
+        if (mSearchPropertyModel.getAssessment().getRate_payable() != null &&
+                mSearchPropertyModel.getAssessment().getPensioner_discount()!=null &&
+                mSearchPropertyModel.getAssessment().getDisability_discount()!=null){
+            discRatePayable = CommonUtils.calculateDiscountRatePayable(mSearchPropertyModel.getAssessment().getRate_payable(),
+                    mSearchPropertyModel.getAssessment().getPensioner_discount(),
+                    mSearchPropertyModel.getAssessment().getDisability_discount());
         }
+        activityUserSearchResult_tv_discount_rate_payable_value.setText(discRatePayable);
+
         if (mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst() != null){
             activityUserSearchResult_tv_assesment_year_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst()))));
         }else{
@@ -491,7 +496,7 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
         }
 
         if (mSearchPropertyModel.getAssessment().getCouncil_adjustments_parameters() != null){
-            activityUserSearchResult_tv_council_adjustment_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getCouncil_adjustments_parameters()))));
+            activityUserSearchResult_tv_council_adjustment_value.setText(mSearchPropertyModel.getAssessment().getCouncil_adjustments_parameters());
         }else{
             activityUserSearchResult_tv_council_adjustment_value.setText("");
         }
@@ -504,12 +509,12 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
 
 
         try {
-            activityUserSearchResult_tv_discount_applicable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getDiscounted_value_new()))));
+            activityUserSearchResult_tv_discount_applicable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getDiscounted_value()))));
         } catch (Exception ignored) {
 
         }
         try {
-            activityUserSearchResult_tv_rate_payable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getRate_payable_new()))));
+            activityUserSearchResult_tv_rate_payable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getRate_payable()))));
 
         } catch (Exception ignored) {
 

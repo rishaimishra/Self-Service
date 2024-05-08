@@ -822,7 +822,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                                 dataModel = new Gson().fromJson(mJsonResponse.getJSONObject("property").getJSONObject("assessment").toString()
                                         , Assessment.class);
 
-                                activityUserSearchResult_tv_assesment_year.setText("Assessed Value 2022");
+                                activityUserSearchResult_tv_assesment_year.setText("Assessed Value "+dataModel.getAssessmentYear());
                                 activityUserSearchResult_tv_assesment_year_value.setText(dataModel.getProperty_net_assessed_value());
 
                                 //activityUserSearchResult_tv_discount_applicable_value.setText(dataModel.getDiscounted_value_new());
@@ -844,7 +844,15 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                                 Helper.DISCOUNT_APPLICABLE = dataModel.getRate_payable();
                                 Helper.RATE_PAYABLE = dataModel.getRate_payable();
 
-                                activityUserSearchResult_tv_discount_rate_payable_value.setText(StringUtils.AmountWithComma(dataModel.getDiscounted_rate_payable_2022()));
+                                String discRatePayable="0.00";
+                                if (dataModel.getRate_payable() != null &&
+                                        dataModel.getPensionerDiscount()!=null &&
+                                        dataModel.getDisabilityDiscount()!=null){
+                                    discRatePayable = CommonUtils.calculateDiscountRatePayable(dataModel.getRate_payable(),
+                                            dataModel.getPensionerDiscount(),
+                                            dataModel.getDisabilityDiscount());
+                                }
+                                activityUserSearchResult_tv_discount_rate_payable_value.setText(discRatePayable);
 
                                 //activityUserSearchResult_tv_council_adjustment_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getCouncil_adjustments_parameters()))));
                                 if(dataModel.getCouncil_adjustments_parameters()!=null)

@@ -419,5 +419,9 @@ public class CommonUtils {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 
+    public static String calculateDiscountRatePayable(String ratePayable, String pensionerDiscount, String disabilityDiscount){
+
+        return String.format("%.2f",(Double.parseDouble(ratePayable) - Double.parseDouble(pensionerDiscount) - Double.parseDouble(disabilityDiscount)));
+    }
 
 }

@@ -65,7 +65,7 @@ public class AssessmentHistoryAdapter extends RecyclerView.Adapter<AssessmentHis
         }
 
         try {
-            holder.tv_council_adjustment_params.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mAssessmentHistory.getCounsilAdjustment()))));
+            holder.tv_council_adjustment_params.setText(mAssessmentHistory.getCounsilAdjustment());
         } catch (Exception ex) {
             ex.printStackTrace();
         }

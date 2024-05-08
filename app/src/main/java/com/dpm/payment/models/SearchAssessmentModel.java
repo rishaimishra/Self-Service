@@ -197,6 +197,23 @@ public class SearchAssessmentModel {
     @Expose
     private AssessmentSwimming swimming;
 
+    @SerializedName("pensioner_discount")
+    @Expose
+    private String pensioner_discount;
+
+
+
+    @SerializedName("disability_discount")
+    @Expose
+    private String disability_discount;
+
+    public String getPensioner_discount() {
+        return pensioner_discount;
+    }
+
+    public String getDisability_discount() {
+        return disability_discount;
+    }
 
     public String getNew_balance_due() {
         return new_balance_due;
