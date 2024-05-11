@@ -686,7 +686,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen10dp"
             android:layout_marginTop="@dimen/dimen16dp"
-            android:entries="@array/payment_year"
             android:padding="@dimen/dimen10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight=".50"

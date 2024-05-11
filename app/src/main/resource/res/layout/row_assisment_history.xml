@@ -15,10 +15,9 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/txt_assessment_year"
+            android:id="@+id/txtAssessmentYear"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:text="Assessed Value 2022"
             android:textColor="@color/navy_blue"
@@ -30,7 +29,6 @@
             android:id="@+id/tvAssessmentYearValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:gravity="end"
             android:text=""
@@ -48,7 +46,6 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:text="Council Adjustment"
             android:textColor="@color/navy_blue"
@@ -56,10 +53,9 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_council_adjustment_params"
+            android:id="@+id/tvCouncilAdjustmentParams"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:gravity="end"
             android:text=""
@@ -77,7 +73,6 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:text="Net Assessed Value"
             android:textColor="@color/navy_blue"
@@ -85,10 +80,9 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_net_assessed_value"
+            android:id="@+id/tvNetAssessedValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:gravity="end"
             android:text=""
@@ -106,7 +100,6 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:text="Rate Payable"
             android:textColor="@color/navy_blue"
@@ -114,10 +107,9 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_rate_payable_2022"
+            android:id="@+id/tvRatePayable"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:gravity="end"
             android:text=""
@@ -135,7 +127,6 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:text="Discount(s) Applicable"
             android:textColor="@color/navy_blue"
@@ -143,10 +134,9 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_discount_applicable"
+            android:id="@+id/tvDiscountApplicable"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:gravity="end"
             android:text=""
@@ -164,7 +154,6 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:text="Discounted Rate Payable"
             android:textColor="@color/navy_blue"
@@ -172,10 +161,9 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_discounted_rate_payable"
+            android:id="@+id/tvDiscountedRatePayable"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:gravity="end"
             android:text=""
@@ -194,7 +182,6 @@
             android:id="@+id/activityDetailsAssesmentHistory_tv_arrear"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:text="@string/assessment_amount"
             android:textColor="@color/navy_blue"
@@ -205,7 +192,6 @@
             android:id="@+id/AssessmentAmount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:gravity="end"
             android:text=""
@@ -226,7 +212,6 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:text="Rate Payable 2022"
             android:textColor="@color/navy_blue"
@@ -237,7 +222,6 @@
             android:id="@+id/tv_rate_payable"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:gravity="end"
             android:text=""
@@ -256,7 +240,6 @@
             android:id="@+id/txtArrearValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:text="Arrears Due"
             android:textColor="@color/navy_blue"
@@ -267,7 +250,6 @@
             android:id="@+id/tvArrearValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:gravity="end"
             android:text=""
@@ -286,7 +268,6 @@
             android:id="@+id/txtPenalty"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
 
             android:layout_weight="1"
             android:text="@string/penalty"
@@ -298,7 +279,6 @@
             android:id="@+id/tvPenaltyValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:gravity="end"
             android:text=""
@@ -317,7 +297,6 @@
             android:id="@+id/txtAmountPaid"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:text="Amount Paid"
             android:textColor="@color/navy_blue"
@@ -328,7 +307,6 @@
             android:id="@+id/tvAmountPaid"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:gravity="end"
             android:text=""
@@ -347,7 +325,6 @@
             android:id="@+id/tv_due"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:text="Amount Due"
             android:textColor="@color/navy_blue"
@@ -358,7 +335,6 @@
             android:id="@+id/tvDueValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen10dp"
             android:layout_weight="1"
             android:gravity="end"
 

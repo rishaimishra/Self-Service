@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <!--<androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAssessmentHistory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,6 +16,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:itemCount="2"
-        tools:listitem="@layout/row_assisment_history"/>
-
+        tools:listitem="@layout/row_assisment_history"/>-->
+    <include layout="@layout/row_assisment_history"/>
 </LinearLayout>

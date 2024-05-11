@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -55,6 +56,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -270,7 +272,15 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
 
         spin_payment_type = findViewById(R.id.spin_payment_type);
         spin_payment_year = findViewById(R.id.spin_payment_year);
+        setSpinYear();
+    }
 
+    private void setSpinYear(){
+        ArrayList<String> mList = new ArrayList<>();
+        mList.add(String.valueOf( Calendar.getInstance().get(Calendar.YEAR)));
+        ArrayAdapter aa = new ArrayAdapter(mContext,android.R.layout.simple_spinner_item,mList);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spin_payment_year.setAdapter(aa);
 
     }
 
@@ -825,15 +835,14 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                                 activityUserSearchResult_tv_assesment_year.setText("Assessed Value "+dataModel.getAssessmentYear());
                                 activityUserSearchResult_tv_assesment_year_value.setText(dataModel.getProperty_net_assessed_value());
 
-                                //activityUserSearchResult_tv_discount_applicable_value.setText(dataModel.getDiscounted_value_new());
-                                if(dataModel.getDiscounted_value_new()!=null)
-                                activityUserSearchResult_tv_discount_applicable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getDiscounted_value_new()))));
+                                if(dataModel.getDiscounted_value()!=null)
+                                activityUserSearchResult_tv_discount_applicable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getDiscounted_value()))));
 
                                 // activityUserSearchResult_tv_rate_payable_value.setText(dataModel.getRate_payable_new());
 
 
                                 try {
-                                    activityUserSearchResult_tv_rate_payable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getRate_payable_new()))));
+                                    activityUserSearchResult_tv_rate_payable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getRate_payable()))));
 
                                 } catch (Exception ignored) {
 
@@ -852,7 +861,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                                             dataModel.getPensionerDiscount(),
                                             dataModel.getDisabilityDiscount());
                                 }
-                                activityUserSearchResult_tv_discount_rate_payable_value.setText(discRatePayable);
+                                activityUserSearchResult_tv_discount_rate_payable_value.setText(StringUtils.AmountWithComma(discRatePayable));
 
                                 //activityUserSearchResult_tv_council_adjustment_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getCouncil_adjustments_parameters()))));
                                 if(dataModel.getCouncil_adjustments_parameters()!=null)
@@ -951,19 +960,22 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
         activityMain_view_search.setVisibility(View.VISIBLE);
 
         try {
-
             if (searchResponseModel.getProperty().getIsOrganization()) {
-                activityUserSearchResult_tv_name.setText("" + searchResponseModel.getProperty().getOrganizationName());
+                String mOrganizationName = ((searchResponseModel.getProperty().getOrganizationName() == null) ? "" : "" + searchResponseModel.getProperty().getOrganizationName());
+                activityUserSearchResult_tv_name.setText("" + mOrganizationName);
             } else {
-                activityUserSearchResult_tv_name.setText("" + searchResponseModel.getProperty().getLandlord().getTitles().getLabel() + " " + searchResponseModel.getProperty().getLandlord().getFirstName() + " " + searchResponseModel.getProperty().getLandlord().getMiddleName() + " " + searchResponseModel.getProperty().getLandlord().getSurname());
+                String title = ((searchResponseModel.getProperty().getLandlord().getTitles().getLabel() == null) ? "" : searchResponseModel.getProperty().getLandlord().getTitles().getLabel());
+                String mFirstName = ((searchResponseModel.getProperty().getLandlord().getFirstName() == null) ? "" : searchResponseModel.getProperty().getLandlord().getFirstName());
+                String lastName = ((searchResponseModel.getProperty().getLandlord().getMiddleName() == null) ? "" : searchResponseModel.getProperty().getLandlord().getMiddleName());
+                String surName = ((searchResponseModel.getProperty().getLandlord().getSurname() == null) ? "" : searchResponseModel.getProperty().getLandlord().getSurname());
+                activityUserSearchResult_tv_name.setText(title + " " + mFirstName + " " + lastName + " " + surName);
             }
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
 
-        activityUserSearchResult_tv_assesment_year.setText("Assessed Value 2022");
+        activityUserSearchResult_tv_assesment_year.setText("Assessed Value "+searchResponseModel.getProperty().getAssessment().getAssessmentYear());
         activityUserSearchResult_tv_assesment_year_value.setText("" + StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getCurrentYearAssessmentAmount()))));
         activityUserSearchResult_tv_arrear_value.setText("" + StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getArrearDue()))));
         activityUserSearchResult_tv_penalty_value.setText("" + StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getPenalty()))));
@@ -974,9 +986,9 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
         try {
             String mBalance = "";
             if (searchResponseModel.getProperty().getAssessment().getBalance().contains("E")) {
-                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getNew_balance_due())));
+                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getBalance())));
             } else {
-                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue(searchResponseModel.getProperty().getAssessment().getNew_balance_due()));
+                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue(searchResponseModel.getProperty().getAssessment().getBalance()));
             }
 
             balanceDue = searchResponseModel.getProperty().getAssessment().getNew_balance_due();

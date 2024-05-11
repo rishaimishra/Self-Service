@@ -421,7 +421,7 @@ public class CommonUtils {
 
     public static String calculateDiscountRatePayable(String ratePayable, String pensionerDiscount, String disabilityDiscount){
 
-        return String.format("%.2f",(Double.parseDouble(ratePayable) - Double.parseDouble(pensionerDiscount) - Double.parseDouble(disabilityDiscount)));
+        return String.valueOf((int)(Double.parseDouble(ratePayable) - Double.parseDouble(pensionerDiscount) - Double.parseDouble(disabilityDiscount)));
     }
 
 }

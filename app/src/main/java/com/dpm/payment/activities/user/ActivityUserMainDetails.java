@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -62,6 +63,7 @@ import com.dpm.payment.retrofit.Utills.PART;
 import com.dpm.payment.retrofit.interfaces.OnCallBackListner;
 import com.dpm.payment.utils.CommonUtils;
 import com.dpm.payment.utils.Constant;
+import com.dpm.payment.utils.Helper;
 import com.dpm.payment.utils.LogUtils;
 import com.dpm.payment.utils.PrefUtil;
 import com.dpm.payment.utils.StringUtils;
@@ -275,7 +277,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
             initCouncillorAdjustment();
             initGovernmentPolicy();
-            initAdjustedPayable();
+            //initAdjustedPayable();
 
             try {
                 if (JsonObject.optJSONArray("payments").length() > 0) {
@@ -484,7 +486,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
         tvPensionerDiscount = findViewById(R.id.tvPensionerDiscount);
         tvDisabilityDiscount = findViewById(R.id.tvDisabilityDiscount);
-        tvDiscountedRatePayable = findViewById(R.id.tvDiscountedRatePayable);
+        tvDiscountedRatePayable = findViewById(R.id.tvDiscountedRatePayable1);
 
 
         include_tv_rate_payable = findViewById(R.id.include_tv_rate_payable);
@@ -529,50 +531,68 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
     private void initAssessmentHistoryView() {
 
-        rvAssessmentHistory = findViewById(R.id.rvAssessmentHistory);
-        rvAssessmentHistory.setLayoutManager(new LinearLayoutManager(this));
-
-        DividerItemDecoration itemDecorator = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        itemDecorator.setDrawable(ContextCompat.getDrawable(mContext, R.drawable.divider));
-        rvAssessmentHistory.addItemDecoration(itemDecorator);
-
-        mAssessmentHistoryAdapter = new AssessmentHistoryAdapter(mListAssessmentHistory);
-        rvAssessmentHistory.setAdapter(mAssessmentHistoryAdapter);
-        rvAssessmentHistory.setFocusable(false);
 
     }
 
     private void viewAssessmentHistory(JSONObject mJsonObject) {
-
-        if (mListAssessmentHistory != null) {
-            mListAssessmentHistory.clear();
-        }
-
-        //----------------------------------------------------- get data form Assessment history -------------------------------------------------------------//
-
         try {
-            JSONArray mJAssessment_History = mJsonObject.getJSONArray("assessment_history");
+        TextView tvAssessmentYearValue = findViewById(R.id.tvAssessmentYearValue);
+        TextView  tvArrearValue = findViewById(R.id.tvArrearValue);
+        TextView  tvPenaltyValue1 = findViewById(R.id.tvPenaltyValue);
+        TextView  tvAmountPaid = findViewById(R.id.tvAmountPaid);
+        TextView txtAmountPaid = findViewById(R.id.txtAmountPaid);
+        TextView  tvDueValue = findViewById(R.id.tvDueValue);
+        TextView  tvDiscountedRatePayable = findViewById(R.id.tvDiscountedRatePayable);
+        TextView  txtAssessmentYear = findViewById(R.id.txtAssessmentYear);
+        TextView tvCouncilAdjustmentParams = findViewById(R.id.tvCouncilAdjustmentParams);
+        TextView tvRatePayable = findViewById(R.id.tvRatePayable);
+        TextView tvDiscountApplicable = findViewById(R.id.tvDiscountApplicable);
+        TextView tvNetAssessedValue = findViewById(R.id.tvNetAssessedValue);
+        SearchPropertyModel mSearchPropertyModel = (SearchPropertyModel) CommonUtils.getObjectFromJson(mJsonObject.toString(), SearchPropertyModel.class);
+        txtAssessmentYear.setText("Assessed Value "+mSearchPropertyModel.getAssessment().getAssessmentYear());
+        String discRatePayable="0.00";
+        if (mSearchPropertyModel.getAssessment().getRate_payable() != null &&
+                mSearchPropertyModel.getAssessment().getPensioner_discount()!=null &&
+                mSearchPropertyModel.getAssessment().getDisability_discount()!=null){
+            discRatePayable = CommonUtils.calculateDiscountRatePayable(mSearchPropertyModel.getAssessment().getRate_payable(),
+                    mSearchPropertyModel.getAssessment().getPensioner_discount(),
+                    mSearchPropertyModel.getAssessment().getDisability_discount());
+        }
+        tvDiscountedRatePayable.setText(StringUtils.AmountWithComma(discRatePayable));
 
-            for (int i = 0; i < mJAssessment_History.length(); i++) {
-                try {
-
-                    AssessmentHistory mlistAssessmentHistory = (AssessmentHistory) CommonUtils.getObjectFromJson(mJAssessment_History.get(i).toString(), AssessmentHistory.class);
-                    mListAssessmentHistory.add(mlistAssessmentHistory);
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        if (mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst() != null){
+            tvAssessmentYearValue.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst()))));
+        }else{
+            tvAssessmentYearValue.setText("");
         }
 
+        if (mSearchPropertyModel.getAssessment().getCouncil_adjustments_parameters() != null){
+            tvCouncilAdjustmentParams.setText(mSearchPropertyModel.getAssessment().getCouncil_adjustments_parameters());
+        }else{
+            tvCouncilAdjustmentParams.setText("");
+        }
+        if (mSearchPropertyModel.getAssessment().getProperty_net_assessed_vaue() != null){
+            tvNetAssessedValue.setText(mSearchPropertyModel.getAssessment().getProperty_net_assessed_vaue());
+        }else{
+            tvNetAssessedValue.setText("");
+        }
+        tvDiscountApplicable.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getDiscounted_value()))));
+        tvRatePayable.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getRate_payable()))));
+        tvArrearValue.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getArrearDue()))));
+        tvPenaltyValue1.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getPenalty()))));
+        txtAmountPaid.setText("Amount Paid (" + mSearchPropertyModel.getAssessment().getAssessmentYear() + ")");
+        tvAmountPaid.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getAmountPaid()))));
+        String mBalance = "";
+        if (mSearchPropertyModel.getAssessment().getBalance().contains("E")) {
+            mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getBalance())));
+        } else {
+            mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue(mSearchPropertyModel.getAssessment().getBalance()));
+        }
 
-        //-----------------------------------------------------------------------------------------------------------------------------------------------------//
+        tvDueValue.setText("" + mBalance);
+        } catch (Exception ignored) {
 
-
-        mAssessmentHistoryAdapter.notifyDataSetChanged();
+        }
 
     }
 
@@ -718,7 +738,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         councillor_list.add(new DataModel("Council_Group/Category", dataItem.getAssessment().getGroupName() + ""));
         councillor_list.add(new DataModel("Mill_Rate", dataItem.getAssessment().getMillRate() + ""));
 
-        councillor_list.add(new DataModel("RATE PAYABLE 2022",   StringUtils.AmountWithComma(StringUtils.roundStringValue(dataItem.getAssessment().getRate_payable()))));
+        councillor_list.add(new DataModel("RATE PAYABLE "+dataItem.getAssessment().getAssessmentYear(),   StringUtils.AmountWithComma(StringUtils.roundStringValue(dataItem.getAssessment().getRate_payable()))));
 
         DataViewAdapter adapter = new DataViewAdapter(councillor_list);
         rv_government_policy.setAdapter(adapter);
@@ -733,10 +753,10 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         String value = discounted_value_Hashmap.get(dataItem.getAssessment().getPropertyId().toString());
 
         List<DataModel> councillor_list = new ArrayList<>();
-        councillor_list.add(new DataModel("discounted rate payable 2022", value != null ? StringUtils.AmountWithComma(StringUtils.roundStringValue(value)) : ""));
+        councillor_list.add(new DataModel("discounted rate payable "+dataItem.getAssessment().getAssessmentYear(), value != null ? StringUtils.AmountWithComma(StringUtils.roundStringValue(value)) : ""));
         DataViewAdapter adapter = new DataViewAdapter(councillor_list);
 
-        tvDiscountedRatePayable.setText(value != null ? StringUtils.AmountWithComma(StringUtils.roundStringValue(value)) : "");
+        tvDiscountedRatePayable.setText(value != null ? StringUtils.AmountWithComma(StringUtils.roundStringValue(dataItem.getAssessment().getDiscounted_value())) : "");
 
        // rvRatePayable.setAdapter(adapter);
     }
@@ -1309,10 +1329,13 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
                  tvPensionerDiscount.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(assessmentObject.optString("pensioner_discount")))));
                 tvDisabilityDiscount.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(assessmentObject.optString("disability_discount")))));
-
-
-
+                TextView tvDiscountedRatePayableText = findViewById(R.id.tvDiscountedRatePayableText);
                 SearchAssessmentModel assessmentModel = (SearchAssessmentModel) CommonUtils.getObjectFromJson(assessmentObject.toString().trim(), SearchAssessmentModel.class);
+                tvDiscountedRatePayableText.setText("DISCOUNTED RATE PAYABLE "+assessmentModel.getAssessmentYear());
+                if(!TextUtils.isEmpty(assessmentModel.getDiscounted_value())) {
+                    String val = String.valueOf((int)Double.parseDouble(assessmentModel.getDiscounted_value()));
+                    tvDiscountedRatePayable.setText(StringUtils.AmountWithComma(val));
+                }
                 List<String> propertyImages = new ArrayList<>();
                 // propertyImages.add(assessmentModel.getAssessmentImages1());
                 // propertyImages.add(assessmentModel.getAssessmentImages2());

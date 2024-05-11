@@ -37,8 +37,8 @@ public class Assessment {
     @SerializedName("rate_payable_new")
     private String rate_payable_new;
 
-    @SerializedName("discounted_value_new")
-    private String discounted_value_new;
+    @SerializedName("discounted_value")
+    private String discounted_value;
 
     @SerializedName("property_net_assessed_vaue")
     private String property_net_assessed_value;
@@ -304,12 +304,12 @@ public class Assessment {
         this.rate_payable_new = rate_payable_new;
     }
 
-    public String getDiscounted_value_new() {
-        return discounted_value_new;
+    public String getDiscounted_value() {
+        return discounted_value;
     }
 
-    public void setDiscounted_value_new(String discounted_value_new) {
-        this.discounted_value_new = discounted_value_new;
+    public void setDiscounted_value(String discounted_value) {
+        this.discounted_value = discounted_value;
     }
 
     public void setProperty_net_assessed_value(String property_net_assessed_value) {

@@ -244,14 +244,14 @@ public class AssessmentHistoryAdapter extends RecyclerView.Adapter<AssessmentHis
             tvPenaltyValue = view.findViewById(R.id.tvPenaltyValue);
             tvAmountPaid = view.findViewById(R.id.tvAmountPaid);
             tvDueValue = view.findViewById(R.id.tvDueValue);
-            tv_discounted_rate_payable = view.findViewById(R.id.tv_discounted_rate_payable);
+            tv_discounted_rate_payable = view.findViewById(R.id.tvDiscountedRatePayable);
 
 
-            txt_assessment_year = view.findViewById(R.id.txt_assessment_year);
-            tv_council_adjustment_params = view.findViewById(R.id.tv_council_adjustment_params);
-            tv_rate_payable_2022 = view.findViewById(R.id.tv_rate_payable_2022);
-            tv_discount_applicable = view.findViewById(R.id.tv_discount_applicable);
-            tv_net_assessed_value = view.findViewById(R.id.tv_net_assessed_value);
+            txt_assessment_year = view.findViewById(R.id.txtAssessmentYear);
+            tv_council_adjustment_params = view.findViewById(R.id.tvCouncilAdjustmentParams);
+            tv_rate_payable_2022 = view.findViewById(R.id.tvRatePayable);
+            tv_discount_applicable = view.findViewById(R.id.tvDiscountApplicable);
+            tv_net_assessed_value = view.findViewById(R.id.tvNetAssessedValue);
         /*    tv_assessed_value = view.findViewById(R.id.tv_assessed_value);
             tv_discount_applicable = view.findViewById(R.id.tv_discount_applicable);*/
             //   tv_rate_payable = view.findViewById(R.id.tv_rate_payable);

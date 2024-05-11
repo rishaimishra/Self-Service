@@ -487,7 +487,7 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
                     mSearchPropertyModel.getAssessment().getPensioner_discount(),
                     mSearchPropertyModel.getAssessment().getDisability_discount());
         }
-        activityUserSearchResult_tv_discount_rate_payable_value.setText(discRatePayable);
+        activityUserSearchResult_tv_discount_rate_payable_value.setText(StringUtils.AmountWithComma(discRatePayable));
 
         if (mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst() != null){
             activityUserSearchResult_tv_assesment_year_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst()))));
@@ -533,9 +533,9 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
         try {
             String mBalance = "";
             if (mSearchPropertyModel.getAssessment().getBalance().contains("E")) {
-                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getNew_balance_due())));
+                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getBalance())));
             } else {
-                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue(mSearchPropertyModel.getAssessment().getNew_balance_due()));
+                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue(mSearchPropertyModel.getAssessment().getBalance()));
             }
 
             activityUserSearchResult_tv_balance_value.setText("" + mBalance);
