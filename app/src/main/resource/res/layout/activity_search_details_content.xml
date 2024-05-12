@@ -307,7 +307,7 @@
                 android:layout_marginTop="@dimen/margin_between_text5dp"
                 android:background="@drawable/square_corner_solid_grey"
                 android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
-                android:text="@string/assessment_transactions"
+                android:text="@string/payment_details"
                 android:textAllCaps="true"
                 android:textColor="@color/colorBlack"
                 android:textStyle="bold"
@@ -365,7 +365,7 @@
 
             <include
                 android:id="@+id/include_tv_cashier_receipt"
-                layout="@layout/activity_search_details_cashier_receipt"
+                layout="@layout/layout_receipt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"

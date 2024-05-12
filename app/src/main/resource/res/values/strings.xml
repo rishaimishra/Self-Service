@@ -266,7 +266,7 @@
     <string name="cashier_name">Cashier Name</string>
     <string name="tran_id">Transaction ID</string>
     <string name="assessment_transactions">Transaction Details</string>
-
+    <string name="payment_details">Payment Details</string>
     <string name="payment_option_list">Payment Options</string>
 
     <string name="europay_visa_mastercard"><![CDATA[Europay Visa & Mastercard]]></string>
@@ -389,4 +389,5 @@
     <string name="loading_please_wait">Loading Please Wait ...</string>
     <string name="registering_please_wait">Registering Please Wait ...</string>
     <string name="logging_in_please_wait">Logging in Please Wait ...</string>
+    <string name="download_receipt">Download Receipt</string>
 </resources>

@@ -27,6 +27,7 @@ public class ConstantData {
     public static final String TAG_REQUEST_DISTRICT_NAME = "req_district_name";
 
     public static final String GUEST_INFO="guest_info";
+    public static final String TAG_LAND_LORD_RECEIPT = "req_district_name";
 
 
 }
