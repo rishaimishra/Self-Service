@@ -70,7 +70,6 @@ public class CepCouncilFragment extends Fragment{
 
         AppCompatImageView ivProfile = view.findViewById(R.id.ivProfile);
         AppCompatImageView ivNotification = view.findViewById(R.id.ivNotification);
-        ivProfile.setVisibility(View.GONE);
         ivHome.setOnClickListener(v -> {
             ((ActivityCep)requireActivity()).onBackPressed();
         });

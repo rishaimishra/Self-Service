@@ -365,7 +365,7 @@
 
             <include
                 android:id="@+id/include_tv_cashier_receipt"
-                layout="@layout/layout_receipt"
+                layout="@layout/activity_search_details_cashier_receipt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"

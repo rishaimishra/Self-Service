@@ -34,8 +34,8 @@ public interface RestApiUrl {
 
     String URL_GUEST_USER_LOGIN = BASE_URL + "/guest-user/login";
     String URL_GUEST_USER_REGISTER = BASE_URL + "/guest-user/register";
-
-    String URL_LANDLORD_RECEIPT = BASE_URL + "/landlord/current-pay/receipt";
+   // http://mrms.sigmaventuressl.com/apiv2/get-recipts/
+    String URL_LANDLORD_RECEIPT = BASE_URL + "/get-recipts/";
 //http://3.134.197.245/apiv2/landlord/payment/receipt/41839/2024
     String URL_DEMAND_NOTE = BASE_URL + "/landlord/payment/receipt/";
 }

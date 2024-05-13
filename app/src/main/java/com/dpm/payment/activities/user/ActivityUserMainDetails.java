@@ -106,6 +106,7 @@ import static com.dpm.payment.utils.Helper.taxable_value_Hashmap;
 import static com.dpm.payment.utils.RestApiUrl.URL_CASHIER_LANDLORD_EDIT_PROFILE;
 import static com.dpm.payment.utils.RestApiUrl.URL_LANDLORD_EDIT_PROFILE;
 import static com.dpm.payment.utils.RestApiUrl.URL_LANDLORD_PROPERTY_APPROVE;
+import static com.dpm.payment.utils.RestApiUrl.URL_LANDLORD_RECEIPT;
 import static com.dpm.payment.utils.StringUtils.getAppendListDataWithSpacialCharacter;
 
 //// landlord login
@@ -250,7 +251,6 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
     String OccupancyType = "";
 
     SearchOccupancyModel occupancyModel;
-    private Button btnDownloadReceipt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -357,7 +357,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
             e.printStackTrace();
         }
 
-        //getReceipt();
+        getReceipt();
 
     }
 
@@ -519,7 +519,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         activitySearchDetails_tv_demand_note = findViewById(R.id.activitySearchDetails_tv_demand_note);
         spnrDemandNoteYear= findViewById(R.id.spnrDemandNoteYear);
         include_search_details_demand_note = findViewById(R.id.include_search_details_demand_note);
-        btnDownloadReceipt = findViewById(R.id.btnDownloadReceipt);
+
         tvDownloadDemandNote = findViewById(R.id.tvDownloadDemandNote);
         initAssessmentHistoryView();
         initLandlordView();
@@ -1282,7 +1282,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
                 DataModel model22 = new DataModel();
                 model22.setKey("Tenant Title");
-                model22.setValue(occupancyModel.getTitles().getLabel());
+                model22.setValue(landlordModel.getTitles().getLabel());
                 listOccupancy.add(model22);
 
 
@@ -1758,7 +1758,6 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         activitySearchDetails_tv_government_policy.setOnClickListener(this);
         // Demand Note
         activitySearchDetails_tv_demand_note.setOnClickListener(this);
-        btnDownloadReceipt.setOnClickListener(this);
         tvDownloadDemandNote.setOnClickListener(this);
     }
 
@@ -2008,9 +2007,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                 }
 
                 break;
-            case R.id.btnDownloadReceipt:
-                getReceipt();
-                break;
+
 
             case R.id.btn_edit_occupancy_details:
                 initOccupancyDialog();
@@ -2884,44 +2881,8 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
     private ProgressDialog progressDialog;
     // FIXME: 16-05-2022
    public void getReceipt(){
-       LandlordResponseModel mLandlordUserModel;
-       mLandlordUserModel = PrefUtil.getLandlordProfile(mContext);
-       HashMap<String, String> headers = new HashMap<>();
-       headers.put("Accept", "application/json");
-       headers.put("Authorization", mLandlordUserModel.getAuth_type() + " " + mLandlordUserModel.getToken());
-
-
-       progressDialog = new ProgressDialog(mContext);
-       new RestApiRequestListener(this, TAG_LAND_LORD_RECEIPT, RestApiUrl.URL_LANDLORD_RECEIPT, headers, null, new RestApiRequestListener.setOnRequestListener() {
-           @Override
-           public void onPreExecute() {
-               progressDialog.setMessage("" + mContext.getResources().getString(R.string.loading_please_wait));
-               progressDialog.setCancelable(false);
-               progressDialog.show();
-           }
-
-           @Override
-           public void onSuccessListener(String response) {
-               if (progressDialog != null) {
-                   if (progressDialog.isShowing()) {
-                       progressDialog.dismiss();
-                   }
-               }
-               LandLordReceiptResponse mLandLordReceiptResponse = new Gson().fromJson(response,LandLordReceiptResponse.class);
-               if(!TextUtils.isEmpty(mLandLordReceiptResponse.getPdf_path())){
-                   checkStoragePermission(mLandLordReceiptResponse.getPdf_path());
-               }
-           }
-
-           @Override
-           public void onErrorListener(String errorMessage) {
-               if (progressDialog != null) {
-                   if (progressDialog.isShowing()) {
-                       progressDialog.dismiss();
-                   }
-               }
-           }
-       }).getRequest();
+       String url = URL_LANDLORD_RECEIPT+dataItem.getAssessment().getPropertyId();
+       apiRequest.callGetRequest(url,"getReceipt");
    }
 
     public void getOccupancyType() {

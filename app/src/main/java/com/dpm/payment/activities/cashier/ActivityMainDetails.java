@@ -97,6 +97,7 @@ import static com.dpm.payment.activities.user.ActivityMainUserProperty.KEY_PROPE
 import static com.dpm.payment.utils.ConstantData.TAG_LAND_LORD_RECEIPT;
 import static com.dpm.payment.utils.RestApiUrl.URL_CASHIER_LANDLORD_EDIT_PROFILE;
 import static com.dpm.payment.utils.RestApiUrl.URL_LANDLORD_PROPERTY_APPROVE;
+import static com.dpm.payment.utils.RestApiUrl.URL_LANDLORD_RECEIPT;
 import static com.dpm.payment.utils.StringUtils.getAppendListDataWithSpacialCharacter;
 
 // Cashier login
@@ -188,7 +189,6 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
     ArrayList<AssessmentHistory> mListAssessmentHistory = new ArrayList<>();
 
     AssessmentHistoryAdapter mAssessmentHistoryAdapter;
-    private Button btnDownloadReceipt;
     // FIXME: 20-09-2021
     Assessment dataItem;
 
@@ -277,7 +277,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
         try {
 
-            //getReceipt();
+            getReceipt();
 
             dataItem = new Gson().fromJson(getIntent().getStringExtra(KEY_PROPERTY_DETAILS + "1"), Assessment.class);
 
@@ -441,7 +441,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         include_councillor_adjustment = findViewById(R.id.include_councillor_adjustment);
         include_tv_council_discount = findViewById(R.id.include_tv_council_discount);
         include_tv_government_policy = findViewById(R.id.include_tv_government_policy);
-        btnDownloadReceipt = findViewById(R.id.btnDownloadReceipt);
+
 
         include_payment_details = findViewById(R.id.include_payment_details);
 
@@ -1662,7 +1662,6 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         activitySearchDetails_tv_council_discount.setOnClickListener(this);
         activitySearchDetails_tv_government_policy.setOnClickListener(this);
         activitySearchDetails_tv_demand_note.setOnClickListener(this);
-        btnDownloadReceipt.setOnClickListener(this);
         tvDownloadDemandNote.setOnClickListener(this);
     }
 
@@ -2303,9 +2302,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
                 }
 
                 break;
-            case R.id.btnDownloadReceipt:
-                getReceipt();
-                break;
+
 
 
 
@@ -2724,41 +2721,8 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
     private ProgressDialog progressDialog;
     public void getReceipt() {
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put("Accept", "application/json");
-        headers.put("Authorization", PrefUtil.getAuthType(mContext) + " " + PrefUtil.getToken(mContext));
-        progressDialog = new ProgressDialog(mContext);
-        new RestApiRequestListener(this, TAG_LAND_LORD_RECEIPT, RestApiUrl.URL_LANDLORD_RECEIPT, headers, null, new RestApiRequestListener.setOnRequestListener() {
-            @Override
-            public void onPreExecute() {
-                progressDialog.setMessage("" + mContext.getResources().getString(R.string.loading_please_wait));
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-            }
-
-            @Override
-            public void onSuccessListener(String response) {
-                if (progressDialog != null) {
-                    if (progressDialog.isShowing()) {
-                        progressDialog.dismiss();
-                    }
-                }
-                LandLordReceiptResponse mLandLordReceiptResponse = new Gson().fromJson(response,LandLordReceiptResponse.class);
-                if(!TextUtils.isEmpty(mLandLordReceiptResponse.getPdf_path())){
-                    checkStoragePermission(mLandLordReceiptResponse.getPdf_path());
-                }
-            }
-
-            @Override
-            public void onErrorListener(String errorMessage) {
-                if (progressDialog != null) {
-                    if (progressDialog.isShowing()) {
-                        progressDialog.dismiss();
-                    }
-                }
-            }
-        }).getRequest();
-
+        String url = URL_LANDLORD_RECEIPT + getIntent().getStringExtra("property_id");
+        apiRequest.callGetRequest(url, "getReceipt");
     }
 
     public void getOccupancyType() {
