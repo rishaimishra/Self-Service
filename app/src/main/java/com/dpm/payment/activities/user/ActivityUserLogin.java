@@ -18,6 +18,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatSpinner;
@@ -28,9 +30,11 @@ import com.dpm.payment.activities.cashier.ActivityCashierLogin;
 import com.dpm.payment.activities.cep.ActivityCep;
 import com.dpm.payment.activities.cep.NotificationFragment;
 import com.dpm.payment.activities.cep.ProfileFragment;
+import com.dpm.payment.activities.login.ActivityLogin;
 import com.dpm.payment.models.cep.CepDistrictNameResponse;
 import com.dpm.payment.models.cep.DistrictItem;
 import com.dpm.payment.utils.AlertDialogUtils;
+import com.dpm.payment.utils.CommonUtils;
 import com.dpm.payment.utils.DataUtils;
 import com.dpm.payment.utils.LogUtils;
 import com.dpm.payment.utils.PrefUtil;
@@ -78,6 +82,12 @@ public class ActivityUserLogin extends AppCompatActivity implements View.OnClick
         initializeListener();
 
     }
+
+    @Override
+    public void onBackPressed() {
+        CommonUtils.showLogoutDialog(this);
+    }
+
     @SuppressLint("SetTextI18n")
     private void initToolbar(){
         TextView tvTitle = findViewById(R.id.toolbar_tv_header);
@@ -381,8 +391,6 @@ public class ActivityUserLogin extends AppCompatActivity implements View.OnClick
                 }
             }
         }).getRequest();
-
-
     }
     private CepDistrictNameResponse mCepDistrictNameResponse;
     private void parseResponse(String response) {
@@ -398,5 +406,7 @@ public class ActivityUserLogin extends AppCompatActivity implements View.OnClick
             }
         }
     }
+
+
 
 }

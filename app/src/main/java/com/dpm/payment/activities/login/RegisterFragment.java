@@ -36,12 +36,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dpm.payment.adapters.TimeAdapter;
 import com.dpm.payment.interfaces.OnItemClickListener;
 import com.dpm.payment.models.cep.GuestUserResponse;
+import com.dpm.payment.models.cep.RegisterErrorResponse;
 import com.dpm.payment.models.cep.RegisterResponse;
 import com.dpm.payment.models.cep.TimeModel;
 import com.dpm.payment.utils.PrefUtil;
 import com.dpm.payment.utils.RestApiRequestListener;
 import com.dpm.payment.utils.RestApiUrl;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.hbb20.CountryCodePicker;
 import com.payment.R;
 
@@ -202,11 +204,21 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     }
 
     private void parseRegisterResponse(String response) {
-        RegisterResponse mRegisterResponse = new Gson().fromJson(response, RegisterResponse.class);
-        if(mRegisterResponse!=null && mRegisterResponse.getSuccess()!=null){
-            ((ActivityLogin) requireActivity()).onBackPressed();
-        }else {
-            Toast.makeText(mContext,"Email already registered",Toast.LENGTH_LONG).show();
+        try {
+            RegisterResponse mRegisterResponse = new Gson().fromJson(response, RegisterResponse.class);
+            if(mRegisterResponse!=null && mRegisterResponse.getSuccess()!=null){
+                ((ActivityLogin) requireActivity()).onBackPressed();
+            }else{
+                Toast.makeText(mContext, "Username or Email Already Taken", Toast.LENGTH_LONG).show();
+            }
+        } catch (JsonSyntaxException e) {
+            RegisterErrorResponse mRegisterErrorResponse = new Gson().fromJson(response, RegisterErrorResponse.class);
+            if(mRegisterErrorResponse!=null && !mRegisterErrorResponse.getSuccess() &&
+                    !TextUtils.isEmpty(mRegisterErrorResponse.getMessage())){
+                Toast.makeText(mContext,mRegisterErrorResponse.getMessage(),Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(mContext, "Username or Email Already Taken", Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

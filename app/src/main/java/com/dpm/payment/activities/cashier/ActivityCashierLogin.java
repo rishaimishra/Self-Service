@@ -31,6 +31,7 @@ import com.dpm.payment.activities.user.ListPropertyUserActivity;
 import com.dpm.payment.models.cep.CepDistrictNameResponse;
 import com.dpm.payment.models.cep.DistrictItem;
 import com.dpm.payment.utils.AlertDialogUtils;
+import com.dpm.payment.utils.CommonUtils;
 import com.dpm.payment.utils.DataUtils;
 import com.dpm.payment.utils.LogUtils;
 import com.dpm.payment.utils.PrefUtil;
@@ -86,6 +87,12 @@ public class ActivityCashierLogin extends AppCompatActivity implements View.OnCl
         mIntent.putExtra(WebViewPaymentRecipt.KEY_PAYMENT_RECEIPT, ReciptUrl);
         startActivity(mIntent);*/
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        CommonUtils.showLogoutDialog(this);
     }
 
     @Override

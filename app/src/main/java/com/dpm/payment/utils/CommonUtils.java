@@ -3,6 +3,7 @@ package com.dpm.payment.utils;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,6 +23,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.dpm.payment.activities.login.ActivityLogin;
 import com.google.gson.Gson;
 import com.payment.R;
 import com.squareup.picasso.Callback;
@@ -47,6 +49,9 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import static android.content.Context.WIFI_SERVICE;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class CommonUtils {
 
@@ -422,6 +427,50 @@ public class CommonUtils {
     public static String calculateDiscountRatePayable(String ratePayable, String pensionerDiscount, String disabilityDiscount){
 
         return String.valueOf((int)(Double.parseDouble(ratePayable) - Double.parseDouble(pensionerDiscount) - Double.parseDouble(disabilityDiscount)));
+    }
+
+
+    public  static void showLogoutDialog(AppCompatActivity activity)
+    {
+        try {
+            AlertDialog mAlertDialog;
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.AlertDialogTheme);
+            // Set a title for alert dialog
+            builder.setTitle("Alert?");
+
+            builder.setCancelable(false);
+
+            // Ask the final question
+            builder.setMessage("" + activity.getResources().getString(R.string.do_you_want_to_logout));
+
+            // Set the alert dialog yes button click listener
+            builder.setPositiveButton("OK", (dialog, which) -> {
+                // Do something when user clicked the Yes button
+                // Set the TextView visibility GONE
+                dialog.dismiss();
+
+                Intent i = new Intent(activity, ActivityLogin.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                activity.startActivity(i);
+                activity.finish();
+
+            });
+
+            // Set the alert dialog no button click listener
+            builder.setNegativeButton("Cancel", (dialog, which) -> {
+                // Do something when No button clicked
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            });
+
+            mAlertDialog = builder.create();
+            // Display the alert dialog on interface
+            mAlertDialog.show();
+        }catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
 }
