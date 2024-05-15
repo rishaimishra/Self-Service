@@ -128,7 +128,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
     TextView activitySearchDetails_tv_property_images, activitySearchDetails_tv_rate_payable, activitySearchDetails_tv_assessment_history, activitySearchDetails_tv_landlord_details, activitySearchDetails_tv_property_details, activitySearchDetails_tv_occupancy_details,
             activitySearchDetails_tv_assessment_details, activitySearchDetails_tv_geo_registry_details,
             activitySearchDetails_tv_councillor_adjustment, activitySearchDetails_tv_cashier_receipt, activitySearchDetails_tv_pensioner_receipt, activitySearchDetails_tv_disability_receipt,
-            activitySearchDetails_tv_council_discount, activitySearchDetails_tv_government_policy,tvPensionerDiscount,tvDisabilityDiscount,tvDiscountedRatePayable,
+            activitySearchDetails_tv_council_discount, activitySearchDetails_tv_government_policy,tvPensionerDiscount,tvDisabilityDiscount,tvDiscountedRatePayable1,
             activitySearchDetails_tv_demand_note,tvDownloadDemandNote;
 
 
@@ -491,7 +491,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
         tvPensionerDiscount = findViewById(R.id.tvPensionerDiscount);
         tvDisabilityDiscount = findViewById(R.id.tvDisabilityDiscount);
-        tvDiscountedRatePayable = findViewById(R.id.tvDiscountedRatePayable1);
+        tvDiscountedRatePayable1 = findViewById(R.id.tvDiscountedRatePayable1);
 
 
         include_tv_rate_payable = findViewById(R.id.include_tv_rate_payable);
@@ -554,7 +554,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         TextView tvNetAssessedValue = findViewById(R.id.tvNetAssessedValue);
         SearchPropertyModel mSearchPropertyModel = (SearchPropertyModel) CommonUtils.getObjectFromJson(mJsonObject.toString(), SearchPropertyModel.class);
         txtAssessmentYear.setText("Assessed Value "+mSearchPropertyModel.getAssessment().getAssessmentYear());
-        String discRatePayable="0.00";
+        String discRatePayable="0";
         if (mSearchPropertyModel.getAssessment().getRate_payable() != null &&
                 mSearchPropertyModel.getAssessment().getPensioner_discount()!=null &&
                 mSearchPropertyModel.getAssessment().getDisability_discount()!=null){
@@ -562,7 +562,12 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                     mSearchPropertyModel.getAssessment().getPensioner_discount(),
                     mSearchPropertyModel.getAssessment().getDisability_discount());
         }
-        tvDiscountedRatePayable.setText(StringUtils.AmountWithComma(discRatePayable));
+            discRatePayable =StringUtils.AmountWithComma(discRatePayable);
+        tvDiscountedRatePayable.setText(discRatePayable);
+        TextView tvDiscountedRatePayableText = findViewById(R.id.tvDiscountedRatePayableText);
+        tvDiscountedRatePayable1.setText(discRatePayable);
+        tvDiscountedRatePayableText.setText("DISCOUNTED RATE PAYABLE "+mSearchPropertyModel.getAssessment().getAssessmentYear());
+
 
         if (mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst() != null){
             tvAssessmentYearValue.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst()))));
@@ -760,7 +765,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         councillor_list.add(new DataModel("discounted rate payable "+dataItem.getAssessment().getAssessmentYear(), value != null ? StringUtils.AmountWithComma(StringUtils.roundStringValue(value)) : ""));
         DataViewAdapter adapter = new DataViewAdapter(councillor_list);
 
-        tvDiscountedRatePayable.setText(value != null ? StringUtils.AmountWithComma(StringUtils.roundStringValue(dataItem.getAssessment().getDiscounted_value())) : "");
+       // tvDiscountedRatePayable.setText(value != null ? StringUtils.AmountWithComma(StringUtils.roundStringValue(dataItem.getAssessment().getDiscounted_value())) : "");
 
        // rvRatePayable.setAdapter(adapter);
     }
@@ -1333,13 +1338,8 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
                  tvPensionerDiscount.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(assessmentObject.optString("pensioner_discount")))));
                 tvDisabilityDiscount.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(assessmentObject.optString("disability_discount")))));
-                TextView tvDiscountedRatePayableText = findViewById(R.id.tvDiscountedRatePayableText);
                 SearchAssessmentModel assessmentModel = (SearchAssessmentModel) CommonUtils.getObjectFromJson(assessmentObject.toString().trim(), SearchAssessmentModel.class);
-                tvDiscountedRatePayableText.setText("DISCOUNTED RATE PAYABLE "+assessmentModel.getAssessmentYear());
-                if(!TextUtils.isEmpty(assessmentModel.getDiscounted_value())) {
-                    String val = String.valueOf((int)Double.parseDouble(assessmentModel.getDiscounted_value()));
-                    tvDiscountedRatePayable.setText(StringUtils.AmountWithComma(val));
-                }
+
                 List<String> propertyImages = new ArrayList<>();
                 // propertyImages.add(assessmentModel.getAssessmentImages1());
                 // propertyImages.add(assessmentModel.getAssessmentImages2());

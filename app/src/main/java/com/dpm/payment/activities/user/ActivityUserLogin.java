@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -182,6 +184,7 @@ public class ActivityUserLogin extends AppCompatActivity implements View.OnClick
                 finish();
                 break;
             case R.id.btCheckIn:
+                showCepInfoDialog();
                 reqDistrict();
                 break;
         }
@@ -318,11 +321,12 @@ public class ActivityUserLogin extends AppCompatActivity implements View.OnClick
 
 
 
-    private void showCepInfoDialog(List<String> mList){
+    private void showCepInfoDialog(){
         dialog =  new Dialog(this);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         dialog.getWindow().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int width = displayMetrics.widthPixels;
+        // requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_cep_info);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.getWindow().setLayout((int)(width/1.2), FrameLayout.LayoutParams.WRAP_CONTENT);
@@ -330,11 +334,35 @@ public class ActivityUserLogin extends AppCompatActivity implements View.OnClick
 
         MaterialTextView btnCancel = dialog.findViewById(R.id.btnCancel);
         MaterialTextView  btnContinue = dialog.findViewById(R.id.btnContinue);
-        AppCompatSpinner spnrDistrict = dialog.findViewById(R.id.spnrDistrict);
+
         CheckBox chkboxSetDefault = dialog.findViewById(R.id.chkboxSetDefault);
-        ArrayAdapter aa = new ArrayAdapter(mContext,R.layout.adapter_text_1,mList);
-        aa.setDropDownViewResource(R.layout.adapter_text_1);
-        spnrDistrict.setAdapter(aa);
+        EditText etSelectArea = dialog.findViewById(R.id.etSelectArea);
+        AppCompatSpinner spnrDistrict = dialog.findViewById(R.id.spnrDistrict);
+
+        etSelectArea.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().trim().isEmpty()){
+                    if(mCepDistrictNameResponse.getResult()==null ||
+                            mCepDistrictNameResponse.getResult().size()==0) {
+                        reqDistrict();
+                    }
+                    return;
+                }
+                if(s.toString().length()>=3)
+                    runOnUiThread(() -> reqDistrictByArea(s.toString()));
+            }
+        });
 
         btnCancel.setOnClickListener(v -> dialog.dismiss());
 
@@ -351,8 +379,6 @@ public class ActivityUserLogin extends AppCompatActivity implements View.OnClick
             showProfileOrNotification("cep",position);
         });
 
-        dialog.show();
-
     }
     private void showProfileOrNotification(String type, int position){
         Intent mIntent = new Intent(mContext, ActivityCep.class);
@@ -365,46 +391,64 @@ public class ActivityUserLogin extends AppCompatActivity implements View.OnClick
     }
 
     public void reqDistrict() {
-        progressDialog = new ProgressDialog(mContext);
         new RestApiRequestListener(this, TAG_REQUEST_DISTRICT_NAME, RestApiUrl.URL_CEP_DISTRICT_DETAILS, getHeader(), null, new RestApiRequestListener.setOnRequestListener() {
             @Override
             public void onPreExecute() {
-                progressDialog.setMessage(""+mContext.getResources().getString(R.string.loading_please_wait));
-                progressDialog.setCancelable(false);
-                progressDialog.show();
+
             }
             @Override
             public void onSuccessListener(String response) {
-                if (progressDialog != null) {
-                    if (progressDialog.isShowing()) {
-                        progressDialog.dismiss();
-                    }
-                }
+
                 parseResponse(response);
             }
             @Override
             public void onErrorListener(String errorMessage) {
-                if (progressDialog != null) {
-                    if (progressDialog.isShowing()) {
-                        progressDialog.dismiss();
-                    }
-                }
+
             }
         }).getRequest();
     }
     private CepDistrictNameResponse mCepDistrictNameResponse;
     private void parseResponse(String response) {
         mCepDistrictNameResponse = new Gson().fromJson(response,CepDistrictNameResponse.class);
-        if(mCepDistrictNameResponse.isSuccess() && mCepDistrictNameResponse.getCode()==200){
-            if(mCepDistrictNameResponse.getResult().size()>0){
-                List<String> mList = new ArrayList<>();
-                mList.add("Select Council");
-                for(int i=0; i<mCepDistrictNameResponse.getResult().size();i++){
-                    mList.add(StringUtils.capitalizeEachWord(mCepDistrictNameResponse.getResult().get(i).getCouncilName()));
-                }
-                showCepInfoDialog(mList);
+        List<String> mList = new ArrayList<>();
+        mList.add("Select Council");
+        if(mCepDistrictNameResponse.getResult().size()>0){
+            for(int i=0; i<mCepDistrictNameResponse.getResult().size();i++){
+                mList.add(StringUtils.capitalizeEachWord(mCepDistrictNameResponse.getResult().get(i).getCouncilName()));
+            }
+            if(!dialog.isShowing()){
+                dialog.show();
             }
         }
+        setSpinnerAdapter(mList);
+    }
+
+    private void setSpinnerAdapter(List<String> mList){
+        AppCompatSpinner spnrDistrict = dialog.findViewById(R.id.spnrDistrict);
+        ArrayAdapter aa = new ArrayAdapter(mContext,R.layout.adapter_text_1,mList);
+        aa.setDropDownViewResource(R.layout.adapter_text_1);
+        spnrDistrict.setAdapter(aa);
+    }
+
+    public void reqDistrictByArea(String searchStr) {
+        Map<String, String> req_params = new HashMap<>();
+        req_params.put("search", searchStr);
+        progressDialog = new ProgressDialog(mContext);
+        new RestApiRequestListener(this, TAG_REQUEST_DISTRICT_NAME,
+                RestApiUrl.URL_CEP_SEARCH_DISTRICT, getHeader(),
+                req_params, new RestApiRequestListener.setOnRequestListener() {
+            @Override
+            public void onPreExecute() {
+            }
+            @Override
+            public void onSuccessListener(String response) {
+                parseResponse(response);
+            }
+            @Override
+            public void onErrorListener(String errorMessage) {
+
+            }
+        }).request();
     }
 
 

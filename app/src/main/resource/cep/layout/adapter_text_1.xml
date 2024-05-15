@@ -9,5 +9,5 @@
     android:background="@color/white"
     android:text="@string/_8am_9am"
     android:textColor="@color/gray_text_color"
-    android:textSize="@dimen/textMedium14sp"
+    android:textSize="@dimen/dimen16sp"
     android:textStyle="bold" />

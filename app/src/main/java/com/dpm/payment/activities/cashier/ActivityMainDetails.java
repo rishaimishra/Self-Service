@@ -660,6 +660,8 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
             TextView tvRatePayable = findViewById(R.id.tvRatePayable);
             TextView tvDiscountApplicable = findViewById(R.id.tvDiscountApplicable);
             TextView tvNetAssessedValue = findViewById(R.id.tvNetAssessedValue);
+            TextView tvDiscountedRatePayableText = findViewById(R.id.tvDiscountedRatePayableText);
+            TextView tvDiscountedRatePayable1 = findViewById(R.id.tvDiscountedRatePayable1);
 
             Assessment mAssessment = (Assessment) CommonUtils.getObjectFromJson(mJsonObject.getJSONObject("property").getJSONObject("assessment").toString(), Assessment.class);
             txtAssessmentYear.setText("Assessed Value "+mAssessment.getAssessmentYear());
@@ -671,7 +673,10 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
                         mAssessment.getPensionerDiscount(),
                         mAssessment.getDisabilityDiscount());
             }
-            tvDiscountedRatePayable.setText(StringUtils.AmountWithComma(discRatePayable));
+            String finalDiscRate = StringUtils.AmountWithComma(discRatePayable);
+            tvDiscountedRatePayable.setText(finalDiscRate);
+            tvDiscountedRatePayable1.setText(finalDiscRate);
+            tvDiscountedRatePayableText.setText("DISCOUNTED RATE PAYABLE "+mAssessment.getAssessmentYear());
 
             if (mAssessment.getPropertyRateWithoutGst() != null){
                 tvAssessmentYearValue.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mAssessment.getPropertyRateWithoutGst()))));
@@ -1293,15 +1298,8 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
                 tvPensionerDiscount.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(assessmentObject.optString("pensioner_discount")))));
                 tvDisabilityDiscount.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(assessmentObject.optString("disability_discount")))));
-
-                TextView tvDiscountedRatePayableText = findViewById(R.id.tvDiscountedRatePayableText);
-                TextView tvDiscountedRatePayable1 = findViewById(R.id.tvDiscountedRatePayable1);
                 SearchAssessmentModel assessmentModel = (SearchAssessmentModel) CommonUtils.getObjectFromJson(assessmentObject.toString().trim(), SearchAssessmentModel.class);
-                tvDiscountedRatePayableText.setText("DISCOUNTED RATE PAYABLE "+assessmentModel.getAssessmentYear());
-                if(!TextUtils.isEmpty(assessmentModel.getDiscounted_value())) {
-                    String val = String.valueOf((int)Double.parseDouble(assessmentModel.getDiscounted_value()));
-                    tvDiscountedRatePayable1.setText(StringUtils.AmountWithComma(val));
-                }
+
                 List<String> propertyImages = new ArrayList<>();
                 // propertyImages.add(assessmentModel.getAssessmentImages1());
                 // propertyImages.add(assessmentModel.getAssessmentImages2());

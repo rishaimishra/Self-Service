@@ -479,7 +479,7 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
 
 
         activityUserSearchResult_tv_assesment_year.setText("Assessed Value "+searchResponseModel.getAssessment().getAssessmentYear());
-        String discRatePayable="0.00";
+        String discRatePayable="0";
         if (mSearchPropertyModel.getAssessment().getRate_payable() != null &&
                 mSearchPropertyModel.getAssessment().getPensioner_discount()!=null &&
                 mSearchPropertyModel.getAssessment().getDisability_discount()!=null){
