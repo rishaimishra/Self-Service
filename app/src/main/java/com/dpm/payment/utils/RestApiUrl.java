@@ -32,6 +32,7 @@ public interface RestApiUrl {
     //CEP Council
     String URL_CEP_DISTRICT_DETAILS = BASE_URL + "/get/district";
     String URL_CEP_SEARCH_DISTRICT = BASE_URL + "/area-search/council";
+    String URL_CEP_AREA = BASE_URL + "/area-list";
 
     String URL_GUEST_USER_LOGIN = BASE_URL + "/guest-user/login";
     String URL_GUEST_USER_REGISTER = BASE_URL + "/guest-user/register";

@@ -331,7 +331,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
 
                     String mUsdStr = "";
 
-                    mUsdStr = activityUserSearchResult_et_paying_amount.getText().toString().trim();
+                    mUsdStr = charSequence.toString();
 
                     try {
 
@@ -340,7 +340,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
 
                             // FIXME: 13-05-2022
 
-                            double dueAmt = Double.parseDouble(balanceDue) - Double.parseDouble(activityUserSearchResult_et_paying_amount.getText().toString().trim()) ;
+                            double dueAmt = Double.parseDouble(balanceDue.replace(",","")) - Double.parseDouble(charSequence.toString().trim()) ;
 
                            activityUserSearchResult_et_total_amount.setText(String.format("%.0f", dueAmt));
                             tvInputAmount2.setText("Le " + SetCommaText(activityUserSearchResult_et_total_amount.getText().toString().trim()));
@@ -991,7 +991,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                 mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue(searchResponseModel.getProperty().getAssessment().getBalance()));
             }
 
-            balanceDue = searchResponseModel.getProperty().getAssessment().getNew_balance_due();
+            balanceDue = mBalance;
 
             activityUserSearchResult_tv_balance_value.setText("" + mBalance);
             activityUserSearchResult_tv_paying_pre_calculate.setText(getString(R.string.amount_due) + "\n" + "Le " + mBalance);

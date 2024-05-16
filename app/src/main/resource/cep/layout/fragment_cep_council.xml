@@ -219,7 +219,7 @@
                     android:paddingVertical="@dimen/dimen12dp"
                     android:text="@string/continue_dot"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/textLarge24sp"
+                    android:textSize="@dimen/textLarge20sp"
                     android:textStyle="bold" />
             </FrameLayout>
         </LinearLayout>

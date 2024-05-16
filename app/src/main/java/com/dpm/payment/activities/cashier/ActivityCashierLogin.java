@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -28,6 +29,7 @@ import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.dpm.payment.activities.cep.ActivityCep;
+import com.dpm.payment.activities.cep.AreaResponse;
 import com.dpm.payment.activities.user.ActivityUserLogin;
 import com.dpm.payment.activities.user.LandlordResponseModel;
 import com.dpm.payment.activities.user.ListPropertyUserActivity;
@@ -214,8 +216,8 @@ public class ActivityCashierLogin extends AppCompatActivity implements View.OnCl
                 }
                 break;
             case R.id.btCheckIn:
-                showCepInfoDialog();
-                reqDistrict();
+                reqArea();
+
                 break;
         }
     }
@@ -395,8 +397,7 @@ public class ActivityCashierLogin extends AppCompatActivity implements View.OnCl
 
 
     }
-
-    private void showCepInfoDialog(){
+    private void showCepInfoDialog(List<String> mList){
         dialog =  new Dialog(this);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         dialog.getWindow().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -411,9 +412,12 @@ public class ActivityCashierLogin extends AppCompatActivity implements View.OnCl
         MaterialTextView  btnContinue = dialog.findViewById(R.id.btnContinue);
 
         CheckBox chkboxSetDefault = dialog.findViewById(R.id.chkboxSetDefault);
-        EditText etSelectArea = dialog.findViewById(R.id.etSelectArea);
+        AutoCompleteTextView etSelectArea = dialog.findViewById(R.id.etSelectArea);
         AppCompatSpinner spnrDistrict = dialog.findViewById(R.id.spnrDistrict);
-
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (this, R.layout.adapter_text_1, mList);
+        etSelectArea.setThreshold(1);
+        etSelectArea.setAdapter(adapter);
         etSelectArea.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -466,31 +470,16 @@ public class ActivityCashierLogin extends AppCompatActivity implements View.OnCl
     }
 
     public void reqDistrict() {
-        /*if(progressDialog==null)
-        progressDialog = new ProgressDialog(mContext);*/
         new RestApiRequestListener(this, TAG_REQUEST_DISTRICT_NAME, RestApiUrl.URL_CEP_DISTRICT_DETAILS, getHeader(), null, new RestApiRequestListener.setOnRequestListener() {
             @Override
             public void onPreExecute() {
-               /* progressDialog.setMessage(mContext.getResources().getString(R.string.loading_please_wait));
-                progressDialog.setCancelable(false);
-                progressDialog.show();*/
             }
             @Override
             public void onSuccessListener(String response) {
-              /*  if (progressDialog != null) {
-                    if (progressDialog.isShowing()) {
-                        progressDialog.dismiss();
-                    }
-                }*/
                 parseResponse(response);
             }
             @Override
             public void onErrorListener(String errorMessage) {
-               /* if (progressDialog != null) {
-                    if (progressDialog.isShowing()) {
-                        progressDialog.dismiss();
-                    }
-                }*/
             }
         }).getRequest();
     }
@@ -536,6 +525,29 @@ public class ActivityCashierLogin extends AppCompatActivity implements View.OnCl
 
             }
         }).request();
+    }
+
+    public void reqArea() {
+        new RestApiRequestListener(this, TAG_REQUEST_DISTRICT_NAME, RestApiUrl.URL_CEP_AREA, getHeader(), null, new RestApiRequestListener.setOnRequestListener() {
+            @Override
+            public void onPreExecute() {
+            }
+            @Override
+            public void onSuccessListener(String response) {
+                parseAreaResponse(response);
+            }
+            @Override
+            public void onErrorListener(String errorMessage) {
+            }
+        }).getRequest();
+    }
+    private AreaResponse mAreaResponse;
+    private void parseAreaResponse(String response) {
+        mAreaResponse = new Gson().fromJson(response,AreaResponse.class);
+        if(mAreaResponse.getResult()!=null && mAreaResponse.getResult().size()>0){
+            showCepInfoDialog(mAreaResponse.getResult());
+        }
+        reqDistrict();
     }
 
 }

@@ -22,18 +22,20 @@
             android:textSize="@dimen/dimen16sp"
             android:justificationMode="inter_word"/>
 
-        <androidx.appcompat.widget.AppCompatEditText
+        <AutoCompleteTextView
             android:id="@+id/etSelectArea"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen16dp"
             android:background="@drawable/bg_square_blue_border1"
-            android:hint="Select Area"
+            android:hint="Enter Area"
             android:textColorHint="@color/gray_text_color"
             android:textColor="@color/colorBlack"
-            android:inputType="textPersonName"
+            android:inputType="text"
             android:padding="@dimen/dimen8dp"
-            android:textSize="@dimen/textMedium14sp" />
+            android:textSize="@dimen/textMedium14sp" >
+            <requestFocus />
+        </AutoCompleteTextView>
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
