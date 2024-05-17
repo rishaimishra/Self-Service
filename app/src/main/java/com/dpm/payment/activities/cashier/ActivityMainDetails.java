@@ -520,9 +520,9 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         councillor_list.add(new DataModel("Council_Group/Category", dataItem.getGroupName() + ""));
         councillor_list.add(new DataModel("Mill_Rate", dataItem.getMillRate() + ""));
 
-        councillor_list.add(new DataModel("Rate Payable "+dataItem.getAssessmentYear(), StringUtils.AmountWithComma(StringUtils.roundStringValue(dataItem.getRate_payable()))));
+        councillor_list.add(new DataModel("RATE PAYABLE "+dataItem.getAssessmentYear(), StringUtils.AmountWithComma(StringUtils.roundStringValue(dataItem.getRate_payable()))));
 
-        DataViewAdapter adapter = new DataViewAdapter(councillor_list);
+        DataViewAdapter adapter = new DataViewAdapter(councillor_list,dataItem.getAssessmentYear());
         rv_government_policy.setAdapter(adapter);
     }
 

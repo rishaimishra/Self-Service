@@ -73,7 +73,7 @@ public class ProfileFragment extends Fragment {
         AppCompatImageView ivProfile = view.findViewById(R.id.ivProfile);
         AppCompatImageView ivNotification = view.findViewById(R.id.ivNotification);
         ivProfile.setVisibility(View.GONE);
-        tvTitle.setText("My Profile");
+        tvTitle.setText(getString(R.string.personal_info));
         ivHome.setOnClickListener(v -> {
             ((ActivityCep)requireActivity()).onBackPressed();
         });

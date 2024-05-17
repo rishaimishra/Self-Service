@@ -749,7 +749,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
         councillor_list.add(new DataModel("RATE PAYABLE "+dataItem.getAssessment().getAssessmentYear(),   StringUtils.AmountWithComma(StringUtils.roundStringValue(dataItem.getAssessment().getRate_payable()))));
 
-        DataViewAdapter adapter = new DataViewAdapter(councillor_list);
+        DataViewAdapter adapter = new DataViewAdapter(councillor_list,dataItem.getAssessment().getAssessmentYear());
         rv_government_policy.setAdapter(adapter);
     }
 

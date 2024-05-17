@@ -390,4 +390,7 @@
     <string name="registering_please_wait">Registering Please Wait ...</string>
     <string name="logging_in_please_wait">Logging in Please Wait ...</string>
     <string name="download_receipt">Download Receipt</string>
+    <string name="my_account">My Account</string>
+    <string name="personal_info">Personal Info</string>
+    <string name="user_settings">User settings</string>
 </resources>

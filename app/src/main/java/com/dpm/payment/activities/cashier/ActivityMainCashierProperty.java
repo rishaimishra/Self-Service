@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -329,25 +330,26 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                    String mUsdStr = "";
 
+                    String mUsdStr = "";
                     mUsdStr = charSequence.toString();
+                    if(TextUtils.isEmpty(mUsdStr)){
+                        activityUserSearchResult_et_total_amount.setText("");
+                        tvInputAmount.setText("");
+                        tvInputAmount2.setText("");
+                        return;
+                    }
 
                     try {
-
                         if (activityUserSearchResult_et_paying_amount.getText().toString().trim().length() > 0) {
                             tvInputAmount.setText("Le " + SetCommaText(activityUserSearchResult_et_paying_amount.getText().toString().trim()));
-
                             // FIXME: 13-05-2022
-
                             double dueAmt = Double.parseDouble(balanceDue.replace(",","")) - Double.parseDouble(charSequence.toString().trim()) ;
-
                            activityUserSearchResult_et_total_amount.setText(String.format("%.0f", dueAmt));
                             tvInputAmount2.setText("Le " + SetCommaText(activityUserSearchResult_et_total_amount.getText().toString().trim()));
-
-
-                            LogUtils.showErrorLog("Enter String ", " Enter String 1 " + mUsdStr);
+                           // LogUtils.showErrorLog("Enter String ", " Enter String 1 " + mUsdStr);
                         } else {
+                            activityUserSearchResult_et_total_amount.setText("");
                             tvInputAmount.setText("");
                         }
                     } catch (Exception ex) {
@@ -359,8 +361,6 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-
-
                 }
             });
         } catch (Exception ex) {
@@ -1025,7 +1025,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                 // Set the TextView visibility GONE
                 dialog.dismiss();
 
-                PrefUtil.mClearALLData(mContext);
+               // PrefUtil.mClearALLData(mContext);
 
                 Intent i = new Intent(ActivityMainCashierProperty.this, ActivityUserLogin.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -160,7 +160,7 @@ public class ActivityUserLogin extends AppCompatActivity implements View.OnClick
              // startActivity(new Intent(this,ActivityUserOTP.class));
                try {
 
-                    PrefUtil.mClearALLData(mContext);
+                    //PrefUtil.mClearALLData(mContext);
 
                     if (checkLogInValidation()) {
 

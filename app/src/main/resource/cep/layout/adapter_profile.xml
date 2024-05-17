@@ -15,8 +15,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivCep"
-            android:layout_width="@dimen/dimen20dp"
-            android:layout_height="@dimen/dimen20dp"
+            android:layout_width="@dimen/dimen28dp"
+            android:layout_height="@dimen/dimen28dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/dimen12dp" />
 
@@ -28,7 +28,7 @@
             android:paddingVertical="@dimen/dimen16dp"
             android:text="@string/sample_address1"
             android:textColor="@color/dark_grey"
-            android:textSize="@dimen/textSmall12sp"
+            android:textSize="@dimen/textMedium14sp"
             android:textStyle="bold" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 

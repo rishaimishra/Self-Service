@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dpm.payment.adapters.MyProfileAdapter;
 import com.dpm.payment.models.cep.CepModel;
+import com.dpm.payment.utils.CommonUtils;
 import com.payment.R;
 
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class MyProfileFragment extends Fragment{
     private void initToolbar(View view){
         AppCompatTextView tvTitle = view.findViewById(R.id.toolbar_tv_header);
         ImageView ivHome = view.findViewById(R.id.toolbar_iv_home);
-        tvTitle.setText(getString(R.string.my_profile));
+        tvTitle.setText(getString(R.string.my_account));
 
         AppCompatImageView ivProfile = view.findViewById(R.id.ivProfile);
         AppCompatImageView ivNotification = view.findViewById(R.id.ivNotification);
@@ -92,7 +93,7 @@ public class MyProfileFragment extends Fragment{
                     ((ActivityCep) requireActivity()).startFragment(LegalTermsFragment.newInstance());
                     break;
                 case 3:
-                   // ((ActivityCep) requireActivity()).startFragment(GarbageCollectionFragment.newInstance());
+                    CommonUtils.showLogoutDialog((ActivityCep)requireActivity());
                     break;
 
             }

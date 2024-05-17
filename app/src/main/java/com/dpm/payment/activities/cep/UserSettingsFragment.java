@@ -56,7 +56,7 @@ public class UserSettingsFragment extends Fragment{
     private void initToolbar(View view){
         AppCompatTextView tvTitle = view.findViewById(R.id.toolbar_tv_header);
         ImageView ivHome = view.findViewById(R.id.toolbar_iv_home);
-        tvTitle.setText(getString(R.string.legal_terms));
+        tvTitle.setText(getString(R.string.user_settings));
 
         AppCompatImageView ivProfile = view.findViewById(R.id.ivProfile);
         AppCompatImageView ivNotification = view.findViewById(R.id.ivNotification);

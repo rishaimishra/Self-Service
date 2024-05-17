@@ -196,7 +196,7 @@ public class ActivityCashierLogin extends AppCompatActivity implements View.OnCl
 
                 try {
 
-                    PrefUtil.mClearALLData(mContext);
+                      //PrefUtil.mClearALLData(mContext);
 
                     if (checkLogInValidation()) {
 

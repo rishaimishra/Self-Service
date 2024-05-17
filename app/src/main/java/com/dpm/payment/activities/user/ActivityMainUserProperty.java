@@ -317,7 +317,7 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
                 // Set the TextView visibility GONE
                 dialog.dismiss();
 
-                PrefUtil.mClearALLData(mContext);
+                //PrefUtil.mClearALLData(mContext);
 
                 Intent i = new Intent(ActivityMainUserProperty.this, ActivityCashierLogin.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

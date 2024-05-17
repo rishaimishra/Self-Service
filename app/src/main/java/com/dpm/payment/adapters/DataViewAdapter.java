@@ -1,6 +1,7 @@
 package com.dpm.payment.adapters;
 
 import android.graphics.Typeface;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,11 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.MyView
     private List<DataModel> listOfNav;
 
     int layout = -1;
-
+    private String year;
+    public DataViewAdapter(List<DataModel> listOfNav, String year) {
+        this.listOfNav = listOfNav;
+        this.year = year;
+    }
 
     public DataViewAdapter(List<DataModel> listOfNav) {
         this.listOfNav = listOfNav;
@@ -84,7 +89,8 @@ public class DataViewAdapter extends RecyclerView.Adapter<DataViewAdapter.MyView
             }
             if(object.getKey().equalsIgnoreCase("assessed Value") ||
                     object.getKey().equalsIgnoreCase("net assessed value")||
-                    object.getKey().equalsIgnoreCase("rate payable 2022")){
+                    (!TextUtils.isEmpty(year) &&
+                            object.getKey().equalsIgnoreCase("rate payable "+year))){
                 holder.tvValue.setTypeface(null, Typeface.BOLD);
             }
 
