@@ -96,6 +96,7 @@ import java.util.Map;
 import static com.dpm.payment.activities.user.ActivityMainUserProperty.KEY_PROPERTY_DETAILS;
 import static com.dpm.payment.utils.ConstantData.TAG_LAND_LORD_RECEIPT;
 import static com.dpm.payment.utils.RestApiUrl.URL_CASHIER_LANDLORD_EDIT_PROFILE;
+import static com.dpm.payment.utils.RestApiUrl.URL_EDIT_OCCUPANCY;
 import static com.dpm.payment.utils.RestApiUrl.URL_LANDLORD_PROPERTY_APPROVE;
 import static com.dpm.payment.utils.RestApiUrl.URL_LANDLORD_RECEIPT;
 import static com.dpm.payment.utils.RestApiUrl.URL_OCCUPANCY_TYPE;
@@ -2684,7 +2685,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
             try {
                 JSONObject object = new JSONObject(response);
                 Log.d("upload_data_occupancy",object.toString());
-                Toast.makeText(this, "" + object.getString("status") + " Please wait for approval", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "" + object.getString("success") + " Please wait for approval", Toast.LENGTH_SHORT).show();
                 dialogOccupancy.dismiss();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -2826,6 +2827,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
                     HashMap<String, String> req_params = new HashMap<>();
 
                     // FIXME: 20-09-2021
+                    req_params.put("property_id", "" + occupancyModel.getPropertyId());
                     req_params.put("tenant_first_name", "" + edt_first_name.getText().toString());
                     req_params.put("middle_name", "" + edt_first_name.getText().toString());
                     req_params.put("surname", "" + edt_first_name.getText().toString());
@@ -2834,16 +2836,16 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
                     req_params.put("ownerTenantTitle", "" + spinner_tenant_title.getSelectedItem().toString());
                     req_params.put("occupancy_type", "" + spinner_occupancy_type.getSelectedItem().toString());
 
-                    req_params.put("requested_by", "cashier");
+                    //req_params.put("requested_by", "cashier");
 
 
-                    String finalURL = URL_CASHIER_LANDLORD_EDIT_PROFILE + getIntent().getStringExtra("property_id");
+                    // String finalURL = URL_EDIT_OCCUPANCY + getIntent().getStringExtra("property_id");
 
                     Log.d("request", req_params.toString());
-                    Log.d("request_url", finalURL);
+                    Log.d("request_url", URL_EDIT_OCCUPANCY);
 
                     apiRequest.callPostFormData(
-                            finalURL,
+                            URL_EDIT_OCCUPANCY,
                             req_params,
                             "",
                             "upload_data_occupancy"

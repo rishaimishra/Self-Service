@@ -104,6 +104,7 @@ import static com.dpm.payment.utils.Helper.discounted_value_Hashmap;
 import static com.dpm.payment.utils.Helper.roundOffDecimals;
 import static com.dpm.payment.utils.Helper.taxable_value_Hashmap;
 import static com.dpm.payment.utils.RestApiUrl.URL_CASHIER_LANDLORD_EDIT_PROFILE;
+import static com.dpm.payment.utils.RestApiUrl.URL_EDIT_OCCUPANCY;
 import static com.dpm.payment.utils.RestApiUrl.URL_LANDLORD_EDIT_PROFILE;
 import static com.dpm.payment.utils.RestApiUrl.URL_LANDLORD_PROPERTY_APPROVE;
 import static com.dpm.payment.utils.RestApiUrl.URL_LANDLORD_RECEIPT;
@@ -2825,7 +2826,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
             try {
                 JSONObject object = new JSONObject(response);
                 Log.d("upload_data_occupancy",object.toString());
-                Toast.makeText(this, "" + object.getString("status") + " Please wait for approval", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "" + object.getString("success") + " Please wait for approval", Toast.LENGTH_SHORT).show();
                 dialogOccupancy.dismiss();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -2991,18 +2992,19 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                     HashMap<String, String> req_params = new HashMap<>();
 
                     // FIXME: 20-09-2021
+                    req_params.put("property_id", "" + occupancyModel.getPropertyId());
                     req_params.put("tenant_first_name", "" + edt_first_name.getText().toString());
-                    req_params.put("middle_name", "" + edt_first_name.getText().toString());
-                    req_params.put("surname", "" + edt_first_name.getText().toString());
-                    req_params.put("mobile_1", "" + edt_first_name.getText().toString());
-                    req_params.put("mobile_2", "" + edt_first_name.getText().toString());
+                    req_params.put("middle_name", "" + edt_middle_name.getText().toString());
+                    req_params.put("surname", "" + edt_sur_name.getText().toString());
+                    req_params.put("mobile_1", "" + edt_landlord_mobile_1.getText().toString());
+                    req_params.put("mobile_2", "" + edt_landlord_mobile_2.getText().toString());
                     req_params.put("ownerTenantTitle", "" + spinner_tenant_title.getSelectedItem().toString());
                     req_params.put("occupancy_type", "" + spinner_occupancy_type.getSelectedItem().toString());
 
-                    req_params.put("requested_by", Constant.USERNAME);
+                   // req_params.put("requested_by", Constant.USERNAME);
 
 
-                    String finalURL = URL_CASHIER_LANDLORD_EDIT_PROFILE + getIntent().getStringExtra("property_id");
+                    String finalURL = URL_EDIT_OCCUPANCY; // + dataItem.getAssessment().getPropertyId();
 
                     Log.d("request", req_params.toString());
                     Log.d("request_url", finalURL);
