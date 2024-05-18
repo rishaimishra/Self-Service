@@ -40,4 +40,5 @@ public interface RestApiUrl {
     String URL_LANDLORD_RECEIPT = BASE_URL + "/get-recipts/";
 //http://3.134.197.245/apiv2/landlord/payment/receipt/41839/2024
     String URL_DEMAND_NOTE = BASE_URL + "/landlord/payment/receipt/";
+    String URL_OCCUPANCY_TYPE =BASE_URL+"/get-occupency-types";
 }

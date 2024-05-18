@@ -98,6 +98,7 @@ import static com.dpm.payment.utils.ConstantData.TAG_LAND_LORD_RECEIPT;
 import static com.dpm.payment.utils.RestApiUrl.URL_CASHIER_LANDLORD_EDIT_PROFILE;
 import static com.dpm.payment.utils.RestApiUrl.URL_LANDLORD_PROPERTY_APPROVE;
 import static com.dpm.payment.utils.RestApiUrl.URL_LANDLORD_RECEIPT;
+import static com.dpm.payment.utils.RestApiUrl.URL_OCCUPANCY_TYPE;
 import static com.dpm.payment.utils.StringUtils.getAppendListDataWithSpacialCharacter;
 
 // Cashier login
@@ -246,7 +247,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_search_user_details);
         apiRequest = new ApiRequest(this, this);
 
-        //getOccupancyType();
+        getOccupancyType();
 
         initializeViews();
         initializeListeners();
@@ -2725,7 +2726,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
     public void getOccupancyType() {
         String url = "http://mrms.sigmaventuressl.com/apiv2/get-occupency-types";
-        apiRequest.callGetRequest(url, "getOccupancyType");
+        apiRequest.callGetRequest(URL_OCCUPANCY_TYPE, "getOccupancyType");
 
     }
 
@@ -2791,7 +2792,6 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         Button btn_save_ = deleteDialogView.findViewById(R.id.btn_save_);
 
         List<String> title = new ArrayList<>();
-
         for (TitlesItem item : list_occupancy_title) {
             title.add(item.getLabel());
         }

@@ -107,6 +107,7 @@ import static com.dpm.payment.utils.RestApiUrl.URL_CASHIER_LANDLORD_EDIT_PROFILE
 import static com.dpm.payment.utils.RestApiUrl.URL_LANDLORD_EDIT_PROFILE;
 import static com.dpm.payment.utils.RestApiUrl.URL_LANDLORD_PROPERTY_APPROVE;
 import static com.dpm.payment.utils.RestApiUrl.URL_LANDLORD_RECEIPT;
+import static com.dpm.payment.utils.RestApiUrl.URL_OCCUPANCY_TYPE;
 import static com.dpm.payment.utils.StringUtils.getAppendListDataWithSpacialCharacter;
 
 //// landlord login
@@ -259,7 +260,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_details);
 
-       // getOccupancyType();
+        getOccupancyType();
         initializeViews();
         initializeListeners();
         setData();
@@ -2887,7 +2888,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
     public void getOccupancyType() {
         String url = "http://mrms.sigmaventuressl.com/apiv2/get-occupency-types";
-        apiRequest.callGetRequest(url, "getOccupancyType");
+        apiRequest.callGetRequest(URL_OCCUPANCY_TYPE, "getOccupancyType");
 
     }
     private void getDemandNote() {
