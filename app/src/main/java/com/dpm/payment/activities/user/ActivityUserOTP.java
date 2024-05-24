@@ -83,7 +83,9 @@ public class ActivityUserOTP extends AppCompatActivity {
         TextView tvTitle = findViewById(R.id.toolbar_tv_header);
         ImageView ivHome =findViewById(R.id.toolbar_iv_home);
         tvTitle.setText(getString(R.string.one_time_password));
-        ivHome.setVisibility(View.GONE);
+        ivHome.setOnClickListener(v->{
+            onBackPressed();
+        });
         AppCompatImageView ivProfile = findViewById(R.id.ivProfile);
         AppCompatImageView ivNotification = findViewById(R.id.ivNotification);
         ivProfile.setOnClickListener(v -> {

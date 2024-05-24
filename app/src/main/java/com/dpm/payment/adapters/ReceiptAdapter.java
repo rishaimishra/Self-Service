@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dpm.payment.activities.WebViewActivity;
+import com.dpm.payment.interfaces.OnItemClickListener;
 import com.dpm.payment.models.receipt.DatasItem;
 import com.dpm.payment.utils.StringUtils;
 import com.payment.R;
@@ -24,13 +25,11 @@ public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.MyViewHo
 
     private List<DatasItem> listOfNav;
     Activity activity;
+    private OnItemClickListener mOnItemClickListener;
 
-
-    public ReceiptAdapter(List<DatasItem> listOfNav, Activity activity) {
+    public ReceiptAdapter(List<DatasItem> listOfNav,OnItemClickListener mOnItemClickListener ) {
         this.listOfNav = listOfNav;
-        this.activity = activity;
-
-
+        this.mOnItemClickListener = mOnItemClickListener;
     }
 
     @Override
@@ -55,11 +54,15 @@ public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.MyViewHo
         holder.tvKey.setText(object.getId());
 
         holder.tvView.setOnClickListener(v->{
-            Intent intent = new Intent(activity, WebViewActivity.class);
-            intent.putExtra("url",object.getUrl());
-            activity.startActivity(intent);
-        });
 
+            mOnItemClickListener.onItemClick(v,position);
+            /*Intent intent = new Intent(activity, WebViewActivity.class);
+            intent.putExtra("url",object.getUrl());
+            activity.startActivity(intent);*/
+        });
+        holder.tvDownload.setOnClickListener(v->{
+            mOnItemClickListener.onItemClick(v,position);
+        });
 
     }
 
@@ -73,7 +76,7 @@ public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.MyViewHo
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvKey, tvView;
+        TextView tvKey, tvView,tvDownload;
 
 
         // view create //
@@ -81,7 +84,7 @@ public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.MyViewHo
             super(view);
             tvKey = view.findViewById(R.id.tvKey);
             tvView = view.findViewById(R.id.tvView);
-
+            tvDownload = view.findViewById(R.id.tvDownload);
 
         }
     }

@@ -7,14 +7,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dpm.payment.activities.cashier.ActivityCashierLogin;
+import com.dpm.payment.activities.cep.ActivityCep;
 import com.dpm.payment.adapters.PropertyAdapter;
 import com.dpm.payment.adapters.PropertyGridAdapter;
 import com.dpm.payment.adapters.PropertyListItem;
@@ -68,7 +72,22 @@ public class ListPropertyUserActivity extends AppCompatActivity implements Prope
         onClick();
         setAdapter();
         mLandlordUserModel = PrefUtil.getLandlordProfile(mContext);
+        initToolbar();
+    }
 
+    private void initToolbar(){
+        TextView tvHeader = findViewById(R.id.toolbar_tv_header);
+        tvHeader.setText(R.string.property);
+        ImageView ivHome =findViewById(R.id.toolbar_iv_home);
+        AppCompatImageView ivProfile = findViewById(R.id.ivProfile);
+        AppCompatImageView ivNotification = findViewById(R.id.ivNotification);
+        ivHome.setVisibility(View.GONE);
+        ivProfile.setOnClickListener(v -> {
+            showProfileOrNotification("profile");
+        });
+        ivNotification.setOnClickListener(v -> {
+            showProfileOrNotification("notification");
+        });
     }
 
     private void setUI() {
@@ -103,12 +122,6 @@ public class ListPropertyUserActivity extends AppCompatActivity implements Prope
     }
 
     private void setAdapter() {
-
-
-       // mPropertyAdapter = new PropertyAdapter(listPropertyList, ListPropertyUserActivity.this);
-        /*LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
-        mLinearLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        rvListOfProperty.setLayoutManager(mLinearLayoutManager); */// set LayoutManager to RecyclerView
         mPropertyAdapter = new PropertyGridAdapter(listPropertyList, ListPropertyUserActivity.this);
         GridLayoutManager mLinearLayoutManager = new GridLayoutManager(this,2);
         rvListOfProperty.setLayoutManager(mLinearLayoutManager);
@@ -386,5 +399,10 @@ public class ListPropertyUserActivity extends AppCompatActivity implements Prope
         {
             ex.printStackTrace();
         }
+    }
+    private void showProfileOrNotification(String type){
+        Intent mIntent = new Intent(mContext, ActivityCep.class);
+        mIntent.putExtra("type",type);
+        startActivity(mIntent);
     }
 }

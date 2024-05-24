@@ -10,6 +10,13 @@ public class DatasItem{
 	@SerializedName("url")
 	private String url;
 
+	@SerializedName("pdf_url")
+	private String pdf_url;
+
+	public String getPdf_url() {
+		return pdf_url;
+	}
+
 	public void setId(String id){
 		this.id = id;
 	}

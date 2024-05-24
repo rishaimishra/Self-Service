@@ -36,6 +36,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dpm.payment.activities.WebViewActivity;
 import com.dpm.payment.activities.cashier.ActivityCashierLogin;
 import com.dpm.payment.activities.cashier.ActivityMainDetails;
 import com.dpm.payment.activities.cep.ActivityCep;
@@ -48,6 +49,7 @@ import com.dpm.payment.adapters.ImageTextAdapter;
 import com.dpm.payment.adapters.PropertyImageAdapter;
 import com.dpm.payment.adapters.ReceiptAdapter;
 import com.dpm.payment.adapters.TransactionDetailAdapter;
+import com.dpm.payment.interfaces.OnItemClickListener;
 import com.dpm.payment.models.AssessmentHistory;
 import com.dpm.payment.models.DataModel;
 import com.dpm.payment.models.GeoRegistryModel;
@@ -2862,10 +2864,23 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
             recycler_view_receipt.setHasFixedSize(true);
             recycler_view_receipt.setFocusable(false);
 
-            recycler_view_receipt.setAdapter(new ReceiptAdapter(receiptResponse.getDatas()!=null ?receiptResponse.getDatas() : new ArrayList<>(),ActivityUserMainDetails.this));
-
-
-
+            recycler_view_receipt.setAdapter(new ReceiptAdapter(receiptResponse.getDatas() != null ? receiptResponse.getDatas() : new ArrayList<>(), new OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    switch (view.getId()){
+                        case R.id.tvView:
+                            Intent intent = new Intent(ActivityUserMainDetails.this, WebViewActivity.class);
+                            intent.putExtra("url",receiptResponse.getDatas().get(position).getUrl());
+                            startActivity(intent);
+                            break;
+                        case R.id.tvDownload:
+                            if(!TextUtils.isEmpty(receiptResponse.getDatas().get(position).getPdf_url())){
+                                checkStoragePermission(receiptResponse.getDatas().get(position).getPdf_url());
+                            }
+                            break;
+                    }
+                }
+            }));
         }
         if (tag.equalsIgnoreCase("getOccupancyType")) {
             OccupancyTypeResponse res = new Gson().fromJson(response, OccupancyTypeResponse.class);
