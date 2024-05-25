@@ -448,7 +448,6 @@ public class CommonUtils {
                 // Do something when user clicked the Yes button
                 // Set the TextView visibility GONE
                 dialog.dismiss();
-                PrefUtil.mClearALLData(activity);
                 Intent i = new Intent(activity, ActivityLogin.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 activity.startActivity(i);

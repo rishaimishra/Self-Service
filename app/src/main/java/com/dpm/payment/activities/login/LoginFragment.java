@@ -1,5 +1,7 @@
 package com.dpm.payment.activities.login;
 
+import static com.dpm.payment.utils.ConstantData.GUEST_USER_NAME;
+import static com.dpm.payment.utils.ConstantData.GUEST_USER_PASSWORD;
 import static com.dpm.payment.utils.ConstantData.REQUEST_KEY_PASSWORD;
 import static com.dpm.payment.utils.ConstantData.REQUEST_KEY_USERNAME;
 import static com.dpm.payment.utils.ConstantData.TAG_REQUEST_LOGIN;
@@ -14,6 +16,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +42,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private TextView btLogin,tvLogin,tvForgotPassword;
     private EditText etUserName,etPassword;
     private AppCompatImageView ivPassword;
+    private CheckBox chkboxRememberMe;
     private Context mContext;
     public static LoginFragment newInstance(){
         return new LoginFragment();
@@ -59,7 +63,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         initView(view);
     }
 
@@ -73,10 +76,23 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         ivPassword = view.findViewById(R.id.ivPassword);
         ivPassword.setImageResource(R.drawable.icon_hide_password);
         tvForgotPassword = view.findViewById(R.id.tvForgotPassword);
+        chkboxRememberMe  = view.findViewById(R.id.chkboxRememberMe);
         btLogin.setOnClickListener(this);
         tvLogin.setOnClickListener(this);
         tvForgotPassword.setOnClickListener(this);
         ivPassword.setOnClickListener(this);
+        chkboxRememberMe.setOnClickListener(this);
+        String userName = PrefUtil.getValueFromKey(requireActivity(),GUEST_USER_NAME);
+        String password = PrefUtil.getValueFromKey(requireActivity(),GUEST_USER_PASSWORD);
+        if(!TextUtils.isEmpty(userName)){
+            etUserName.setText(userName);
+        }
+        if(!TextUtils.isEmpty(password)){
+            etPassword.setText(password);
+        }
+        if(!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(password)){
+            chkboxRememberMe.setChecked(true);
+        }
     }
 
     private String showhide="Show";
@@ -126,6 +142,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             Toast.makeText(mContext,"Please enter password",Toast.LENGTH_LONG).show();
             return;
         }
+        if(chkboxRememberMe.isChecked()){
+            saveUserNamePasswd(userName,password);
+        }else{
+            saveUserNamePasswd("","");
+        }
         reqLogin();
     }
     private String getUserName() {
@@ -168,5 +189,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
       }else {
           Toast.makeText(mContext,"Please enter valid username and password",Toast.LENGTH_LONG).show();
       }
+    }
+
+    private void saveUserNamePasswd(String userName,String passwd){
+        PrefUtil.setValueForKey(requireActivity(),GUEST_USER_NAME,userName);
+        PrefUtil.setValueForKey(requireActivity(),GUEST_USER_PASSWORD,passwd);
     }
 }

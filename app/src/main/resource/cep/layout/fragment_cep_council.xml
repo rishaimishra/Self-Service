@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_220dp"
                 android:layout_marginTop="@dimen/dimen20dp"
-                tools:srcCompat="@drawable/ic_logo" />
+                 />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvWelcomeText"
@@ -215,11 +215,11 @@
                     android:layout_marginBottom="@dimen/dimen48dp"
                     android:background="@drawable/rounded_corner_solid_green"
                     android:gravity="center"
-                    android:paddingHorizontal="@dimen/dimen48dp"
+                    android:paddingHorizontal="@dimen/dimen32dp"
                     android:paddingVertical="@dimen/dimen12dp"
                     android:text="@string/continue_dot"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/textLarge20sp"
+                    android:textSize="@dimen/dimen16sp"
                     android:textStyle="bold" />
             </FrameLayout>
         </LinearLayout>

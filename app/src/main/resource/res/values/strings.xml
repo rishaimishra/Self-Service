@@ -393,4 +393,5 @@
     <string name="my_account">My Account</string>
     <string name="personal_info">Personal Info</string>
     <string name="user_settings">User settings</string>
+    <string name="remember_me">Remember Me</string>
 </resources>

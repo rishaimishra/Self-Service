@@ -28,6 +28,7 @@ public class ConstantData {
 
     public static final String GUEST_INFO="guest_info";
     public static final String TAG_LAND_LORD_RECEIPT = "req_district_name";
-
+    public static final String GUEST_USER_NAME="guest_user_name";
+    public static final String GUEST_USER_PASSWORD="guest_user_password";
 
 }

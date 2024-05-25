@@ -95,7 +95,17 @@
                 android:layout_gravity="center_vertical"
                 app:srcCompat="@drawable/ic_view" />
         </androidx.appcompat.widget.LinearLayoutCompat>
-
+            <CheckBox
+                android:id="@+id/chkboxRememberMe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textLightGrey"
+                android:textSize="@dimen/textMedium14sp"
+                android:layout_marginTop="@dimen/dimen8dp"
+                android:layout_marginHorizontal="@dimen/dimen32dp"
+                android:textStyle="bold"
+                android:buttonTint="@color/dark_grey"
+                android:text="@string/remember_me"/>
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btLogin"
                 android:layout_width="match_parent"
@@ -103,7 +113,7 @@
                 android:layout_below="@+id/tvBelowText"
                 android:layout_alignParentEnd="true"
                 android:layout_marginHorizontal="@dimen/dimen32dp"
-                android:layout_marginTop="@dimen/dimen32dp"
+                android:layout_marginTop="@dimen/dimen8dp"
                 android:layout_marginBottom="@dimen/dimen12dp"
                 android:background="@drawable/bg_btn_login1"
                 android:gravity="center"

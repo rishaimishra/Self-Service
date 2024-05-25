@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="@color/colorWhite">
+    android:background="@color/wild_sand">
 
     <ImageView
         android:id="@+id/toolbar_iv_home"
@@ -12,7 +12,7 @@
         android:layout_marginStart="@dimen/dimen8dp"
         android:src="@drawable/ic_back_foreground"
         android:visibility="visible"
-        app:tint="@color/colorBlack"
+        app:tint="@color/dark_grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,7 +22,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:text="Details"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/dark_grey"
         android:textSize="@dimen/textMedium14sp"
         android:layout_marginStart="@dimen/dimen12dp"
         android:gravity="center_vertical"
@@ -38,6 +38,7 @@
         android:layout_height="@dimen/dimen24dp"
         android:src="@drawable/ic_name"
         android:layout_marginEnd="@dimen/dimen16dp"
+        app:tint="@color/dark_grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/ivNotification"
         app:layout_constraintTop_toTopOf="parent" />
@@ -48,7 +49,7 @@
         android:layout_height="@dimen/dimen24dp"
         android:src="@drawable/ic_notification"
         android:layout_marginEnd="@dimen/dimen16dp"
-        app:tint="@color/colorBlack"
+        app:tint="@color/dark_grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -227,4 +227,13 @@ public class PrefUtil {
         else
             return new Gson().fromJson(strJson,GuestUserResponse.class);
     }
+
+    public static String getValueFromKey(Context mContext, String key) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
+        return sp.getString(key, "");
+    }
+    public static void setValueForKey(Context mContext, String key,String value) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
+        sp.edit().putString(key, value).apply();;
+    }
 }
