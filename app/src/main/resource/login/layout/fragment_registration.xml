@@ -23,10 +23,11 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="@dimen/dimen224dp"
-                android:layout_height="@dimen/dimen224dp"
+                android:layout_width="@dimen/dimen160dp"
+                android:layout_height="@dimen/dimen160dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/ic_splash_1" />
+                android:src="@drawable/ic_splash"
+                android:layout_marginTop="@dimen/dimen48dp"/>
 
             <TextView
                 android:layout_width="match_parent"
