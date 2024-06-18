@@ -555,8 +555,8 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
             try {
 
                 Double mAmount = Double.parseDouble(mPayingAmount.trim());
-                if (mAmount > 0 && mAmount < 10000) {
-                    errorList.add("Paying amount should be minimum 10000 le");
+                if (mAmount > 0 && mAmount < 10) {
+                    errorList.add("Paying amount should be minimum 10 le");
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
