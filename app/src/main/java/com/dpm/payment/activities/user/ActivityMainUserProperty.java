@@ -390,8 +390,8 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
                     try {
                         String inputNumber = activityUserSearchResult_et_paying_amount.getText().toString();
                         Integer intNumber = Integer.parseInt(inputNumber);
-                        if (intNumber < 10000) {
-                            Toast.makeText(mContext, "Enter amount minimum Le 10000.", Toast.LENGTH_LONG).show();
+                        if (intNumber < 10) {
+                            Toast.makeText(mContext, "Enter amount minimum Le 10.", Toast.LENGTH_LONG).show();
                             return;
                         }
 
