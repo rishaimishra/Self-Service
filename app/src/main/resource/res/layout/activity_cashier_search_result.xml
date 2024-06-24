@@ -581,22 +581,25 @@
             app:layout_constraintStart_toEndOf="@+id/activityUserSearchResult_tv_payment_type"
             app:layout_constraintTop_toBottomOf="@+id/tvInputAmount">
 
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/activityUserSearchResult_rb_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:layout_weight="1"
+                android:buttonTint="@color/colorPrimary"
+                android:text="@string/cash" />
+
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/activityUserSearchResult_rb_one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:buttonTint="@color/colorPrimary"
-                android:checked="true"
+
                 android:text="@string/cheque" />
 
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/activityUserSearchResult_rb_two"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:buttonTint="@color/colorPrimary"
-                android:text="@string/cash" />
 
         </RadioGroup>
 

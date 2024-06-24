@@ -170,8 +170,9 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
             activityUserSearchResult_et_cheque_no.setEnabled(false);
         }
     }
-    private void initToolbar(){
-        ImageView ivHome =findViewById(R.id.toolbar_iv_home);
+
+    private void initToolbar() {
+        ImageView ivHome = findViewById(R.id.toolbar_iv_home);
         ivHome.setVisibility(View.GONE);
         AppCompatImageView ivProfile = findViewById(R.id.ivProfile);
         AppCompatImageView ivNotification = findViewById(R.id.ivNotification);
@@ -276,10 +277,10 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
         setSpinYear();
     }
 
-    private void setSpinYear(){
+    private void setSpinYear() {
         ArrayList<String> mList = new ArrayList<>();
-        mList.add(String.valueOf( Calendar.getInstance().get(Calendar.YEAR)));
-        ArrayAdapter aa = new ArrayAdapter(mContext,android.R.layout.simple_spinner_item,mList);
+        mList.add(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+        ArrayAdapter aa = new ArrayAdapter(mContext, android.R.layout.simple_spinner_item, mList);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spin_payment_year.setAdapter(aa);
 
@@ -333,7 +334,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
 
                     String mUsdStr = "";
                     mUsdStr = charSequence.toString();
-                    if(TextUtils.isEmpty(mUsdStr)){
+                    if (TextUtils.isEmpty(mUsdStr)) {
                         activityUserSearchResult_et_total_amount.setText("");
                         tvInputAmount.setText("");
                         tvInputAmount2.setText("");
@@ -344,10 +345,10 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                         if (activityUserSearchResult_et_paying_amount.getText().toString().trim().length() > 0) {
                             tvInputAmount.setText("Le " + SetCommaText(activityUserSearchResult_et_paying_amount.getText().toString().trim()));
                             // FIXME: 13-05-2022
-                            double dueAmt = Double.parseDouble(balanceDue.replace(",","")) - Double.parseDouble(charSequence.toString().trim()) ;
-                           activityUserSearchResult_et_total_amount.setText(String.format("%.0f", dueAmt));
+                            double dueAmt = Double.parseDouble(balanceDue.replace(",", "")) - Double.parseDouble(charSequence.toString().trim());
+                            activityUserSearchResult_et_total_amount.setText(String.format("%.0f", dueAmt));
                             tvInputAmount2.setText("Le " + SetCommaText(activityUserSearchResult_et_total_amount.getText().toString().trim()));
-                           // LogUtils.showErrorLog("Enter String ", " Enter String 1 " + mUsdStr);
+                            // LogUtils.showErrorLog("Enter String ", " Enter String 1 " + mUsdStr);
                         } else {
                             activityUserSearchResult_et_total_amount.setText("");
                             tvInputAmount.setText("");
@@ -548,23 +549,33 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
 
         try {
 
-            if (activityUserSearchResult_et_paying_amount.length() == 0) {
-                errorList.add("Enter amount paying.");
-            }
 
-            try {
 
-                Double mAmount = Double.parseDouble(mPayingAmount.trim());
-                if (mAmount > 0 && mAmount < 10) {
-                    errorList.add("Paying amount should be minimum 10 le");
+            /*todo if pensioners OR disability any of them selected then validation is not required  */
+
+            if (!checkBox_pensioners_discount.isChecked() && !checkBox_disability_discount.isChecked()) {
+                if (activityUserSearchResult_et_paying_amount.length() == 0) {
+                    errorList.add("Enter amount paying.");
                 }
-            } catch (Exception ex) {
-                ex.printStackTrace();
+
+                try {
+
+                    Double mAmount = Double.parseDouble(mPayingAmount.trim());
+                    if (mAmount > 0 && mAmount < 10) {
+                        errorList.add("Paying amount should be minimum 10 le");
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+                if (activityUserSearchResult_et_total_amount.length() == 0) {
+                    errorList.add("Enter total amount paying.");
+                }
             }
 
-            if (activityUserSearchResult_et_total_amount.length() == 0) {
-                errorList.add("Enter total amount paying.");
-            }
+
+
+
 
           /*  try {
 
@@ -581,10 +592,11 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                     errorList.add("Enter cheque no.");
                 }
             }
-
+            /*TODO payee name validation removed*/
+/*
             if (activityUserSearchResult_et_payee_name.length() == 0) {
                 errorList.add("Enter Payee name.");
-            }
+            }*/
 
 
             if (mChequeNo.trim().length() > 0 && mChequeNo.trim().length() < 5) {
@@ -597,7 +609,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
             }
 
 
-            if (file_physical == null) {
+            if (file_physical == null && !checkBox_pensioners_discount.isChecked() && !checkBox_disability_discount.isChecked()) {
                 errorList.add("Please upload the physical image");
             }
 
@@ -832,11 +844,11 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                                 dataModel = new Gson().fromJson(mJsonResponse.getJSONObject("property").getJSONObject("assessment").toString()
                                         , Assessment.class);
 
-                                activityUserSearchResult_tv_assesment_year.setText("Assessed Value "+dataModel.getAssessmentYear());
+                                activityUserSearchResult_tv_assesment_year.setText("Assessed Value " + dataModel.getAssessmentYear());
                                 activityUserSearchResult_tv_assesment_year_value.setText(dataModel.getProperty_net_assessed_value());
 
-                                if(dataModel.getDiscounted_value()!=null)
-                                activityUserSearchResult_tv_discount_applicable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getDiscounted_value()))));
+                                if (dataModel.getDiscounted_value() != null)
+                                    activityUserSearchResult_tv_discount_applicable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getDiscounted_value()))));
 
                                 // activityUserSearchResult_tv_rate_payable_value.setText(dataModel.getRate_payable_new());
 
@@ -853,10 +865,10 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                                 Helper.DISCOUNT_APPLICABLE = dataModel.getRate_payable();
                                 Helper.RATE_PAYABLE = dataModel.getRate_payable();
 
-                                String discRatePayable="0.00";
+                                String discRatePayable = "0.00";
                                 if (dataModel.getRate_payable() != null &&
-                                        dataModel.getPensionerDiscount()!=null &&
-                                        dataModel.getDisabilityDiscount()!=null){
+                                        dataModel.getPensionerDiscount() != null &&
+                                        dataModel.getDisabilityDiscount() != null) {
                                     discRatePayable = CommonUtils.calculateDiscountRatePayable(dataModel.getRate_payable(),
                                             dataModel.getPensionerDiscount(),
                                             dataModel.getDisabilityDiscount());
@@ -864,11 +876,9 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                                 activityUserSearchResult_tv_discount_rate_payable_value.setText(StringUtils.AmountWithComma(discRatePayable));
 
                                 //activityUserSearchResult_tv_council_adjustment_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getCouncil_adjustments_parameters()))));
-                                if(dataModel.getCouncil_adjustments_parameters()!=null)
+                                if (dataModel.getCouncil_adjustments_parameters() != null)
                                     activityUserSearchResult_tv_council_adjustment_value.setText(dataModel.getCouncil_adjustments_parameters());
                                 activityUserSearchResult_tv_net_assessed_value.setText(dataModel.getProperty_net_assessed_value());
-
-
 
 
                                 if (dataModel.getPensionerDiscount().equalsIgnoreCase("0.00"))
@@ -878,8 +888,8 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                                     disabilityStatus = true;
 
 
-                              //  boolean pensionerStatus = dataModel.getPensionerDiscount().equalsIgnoreCase("0") ? true : false;
-                              //  boolean disabilityStatus = dataModel.getDisabilityDiscount().equalsIgnoreCase("0") ? true : false;
+                                //  boolean pensionerStatus = dataModel.getPensionerDiscount().equalsIgnoreCase("0") ? true : false;
+                                //  boolean disabilityStatus = dataModel.getDisabilityDiscount().equalsIgnoreCase("0") ? true : false;
 
 
                                 checkBox_pensioners_discount.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -975,7 +985,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
         }
 
 
-        activityUserSearchResult_tv_assesment_year.setText("Assessed Value "+searchResponseModel.getProperty().getAssessment().getAssessmentYear());
+        activityUserSearchResult_tv_assesment_year.setText("Assessed Value " + searchResponseModel.getProperty().getAssessment().getAssessmentYear());
         activityUserSearchResult_tv_assesment_year_value.setText("" + StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getCurrentYearAssessmentAmount()))));
         activityUserSearchResult_tv_arrear_value.setText("" + StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getArrearDue()))));
         activityUserSearchResult_tv_penalty_value.setText("" + StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getPenalty()))));
@@ -1025,7 +1035,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                 // Set the TextView visibility GONE
                 dialog.dismiss();
 
-               // PrefUtil.mClearALLData(mContext);
+                // PrefUtil.mClearALLData(mContext);
 
                 Intent i = new Intent(ActivityMainCashierProperty.this, ActivityUserLogin.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -1144,6 +1154,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
         String finalURL = URL_CASHIER_SAVE_PAYMENT + activityMain_et_propertyId.getText().toString().trim();
         LogUtils.showErrorLog("header", headers.toString());
         LogUtils.showErrorLog("finalURL == : == ", finalURL);
+        LogUtils.showErrorLog("params == : == ", req_params.toString());
 
       /*  new RestApiRequestListener(this, TAG_REQUEST_SAVE_PAYMENT, finalURL, headers,
                 req_params, new RestApiRequestListener.setOnRequestListener() {
@@ -1339,9 +1350,10 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
         Log.d("response", error.toString());
         LogUtils.showErrorLog("reqNormalLogin", error);
     }
-    private void showProfileOrNotification(String type){
+
+    private void showProfileOrNotification(String type) {
         Intent mIntent = new Intent(mContext, ActivityCep.class);
-        mIntent.putExtra("type",type);
+        mIntent.putExtra("type", type);
         startActivity(mIntent);
     }
 
