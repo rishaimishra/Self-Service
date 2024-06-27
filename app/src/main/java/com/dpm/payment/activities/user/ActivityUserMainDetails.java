@@ -747,7 +747,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         councillor_list.add(new DataModel("council_group_name", dataItem.getAssessment().getGroupName() + ""));*/
         String value = taxable_value_Hashmap.get(dataItem.getAssessment().getPropertyId().toString());
         councillor_list.add(new DataModel("NET ASSESSED VALUE", dataItem.getAssessment().getProperty_net_assessed_value() + ""));
-        councillor_list.add(new DataModel("Taxable Property Value", value));
+      //  councillor_list.add(new DataModel("Taxable Property Value", value));
         councillor_list.add(new DataModel("Council_Group/Category", dataItem.getAssessment().getGroupName() + ""));
         councillor_list.add(new DataModel("Mill_Rate", dataItem.getAssessment().getMillRate() + ""));
 
@@ -893,7 +893,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                         ex.printStackTrace();
                     }
 
-                    try {
+                  /*  try {
 
                         String OrganizationType = ((mMainObject.optString("organization_addresss") == null) ? "" : "" + mMainObject.optString("organization_addresss"));
 
@@ -903,17 +903,9 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                         listLandload.add(model110);
                     } catch (Exception ex) {
                         ex.printStackTrace();
-                    }
+                    }*/
 
-                    try {
-                        String mEmail = ((landlordModel.getEmail() == null) ? "" : "" + landlordModel.getEmail());
-                        DataModel model18 = new DataModel();
-                        model18.setKey("Email Address");
-                        model18.setValue("" + mEmail);
-                        listLandload.add(model18);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
+
 
 
                 } else {
@@ -1063,12 +1055,22 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                 try {
                     String mEmail = ((landlordModel.getEmail() == null) ? "" : "" + landlordModel.getEmail());
                     DataModel model18 = new DataModel();
-                    model18.setKey("Email");
+                    model18.setKey("Email Address");
                     model18.setValue("" + mEmail);
                     listLandload.add(model18);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
+
+             /*   try {
+                    String mEmail = ((landlordModel.getEmail() == null) ? "" : "" + landlordModel.getEmail());
+                    DataModel model18 = new DataModel();
+                    model18.setKey("Email");
+                    model18.setValue("" + mEmail);
+                    listLandload.add(model18);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }*/
 
                 adapterLandload.notifyDataSetChanged();
             }
@@ -1378,9 +1380,9 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
                 try {
 
-                    listAssessment.add(new DataModel("Dimension", "" + dataItem.getAssessment().getSquareMeter()+" (sq mt) "));
+                    listAssessment.add(new DataModel("Floor Area", "" + dataItem.getAssessment().getSquareMeter()+" (sq ft) "));
                 } catch (Exception ex) {
-                    listAssessment.add(new DataModel("Dimension", ""));
+                    listAssessment.add(new DataModel("Floor Area", ""));
                     ex.printStackTrace();
                 }
 

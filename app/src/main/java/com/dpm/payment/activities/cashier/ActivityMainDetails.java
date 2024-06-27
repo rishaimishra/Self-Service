@@ -518,7 +518,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
 
         councillor_list.add(new DataModel("Net Assessed Value", dataItem.getProperty_net_assessed_value()));
-        councillor_list.add(new DataModel("Taxable Property Value", property_taxable_value))
+       // councillor_list.add(new DataModel("Taxable Property Value", property_taxable_value))
 
         ;
         councillor_list.add(new DataModel("Council_Group/Category", dataItem.getGroupName() + ""));
@@ -843,7 +843,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
                         ex.printStackTrace();
                     }
 
-                    try {
+                 /*   try {
 
                         String OrganizationType = ((mMainObject.optString("organization_addresss") == null) ? "" : "" + mMainObject.optString("organization_addresss"));
 
@@ -853,19 +853,9 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
                         listLandload.add(model110);
                     } catch (Exception ex) {
                         ex.printStackTrace();
-                    }
+                    }*/
 
-                    try {
 
-                        String mEmail = ((landlordModel.getEmail() == null) ? "" : "" + landlordModel.getEmail());
-                        DataModel model18 = new DataModel();
-                        model18.setKey("Email Address");
-                        model18.setValue("" + mEmail);
-                        listLandload.add(model18);
-
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
 
 
                 } else {
@@ -1015,6 +1005,18 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
                 model17.setKey("Mobile Number 2");
                 model17.setValue(landlordModel.getMobile2());
                 listLandload.add(model17);
+
+                try {
+
+                    String mEmail = ((landlordModel.getEmail() == null) ? "" : "" + landlordModel.getEmail());
+                    DataModel model18 = new DataModel();
+                    model18.setKey("Email Address");
+                    model18.setValue("" + mEmail);
+                    listLandload.add(model18);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
 
                 adapterLandload.notifyDataSetChanged();
             }
@@ -1336,9 +1338,9 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
                 try {
 
-                    listAssessment.add(new DataModel("Dimension", "" + dataItem.getSquareMeter() + " (sq mt) "));
+                    listAssessment.add(new DataModel("Floor Area", "" + dataItem.getSquareMeter() + " (sq ft) "));
                 } catch (Exception ex) {
-                    listAssessment.add(new DataModel("Dimension", ""));
+                    listAssessment.add(new DataModel("Floor Area", ""));
                     ex.printStackTrace();
                 }
 
@@ -1750,9 +1752,11 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         EditText edt_landlord_title = deleteDialogView.findViewById(R.id.edt_landlord_title);
         EditText edt_landlord_constituency = deleteDialogView.findViewById(R.id.edt_landlord_constituency);
 
-        if (searchResponseModel.getSex().equalsIgnoreCase("M"))
-            rb_male.setChecked(true);
-        else rb_female.setChecked(true);
+        if (searchResponseModel.getSex()!=null) {
+            if (searchResponseModel.getSex().equalsIgnoreCase("M"))
+                rb_male.setChecked(true);
+            else rb_female.setChecked(true);
+        }
 
         edt_landlord_postcode.setText(searchResponseModel.getPostcode());
         edt_landlord_province.setText(searchResponseModel.getProvince());

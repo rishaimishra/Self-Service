@@ -33,6 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dpm.payment.activities.cep.ActivityCep;
 import com.dpm.payment.activities.user.ActivityUserLogin;
+import com.dpm.payment.models.SearchAssessmentHistoryModel;
 import com.dpm.payment.models.SearchResponseModel;
 import com.dpm.payment.models.propertydetail.Assessment;
 import com.dpm.payment.retrofit.Utills.ApiRequest;
@@ -349,6 +350,10 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                             activityUserSearchResult_et_total_amount.setText(String.format("%.0f", dueAmt));
                             tvInputAmount2.setText("Le " + SetCommaText(activityUserSearchResult_et_total_amount.getText().toString().trim()));
                             // LogUtils.showErrorLog("Enter String ", " Enter String 1 " + mUsdStr);
+
+                            spin_payment_type.setSelection(dueAmt == 0 ? 1 : 0);
+
+
                         } else {
                             activityUserSearchResult_et_total_amount.setText("");
                             tvInputAmount.setText("");
@@ -994,18 +999,29 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
 
 
         try {
-            String mBalance = "";
-            if (searchResponseModel.getProperty().getAssessment().getBalance().contains("E")) {
-                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getBalance())));
-            } else {
-                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue(searchResponseModel.getProperty().getAssessment().getBalance()));
+
+            for (SearchAssessmentHistoryModel item : searchResponseModel.getProperty().getAssessmentHistory()) {
+                if (item.getAssessmentYear().equalsIgnoreCase("2024")){
+                    String mBalance = "";
+                   /* if (item.getBalance().contains("E")) {
+                        mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(item.getBalance())));
+                    } else {
+                        mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue(item.getBalance()));
+                    }*/
+
+                    mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue(item.getBalance().toString()));
+
+                    balanceDue = mBalance;
+
+                    activityUserSearchResult_tv_balance_value.setText("" + mBalance);
+                    activityUserSearchResult_tv_paying_pre_calculate.setText(getString(R.string.amount_due) + "\n" + "Le " + mBalance);
+                    activityUserSearchResult_tv_total_pre_calculate.setText(getString(R.string.amount_due) + "\n" + "Le " + mBalance);
+                }
             }
 
-            balanceDue = mBalance;
 
-            activityUserSearchResult_tv_balance_value.setText("" + mBalance);
-            activityUserSearchResult_tv_paying_pre_calculate.setText(getString(R.string.amount_due) + "\n" + "Le " + mBalance);
-            activityUserSearchResult_tv_total_pre_calculate.setText(getString(R.string.amount_due) + "\n" + "Le " + mBalance);
+
+
 
 
         } catch (Exception ex) {
