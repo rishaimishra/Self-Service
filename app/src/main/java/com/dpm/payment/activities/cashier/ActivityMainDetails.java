@@ -1251,6 +1251,9 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
                     listOccupancy.add(model1);
                     LogUtils.showErrorLog("Occupancy Type", "" + occupancyObject.optString("type"));
 
+                    /*TODO adding school type*/
+                    listOccupancy.add(new DataModel("School Type",occupancyObject.isNull("organizational_school_type") ? "": occupancyObject.optString("organizational_school_type")));
+
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -2810,6 +2813,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         EditText edt_sur_name = deleteDialogView.findViewById(R.id.edt_sur_name);
         EditText edt_landlord_mobile_1 = deleteDialogView.findViewById(R.id.edt_landlord_mobile_1);
         EditText edt_landlord_mobile_2 = deleteDialogView.findViewById(R.id.edt_landlord_mobile_2);
+        EditText edt_school_type = deleteDialogView.findViewById(R.id.edt_school_type);
        Spinner spinner_occupancy_type = deleteDialogView.findViewById(R.id.spinner_occupancy_type);
         Spinner spinner_tenant_title = deleteDialogView.findViewById(R.id.spinner_tenant_title);
         Button btn_save_ = deleteDialogView.findViewById(R.id.btn_save_);
@@ -2839,6 +2843,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         edt_sur_name.setText(occupancyModel.getSurname());
         edt_landlord_mobile_1.setText(occupancyModel.getMobile1());
         edt_landlord_mobile_2.setText(occupancyModel.getMobile2());
+        edt_school_type.setText(occupancyModel.getOrganizational_school_type());
 
 
         dialogOccupancy.show();
@@ -2857,6 +2862,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
                     req_params.put("mobile_2", "" + edt_first_name.getText().toString());
                     req_params.put("ownerTenantTitle", "" + spinner_tenant_title.getSelectedItem().toString());
                     req_params.put("occupancy_type", "" + spinner_occupancy_type.getSelectedItem().toString());
+                    req_params.put("organizational_school_type", "" + edt_school_type.getText().toString());
 
                     //req_params.put("requested_by", "cashier");
 

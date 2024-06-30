@@ -47,6 +47,9 @@ public class SearchOccupancyModel {
     @SerializedName("type")
     @Expose
     private String type;
+   @SerializedName("organizational_school_type")
+    @Expose
+    private String organizational_school_type;
 
 
     @SerializedName("titles")
@@ -154,4 +157,11 @@ public class SearchOccupancyModel {
         this.type = type;
     }
 
+    public String getOrganizational_school_type() {
+        return organizational_school_type;
+    }
+
+    public void setOrganizational_school_type(String organizational_school_type) {
+        this.organizational_school_type = organizational_school_type;
+    }
 }

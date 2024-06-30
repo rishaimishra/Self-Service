@@ -52,6 +52,38 @@
 
 
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen10dp"
+                        android:layout_marginTop="@dimen/dimen16dp"
+                        android:layout_weight=".4"
+                        android:text="School Type"
+                        android:textColor="@color/colorBlack" />
+
+
+                    <EditText
+                        android:id="@+id/edt_school_type"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen10dp"
+                        android:layout_marginTop="@dimen/dimen16dp"
+                        android:layout_marginEnd="@dimen/dimen10dp"
+                        android:layout_weight=".6"
+                        android:background="@drawable/rounded_corner_solid_grey"
+                        android:hint="School Type"
+                        android:padding="@dimen/dimen16dp"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/headerTextSize14sp"
+                        android:textStyle="bold" />
+
+
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
