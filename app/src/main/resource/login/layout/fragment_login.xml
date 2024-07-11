@@ -7,7 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:srcCompat="@drawable/ic_login_bg"
-        android:scaleType="centerCrop"/>
+        android:scaleY="1.4"
+        android:scaleType="fitXY"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,13 +23,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="@dimen/dimen160dp"
-                android:layout_height="@dimen/dimen160dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/ic_splash"
-                android:layout_marginTop="@dimen/dimen48dp"/>
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -36,10 +30,19 @@
                 android:gravity="center_horizontal"
                 android:text="@string/municipal_rate_management_system"
                 android:textAllCaps="true"
-                android:layout_marginTop="@dimen/dimen20dp"
+                android:layout_marginTop="@dimen/dimen32dp"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/dimen17sp"
+                android:textSize="19sp"
                 android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="@dimen/dimen170dp"
+                android:layout_height="@dimen/dimen170dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_splash"
+                android:layout_marginTop="@dimen/dimen48dp"/>
+
+
 
 
         <androidx.appcompat.widget.LinearLayoutCompat

@@ -78,6 +78,7 @@ import com.dpm.payment.utils.RestApiUrl;
 import com.dpm.payment.utils.StringUtils;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.DexterBuilder;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -132,19 +133,19 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
     TextView activitySearchDetails_tv_property_images, activitySearchDetails_tv_rate_payable, activitySearchDetails_tv_assessment_history, activitySearchDetails_tv_landlord_details, activitySearchDetails_tv_property_details, activitySearchDetails_tv_occupancy_details,
             activitySearchDetails_tv_assessment_details, activitySearchDetails_tv_geo_registry_details,
             activitySearchDetails_tv_councillor_adjustment, activitySearchDetails_tv_cashier_receipt, activitySearchDetails_tv_pensioner_receipt, activitySearchDetails_tv_disability_receipt,
-            activitySearchDetails_tv_council_discount, activitySearchDetails_tv_government_policy,tvPensionerDiscount,tvDisabilityDiscount,tvDiscountedRatePayable1,
-            activitySearchDetails_tv_demand_note,tvDownloadDemandNote;
+            activitySearchDetails_tv_council_discount, activitySearchDetails_tv_government_policy, tvPensionerDiscount, tvDisabilityDiscount, tvDiscountedRatePayable1,
+            activitySearchDetails_tv_demand_note, tvDownloadDemandNote;
 
 
     Boolean expand_property_image = false, expand__rate_payable = false, expand_assessment_history = false, expand_landlord_details = false, expand_property_details = false,
             expand_occupancy_details = false, expand_assessment_details = false, expand_geo_registry_details = false, expand_payment_trans_details = false,
             expand_councillor_adjustment = false, expand_cashier_receipt_details = false, expand_pensioner_receipt_details = false, expand_disability_receipt_details = false,
-            expand_council_discount = false, expand_government_policy = false,expand_demand_note = false;
+            expand_council_discount = false, expand_government_policy = false, expand_demand_note = false;
 
 
     View include_property_images, include_tv_rate_payable, include_assessment_history, include_landlord_details, include_property_details, include_occupancy_details, include_assessment_details, include_geo_registry_details,
             include_councillor_adjustment, include_tv_cashier_receipt, include_tv_pensioner_receipt, include_tv_disability_receipt,
-            include_tv_council_discount, include_tv_government_policy,include_search_details_demand_note;
+            include_tv_council_discount, include_tv_government_policy, include_search_details_demand_note;
 
     Spinner spnrDemandNoteYear;
 
@@ -203,7 +204,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
     // FIXME: 24-09-2021
 
-    private RecyclerView  recyclerview_image_disability, recyclerview_image_pensioner, rv_councillor_adjustment, rv_government_policy, rvRatePayable, recyclerview_image_property;
+    private RecyclerView recyclerview_image_disability, recyclerview_image_pensioner, rv_councillor_adjustment, rv_government_policy, rvRatePayable, recyclerview_image_property;
     /*recyclerview_image_cashier,*/
 
     // FIXME: 23-09-2021
@@ -211,7 +212,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
     ApiRequest apiRequest;
 
-    Button btn_edit_landlord, btn_edit_property_details,btn_edit_occupancy_details;
+    Button btn_edit_landlord, btn_edit_property_details, btn_edit_occupancy_details;
 
 
     // FIXME: 08-10-2021
@@ -269,9 +270,10 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         setData();
         setDemandNoteYearAdapter();
         initToolbar();
+        getRecipientDemandNote();
     }
 
-    private void initToolbar(){
+    private void initToolbar() {
         AppCompatImageView ivProfile = findViewById(R.id.ivProfile);
         AppCompatImageView ivNotification = findViewById(R.id.ivNotification);
         ivProfile.setOnClickListener(v -> {
@@ -521,7 +523,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         activitySearchDetails_tv_payment = findViewById(R.id.activitySearchDetails_tv_payment);
         //Demand Note
         activitySearchDetails_tv_demand_note = findViewById(R.id.activitySearchDetails_tv_demand_note);
-        spnrDemandNoteYear= findViewById(R.id.spnrDemandNoteYear);
+        spnrDemandNoteYear = findViewById(R.id.spnrDemandNoteYear);
         include_search_details_demand_note = findViewById(R.id.include_search_details_demand_note);
 
         tvDownloadDemandNote = findViewById(R.id.tvDownloadDemandNote);
@@ -544,65 +546,65 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
     private void viewAssessmentHistory(JSONObject mJsonObject) {
         try {
-        TextView tvAssessmentYearValue = findViewById(R.id.tvAssessmentYearValue);
-        TextView  tvArrearValue = findViewById(R.id.tvArrearValue);
-        TextView  tvPenaltyValue1 = findViewById(R.id.tvPenaltyValue);
-        TextView  tvAmountPaid = findViewById(R.id.tvAmountPaid);
-        TextView txtAmountPaid = findViewById(R.id.txtAmountPaid);
-        TextView  tvDueValue = findViewById(R.id.tvDueValue);
-        TextView  tvDiscountedRatePayable = findViewById(R.id.tvDiscountedRatePayable);
-        TextView  txtAssessmentYear = findViewById(R.id.txtAssessmentYear);
-        TextView tvCouncilAdjustmentParams = findViewById(R.id.tvCouncilAdjustmentParams);
-        TextView tvRatePayable = findViewById(R.id.tvRatePayable);
-        TextView tvDiscountApplicable = findViewById(R.id.tvDiscountApplicable);
-        TextView tvNetAssessedValue = findViewById(R.id.tvNetAssessedValue);
-        SearchPropertyModel mSearchPropertyModel = (SearchPropertyModel) CommonUtils.getObjectFromJson(mJsonObject.toString(), SearchPropertyModel.class);
-        txtAssessmentYear.setText("Assessed Value "+mSearchPropertyModel.getAssessment().getAssessmentYear());
-        String discRatePayable="0";
-        if (mSearchPropertyModel.getAssessment().getRate_payable() != null &&
-                mSearchPropertyModel.getAssessment().getPensioner_discount()!=null &&
-                mSearchPropertyModel.getAssessment().getDisability_discount()!=null){
-            discRatePayable = CommonUtils.calculateDiscountRatePayable(mSearchPropertyModel.getAssessment().getRate_payable(),
-                    mSearchPropertyModel.getAssessment().getPensioner_discount(),
-                    mSearchPropertyModel.getAssessment().getDisability_discount());
-        }
-            discRatePayable =StringUtils.AmountWithComma(discRatePayable);
-        tvDiscountedRatePayable.setText(discRatePayable);
-        TextView tvDiscountedRatePayableText = findViewById(R.id.tvDiscountedRatePayableText);
-        tvDiscountedRatePayable1.setText(discRatePayable);
-        tvDiscountedRatePayableText.setText("DISCOUNTED RATE PAYABLE "+mSearchPropertyModel.getAssessment().getAssessmentYear());
+            TextView tvAssessmentYearValue = findViewById(R.id.tvAssessmentYearValue);
+            TextView tvArrearValue = findViewById(R.id.tvArrearValue);
+            TextView tvPenaltyValue1 = findViewById(R.id.tvPenaltyValue);
+            TextView tvAmountPaid = findViewById(R.id.tvAmountPaid);
+            TextView txtAmountPaid = findViewById(R.id.txtAmountPaid);
+            TextView tvDueValue = findViewById(R.id.tvDueValue);
+            TextView tvDiscountedRatePayable = findViewById(R.id.tvDiscountedRatePayable);
+            TextView txtAssessmentYear = findViewById(R.id.txtAssessmentYear);
+            TextView tvCouncilAdjustmentParams = findViewById(R.id.tvCouncilAdjustmentParams);
+            TextView tvRatePayable = findViewById(R.id.tvRatePayable);
+            TextView tvDiscountApplicable = findViewById(R.id.tvDiscountApplicable);
+            TextView tvNetAssessedValue = findViewById(R.id.tvNetAssessedValue);
+            SearchPropertyModel mSearchPropertyModel = (SearchPropertyModel) CommonUtils.getObjectFromJson(mJsonObject.toString(), SearchPropertyModel.class);
+            txtAssessmentYear.setText("Assessed Value " + mSearchPropertyModel.getAssessment().getAssessmentYear());
+            String discRatePayable = "0";
+            if (mSearchPropertyModel.getAssessment().getRate_payable() != null &&
+                    mSearchPropertyModel.getAssessment().getPensioner_discount() != null &&
+                    mSearchPropertyModel.getAssessment().getDisability_discount() != null) {
+                discRatePayable = CommonUtils.calculateDiscountRatePayable(mSearchPropertyModel.getAssessment().getRate_payable(),
+                        mSearchPropertyModel.getAssessment().getPensioner_discount(),
+                        mSearchPropertyModel.getAssessment().getDisability_discount());
+            }
+            discRatePayable = StringUtils.AmountWithComma(discRatePayable);
+            tvDiscountedRatePayable.setText(discRatePayable);
+            TextView tvDiscountedRatePayableText = findViewById(R.id.tvDiscountedRatePayableText);
+            tvDiscountedRatePayable1.setText(discRatePayable);
+            tvDiscountedRatePayableText.setText("DISCOUNTED RATE PAYABLE " + mSearchPropertyModel.getAssessment().getAssessmentYear());
 
 
-        if (mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst() != null){
-            tvAssessmentYearValue.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst()))));
-        }else{
-            tvAssessmentYearValue.setText("");
-        }
+            if (mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst() != null) {
+                tvAssessmentYearValue.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst()))));
+            } else {
+                tvAssessmentYearValue.setText("");
+            }
 
-        if (mSearchPropertyModel.getAssessment().getCouncil_adjustments_parameters() != null){
-            tvCouncilAdjustmentParams.setText(mSearchPropertyModel.getAssessment().getCouncil_adjustments_parameters());
-        }else{
-            tvCouncilAdjustmentParams.setText("");
-        }
-        if (mSearchPropertyModel.getAssessment().getProperty_net_assessed_vaue() != null){
-            tvNetAssessedValue.setText(mSearchPropertyModel.getAssessment().getProperty_net_assessed_vaue());
-        }else{
-            tvNetAssessedValue.setText("");
-        }
-        tvDiscountApplicable.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getDiscounted_value()))));
-        tvRatePayable.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getRate_payable()))));
-        tvArrearValue.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getArrearDue()))));
-        tvPenaltyValue1.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getPenalty()))));
-        txtAmountPaid.setText("Amount Paid (" + mSearchPropertyModel.getAssessment().getAssessmentYear() + ")");
-        tvAmountPaid.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getAmountPaid()))));
-        String mBalance = "";
-        if (mSearchPropertyModel.getAssessment().getBalance().contains("E")) {
-            mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getBalance())));
-        } else {
-            mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue(mSearchPropertyModel.getAssessment().getBalance()));
-        }
+            if (mSearchPropertyModel.getAssessment().getCouncil_adjustments_parameters() != null) {
+                tvCouncilAdjustmentParams.setText(mSearchPropertyModel.getAssessment().getCouncil_adjustments_parameters());
+            } else {
+                tvCouncilAdjustmentParams.setText("");
+            }
+            if (mSearchPropertyModel.getAssessment().getProperty_net_assessed_vaue() != null) {
+                tvNetAssessedValue.setText(mSearchPropertyModel.getAssessment().getProperty_net_assessed_vaue());
+            } else {
+                tvNetAssessedValue.setText("");
+            }
+            tvDiscountApplicable.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getDiscounted_value()))));
+            tvRatePayable.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getRate_payable()))));
+            tvArrearValue.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getArrearDue()))));
+            tvPenaltyValue1.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getPenalty()))));
+            txtAmountPaid.setText("Amount Paid (" + mSearchPropertyModel.getAssessment().getAssessmentYear() + ")");
+            tvAmountPaid.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getAmountPaid()))));
+            String mBalance = "";
+            if (mSearchPropertyModel.getAssessment().getBalance().contains("E")) {
+                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getBalance())));
+            } else {
+                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue(mSearchPropertyModel.getAssessment().getBalance()));
+            }
 
-        tvDueValue.setText("" + mBalance);
+            tvDueValue.setText("" + mBalance);
         } catch (Exception ignored) {
 
         }
@@ -615,7 +617,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         ivProfilePicLandload = findViewById(R.id.ivProfilePicLandload);
         rvLandload = findViewById(R.id.rvLandload);
         rvLandload.setLayoutManager(new LinearLayoutManager(this));
-        adapterLandload = new DataViewAdapter(listLandload,R.layout.rowview_landlord_details);
+        adapterLandload = new DataViewAdapter(listLandload, R.layout.rowview_landlord_details);
         rvLandload.setAdapter(adapterLandload);
         rvLandload.setFocusable(false);
         ViewCompat.setNestedScrollingEnabled(rvLandload, false);
@@ -688,7 +690,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         ViewCompat.setNestedScrollingEnabled(rv_councillor_adjustment, false);
 
         List<DataModel> councillor_list = new ArrayList<>();
-     /*   *//*councillor_list.add(new DataModel("window_type", dataItem.getWindowTypeType()));
+        /*   *//*councillor_list.add(new DataModel("window_type", dataItem.getWindowTypeType()));
         councillor_list.add(new DataModel("sanitation", dataItem.getSanitation() + ""));
         councillor_list.add(new DataModel("Window type percentage", dataItem.getWindowTypePercentage() + "%"));
         councillor_list.add(new DataModel("pensioner_discount", dataItem.getPensionerDiscount() == 1 ? "Yes" : "No"));
@@ -717,7 +719,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         councillor_list.add(new DataModel("Unpaved/Untarred Street/Road", dataItem.getAssessment().getPavedTarredStreetPercentage() + "%"));
 
 
-        DataViewAdapter adapter = new DataViewAdapter(councillor_list,R.layout.rowview_council_adjustment_details);
+        DataViewAdapter adapter = new DataViewAdapter(councillor_list, R.layout.rowview_council_adjustment_details);
         rv_councillor_adjustment.setAdapter(adapter);
     }
 
@@ -747,13 +749,13 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         councillor_list.add(new DataModel("council_group_name", dataItem.getAssessment().getGroupName() + ""));*/
         String value = taxable_value_Hashmap.get(dataItem.getAssessment().getPropertyId().toString());
         councillor_list.add(new DataModel("NET ASSESSED VALUE", dataItem.getAssessment().getProperty_net_assessed_value() + ""));
-      //  councillor_list.add(new DataModel("Taxable Property Value", value));
+        //  councillor_list.add(new DataModel("Taxable Property Value", value));
         councillor_list.add(new DataModel("Council_Group/Category", dataItem.getAssessment().getGroupName() + ""));
         councillor_list.add(new DataModel("Mill_Rate", dataItem.getAssessment().getMillRate() + ""));
 
-        councillor_list.add(new DataModel("RATE PAYABLE "+dataItem.getAssessment().getAssessmentYear(),   StringUtils.AmountWithComma(StringUtils.roundStringValue(dataItem.getAssessment().getRate_payable()))));
+        councillor_list.add(new DataModel("RATE PAYABLE " + dataItem.getAssessment().getAssessmentYear(), StringUtils.AmountWithComma(StringUtils.roundStringValue(dataItem.getAssessment().getRate_payable()))));
 
-        DataViewAdapter adapter = new DataViewAdapter(councillor_list,dataItem.getAssessment().getAssessmentYear());
+        DataViewAdapter adapter = new DataViewAdapter(councillor_list, dataItem.getAssessment().getAssessmentYear());
         rv_government_policy.setAdapter(adapter);
     }
 
@@ -766,12 +768,12 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         String value = discounted_value_Hashmap.get(dataItem.getAssessment().getPropertyId().toString());
 
         List<DataModel> councillor_list = new ArrayList<>();
-        councillor_list.add(new DataModel("discounted rate payable "+dataItem.getAssessment().getAssessmentYear(), value != null ? StringUtils.AmountWithComma(StringUtils.roundStringValue(value)) : ""));
+        councillor_list.add(new DataModel("discounted rate payable " + dataItem.getAssessment().getAssessmentYear(), value != null ? StringUtils.AmountWithComma(StringUtils.roundStringValue(value)) : ""));
         DataViewAdapter adapter = new DataViewAdapter(councillor_list);
 
-       // tvDiscountedRatePayable.setText(value != null ? StringUtils.AmountWithComma(StringUtils.roundStringValue(dataItem.getAssessment().getDiscounted_value())) : "");
+        // tvDiscountedRatePayable.setText(value != null ? StringUtils.AmountWithComma(StringUtils.roundStringValue(dataItem.getAssessment().getDiscounted_value())) : "");
 
-       // rvRatePayable.setAdapter(adapter);
+        // rvRatePayable.setAdapter(adapter);
     }
 
 
@@ -889,6 +891,13 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                         model19.setKey("Organization Type");
                         model19.setValue("" + OrganizationType);
                         listLandload.add(model19);
+
+
+                        if (OrganizationType.equalsIgnoreCase("School")) {
+                            listLandload.add(new DataModel("School Type", mMainObject.optString("organization_school_type")));
+
+                        }
+
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
@@ -904,8 +913,6 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }*/
-
-
 
 
                 } else {
@@ -937,10 +944,10 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                     try {
                         DataModel model2 = new DataModel();
                         model2.setKey("Middle Name");
-                        if(landlordModel.getMiddleName()==null ||
-                                landlordModel.getMiddleName().trim().equals("")){
+                        if (landlordModel.getMiddleName() == null ||
+                                landlordModel.getMiddleName().trim().equals("")) {
                             model2.setValue("--");
-                        }else
+                        } else
                             model2.setValue(landlordModel.getMiddleName());
                         listLandload.add(model2);
                     } catch (Exception ex) {
@@ -956,9 +963,6 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
-
-
-
 
 
                     try {
@@ -1015,9 +1019,6 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                 model11.setKey("Constituency");
                 model11.setValue(landlordModel.getConstituency());
                 listLandload.add(model11);
-
-
-
 
 
                 DataModel model13 = new DataModel();
@@ -1133,8 +1134,6 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                 model3.setKey("Ward");
                 model3.setValue(String.valueOf(propertyModel.getWard()));
                 listProperty.add(model3);
-
-
 
 
                 DataModel model5 = new DataModel();
@@ -1262,7 +1261,129 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         try {
             if (occupancyObject != null) {
 
-                 occupancyModel = (SearchOccupancyModel) CommonUtils.getObjectFromJson(occupancyObject.toString().trim(), SearchOccupancyModel.class);
+                occupancyModel = (SearchOccupancyModel) CommonUtils.getObjectFromJson(occupancyObject.toString().trim(), SearchOccupancyModel.class);
+
+                if (JSONMainObj.optBoolean("is_organization")) {
+
+                    try {
+
+                        String organization_name = ((JSONMainObj.optString("organization_name") == null) ? "" : "" + JSONMainObj.optString("organization_name"));
+
+                        DataModel model18 = new DataModel();
+                        model18.setKey("Organization Name");
+                        model18.setValue("" + organization_name);
+                        listOccupancy.add(model18);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    try {
+
+                        String OrganizationType = ((JSONMainObj.optString("organization_type") == null) ? "" : "" + JSONMainObj.optString("organization_type"));
+
+                        DataModel model19 = new DataModel();
+                        model19.setKey("Organization Type");
+                        model19.setValue("" + OrganizationType);
+                        listOccupancy.add(model19);
+
+
+                        if (OrganizationType.equalsIgnoreCase("School")) {
+                            listOccupancy.add(new DataModel("School Type", JSONMainObj.optString("organization_school_type")));
+
+                        }
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
+                    try {
+
+                        String OrganizationType = ((JSONMainObj.getJSONObject("landlord").getJSONObject("property").optString("organization_tin") == null) ? "" : "" + JSONMainObj.getJSONObject("landlord").getJSONObject("property").optString("organization_tin"));
+
+                        DataModel model19 = new DataModel();
+                        model19.setKey("Tin");
+                        model19.setValue("" + OrganizationType);
+                        listLandload.add(model19);
+
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
+                  /*  try {
+
+                        String OrganizationType = ((mMainObject.optString("organization_addresss") == null) ? "" : "" + mMainObject.optString("organization_addresss"));
+
+                        DataModel model110 = new DataModel();
+                        model110.setKey("Organization Address");
+                        model110.setValue("" + OrganizationType);
+                        listLandload.add(model110);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }*/
+
+
+                } else {
+
+                    DataModel model22 = new DataModel();
+                    model22.setKey("Tenant Title");
+                    model22.setValue(landlordModel.getTitles().getLabel());
+                    listOccupancy.add(model22);
+
+
+                    DataModel model2 = new DataModel();
+                    model2.setKey("Tenant First Name");
+                    model2.setValue(occupancyModel.getTenantFirstName());
+                    listOccupancy.add(model2);
+
+
+                    DataModel model3 = new DataModel();
+                    model3.setKey("Middle Name");
+                    if (occupancyModel.getMiddleName() == null ||
+                            occupancyModel.getMiddleName().trim().equals("")) {
+                        model3.setValue("--");
+                    } else
+                        model3.setValue(occupancyModel.getMiddleName());
+                    listOccupancy.add(model3);
+
+
+                    DataModel model4 = new DataModel();
+                    model4.setKey("Surname");
+                    model4.setValue(occupancyModel.getSurname());
+                    listOccupancy.add(model4);
+
+
+                    try {
+
+                        String OrganizationType = ((JSONMainObj.getJSONObject("landlord").optString("nin_number") == null) ? "" : "" + JSONMainObj.getJSONObject("landlord").optString("nin_number"));
+
+                        DataModel model19 = new DataModel();
+                        model19.setKey("Nin");
+                        model19.setValue("" + OrganizationType);
+                        listLandload.add(model19);
+
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
+                }
+
+                try {
+                    DataModel model3 = new DataModel();
+                    model3.setKey("Additional Address");
+                    model3.setValue(JSONMainObj.getJSONObject("landlord").optString("additional_address_id"));
+                    listLandload.add(model3);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                try {
+                    DataModel model3 = new DataModel();
+                    model3.setKey("Area");
+                    model3.setValue(JSONMainObj.getJSONObject("landlord").optString("property_area"));
+                    listLandload.add(model3);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
 
                 try {
 
@@ -1287,40 +1408,12 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                     LogUtils.showErrorLog("Occupancy Type", "" + occupancyObject.optString("type"));
 
                     /*TODO adding school type*/
-                    listOccupancy.add(new DataModel("School Type",occupancyObject.isNull("organizational_school_type") ? "": occupancyObject.optString("organizational_school_type")));
-
 
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
 
-                DataModel model22 = new DataModel();
-                model22.setKey("Tenant Title");
-                model22.setValue(landlordModel.getTitles().getLabel());
-                listOccupancy.add(model22);
-
-
-                DataModel model2 = new DataModel();
-                model2.setKey("Tenant First Name");
-                model2.setValue(occupancyModel.getTenantFirstName());
-                listOccupancy.add(model2);
-
-
-                DataModel model3 = new DataModel();
-                model3.setKey("Middle Name");
-                if(occupancyModel.getMiddleName()==null ||
-                        occupancyModel.getMiddleName().trim().equals("")){
-                    model3.setValue("--");
-                }else
-                    model3.setValue(occupancyModel.getMiddleName());
-                listOccupancy.add(model3);
-
-
-                DataModel model4 = new DataModel();
-                model4.setKey("Surname");
-                model4.setValue(occupancyModel.getSurname());
-                listOccupancy.add(model4);
 
                 DataModel model5 = new DataModel();
                 model5.setKey("Mobile Number 1");
@@ -1346,7 +1439,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
             if (assessmentObject != null) {
 
 
-                 tvPensionerDiscount.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(assessmentObject.optString("pensioner_discount")))));
+                tvPensionerDiscount.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(assessmentObject.optString("pensioner_discount")))));
                 tvDisabilityDiscount.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(assessmentObject.optString("disability_discount")))));
                 SearchAssessmentModel assessmentModel = (SearchAssessmentModel) CommonUtils.getObjectFromJson(assessmentObject.toString().trim(), SearchAssessmentModel.class);
 
@@ -1384,7 +1477,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
                 try {
 
-                    listAssessment.add(new DataModel("Floor Area", "" + dataItem.getAssessment().getSquareMeter()+" (sq ft) "));
+                    listAssessment.add(new DataModel("Floor Area", "" + dataItem.getAssessment().getSquareMeter() + " (sq ft) "));
                 } catch (Exception ex) {
                     listAssessment.add(new DataModel("Floor Area", ""));
                     ex.printStackTrace();
@@ -1761,8 +1854,8 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
         // FIXME: 24-09-2021
         activitySearchDetails_tv_cashier_receipt.setOnClickListener(this);
-      //  activitySearchDetails_tv_pensioner_receipt.setOnClickListener(this);
-      //  activitySearchDetails_tv_disability_receipt.setOnClickListener(this);
+        //  activitySearchDetails_tv_pensioner_receipt.setOnClickListener(this);
+        //  activitySearchDetails_tv_disability_receipt.setOnClickListener(this);
         activitySearchDetails_tv_councillor_adjustment.setOnClickListener(this);
         activitySearchDetails_tv_council_discount.setOnClickListener(this);
         activitySearchDetails_tv_government_policy.setOnClickListener(this);
@@ -2100,33 +2193,33 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
                 break;
 
-        case R.id.activitySearchDetails_tv_demand_note:
+            case R.id.activitySearchDetails_tv_demand_note:
 
-        try {
-            if (expand_demand_note) {
-                include_search_details_demand_note.setVisibility(View.GONE);
-                activitySearchDetails_tv_demand_note.setBackground(getDrawable(R.drawable.square_corner_solid_grey));
-                activitySearchDetails_tv_demand_note.setTextColor(getResources().getColor(R.color.colorBlack));
-                activitySearchDetails_tv_demand_note.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_baseline_keyboard_arrow_down_24), null);
-                expand_demand_note = false;
+                try {
+                    if (expand_demand_note) {
+                        include_search_details_demand_note.setVisibility(View.GONE);
+                        activitySearchDetails_tv_demand_note.setBackground(getDrawable(R.drawable.square_corner_solid_grey));
+                        activitySearchDetails_tv_demand_note.setTextColor(getResources().getColor(R.color.colorBlack));
+                        activitySearchDetails_tv_demand_note.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_baseline_keyboard_arrow_down_24), null);
+                        expand_demand_note = false;
 
-            } else {
-                include_search_details_demand_note.setVisibility(View.VISIBLE);
-                activitySearchDetails_tv_demand_note.setBackground(getDrawable(R.drawable.square_corner_solid_blue));
-                activitySearchDetails_tv_demand_note.setTextColor(getResources().getColor(R.color.colorWhite));
-                activitySearchDetails_tv_demand_note.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_baseline_keyboard_arrow_up_24), null);
+                    } else {
+                        include_search_details_demand_note.setVisibility(View.VISIBLE);
+                        activitySearchDetails_tv_demand_note.setBackground(getDrawable(R.drawable.square_corner_solid_blue));
+                        activitySearchDetails_tv_demand_note.setTextColor(getResources().getColor(R.color.colorWhite));
+                        activitySearchDetails_tv_demand_note.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_baseline_keyboard_arrow_up_24), null);
 
-                expand_demand_note = true;
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+                        expand_demand_note = true;
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+                break;
+            case R.id.tvDownloadDemandNote:
+                getDemandNote();
+                break;
         }
-
-        break;
-        case R.id.tvDownloadDemandNote:
-            getDemandNote();
-            break;
-    }
         if (intent != null) {
             startActivity(intent);
         }
@@ -2161,7 +2254,6 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         lyt_new_street_number.setVisibility(View.GONE);
 
 
-
         // FIXME: 13-05-2022
         RadioButton rb_male = deleteDialogView.findViewById(R.id.rb_male);
         RadioButton rb_female = deleteDialogView.findViewById(R.id.rb_female);
@@ -2188,11 +2280,6 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         edt_landlord_section.setText(searchResponseModel.getSection());
         edt_landlord_mobile_2.setText(searchResponseModel.getMobile2());
         edt_landlord_title.setText(searchResponseModel.getTitles().getLabel());
-
-
-
-
-
 
 
         img_verification_document = deleteDialogView.findViewById(R.id.img_verification_document);
@@ -2418,7 +2505,6 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
             // FIXME: 13-05-2022
 
 
-
             req_params.put("landlord_ownerTitle_id", "" + edt_landlord_title.getText().toString());
             req_params.put("landlord_ward", "" + edt_landlord_ward.getText().toString());
             req_params.put("landlord_constituency", "" + edt_landlord_constituency.getText().toString());
@@ -2428,7 +2514,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
             req_params.put("landlord_province", "" + edt_landlord_province.getText().toString());
             req_params.put("landlord_postcode", "" + edt_landlord_postcode.getText().toString());
             req_params.put("landlord_mobile_2", "" + edt_landlord_mobile_2.getText().toString());
-            req_params.put("landlord_sex",rb_male.isChecked() ? "M" :"F");
+            req_params.put("landlord_sex", rb_male.isChecked() ? "M" : "F");
 
 
           /*  adapterLandload.updateItems(new DataModel("Email Address", edt_landlord_email.getText().toString()));
@@ -2548,10 +2634,8 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         edt_landlord_district.setText(searchResponseModel.getDistrict());
         edt_landlord_chiefdom.setText(searchResponseModel.getChiefdom());
         edt_landlord_constituency.setText(searchResponseModel.getConstituency());
-        edt_landlord_ward.setText(searchResponseModel.getWard()+"");
+        edt_landlord_ward.setText(searchResponseModel.getWard() + "");
         edt_landlord_section.setText(searchResponseModel.getSection());
-
-
 
 
         // FIXME: 20-09-2021
@@ -2694,7 +2778,6 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
             req_params.put("temp_postcode", "" + edt_landlord_postcode.getText().toString());
 
 
-
             if (!list_map_landlord_property.containsKey("address_document")) {
                 Toast.makeText(ActivityUserMainDetails.this, "Please select address document", Toast.LENGTH_SHORT).show();
                 return;
@@ -2725,7 +2808,6 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         });
 
     }
-
 
 
     // FIXME: 19-09-2021
@@ -2830,10 +2912,9 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         if (tag.equalsIgnoreCase("upload_data_occupancy")) {
 
 
-
             try {
                 JSONObject object = new JSONObject(response);
-                Log.d("upload_data_occupancy",object.toString());
+                Log.d("upload_data_occupancy", object.toString());
                 Toast.makeText(this, "" + object.getString("success") + " Please wait for approval", Toast.LENGTH_SHORT).show();
                 dialogOccupancy.dismiss();
             } catch (JSONException e) {
@@ -2865,7 +2946,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         }
         if (tag.equalsIgnoreCase("getReceipt")) {
 
-            ReceiptResponse receiptResponse = new Gson().fromJson(response,ReceiptResponse.class);
+            ReceiptResponse receiptResponse = new Gson().fromJson(response, ReceiptResponse.class);
 
             recycler_view_receipt.setHasFixedSize(true);
             recycler_view_receipt.setFocusable(false);
@@ -2873,14 +2954,14 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
             recycler_view_receipt.setAdapter(new ReceiptAdapter(receiptResponse.getDatas() != null ? receiptResponse.getDatas() : new ArrayList<>(), new OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    switch (view.getId()){
+                    switch (view.getId()) {
                         case R.id.tvView:
                             Intent intent = new Intent(ActivityUserMainDetails.this, WebViewActivity.class);
-                            intent.putExtra("url",receiptResponse.getDatas().get(position).getUrl());
+                            intent.putExtra("url", receiptResponse.getDatas().get(position).getUrl());
                             startActivity(intent);
                             break;
                         case R.id.tvDownload:
-                            if(!TextUtils.isEmpty(receiptResponse.getDatas().get(position).getPdf_url())){
+                            if (!TextUtils.isEmpty(receiptResponse.getDatas().get(position).getPdf_url())) {
                                 checkStoragePermission(receiptResponse.getDatas().get(position).getPdf_url());
                             }
                             break;
@@ -2901,18 +2982,21 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
     public void OnCallBackError(String tag, String error, int i) {
 
     }
+
     private ProgressDialog progressDialog;
+
     // FIXME: 16-05-2022
-   public void getReceipt(){
-       String url = URL_LANDLORD_RECEIPT+dataItem.getAssessment().getPropertyId();
-       apiRequest.callGetRequest(url,"getReceipt");
-   }
+    public void getReceipt() {
+        String url = URL_LANDLORD_RECEIPT + dataItem.getAssessment().getPropertyId();
+        apiRequest.callGetRequest(url, "getReceipt");
+    }
 
     public void getOccupancyType() {
         String url = "http://mrms.sigmaventuressl.com/apiv2/get-occupency-types";
         apiRequest.callGetRequest(URL_OCCUPANCY_TYPE, "getOccupancyType");
 
     }
+
     private void getDemandNote() {
         LandlordResponseModel mLandlordUserModel;
         mLandlordUserModel = PrefUtil.getLandlordProfile(mContext);
@@ -2920,7 +3004,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         headers.put("Accept", "application/json");
         headers.put("Authorization", mLandlordUserModel.getAuth_type() + " " + mLandlordUserModel.getToken());
         progressDialog = new ProgressDialog(mContext);
-        new RestApiRequestListener(this, TAG_LAND_LORD_RECEIPT, RestApiUrl.URL_DEMAND_NOTE+dataItem.getAssessment().getPropertyId()+"/"+dataItem.getAssessment().getAssessmentYear(),
+        new RestApiRequestListener(this, TAG_LAND_LORD_RECEIPT, RestApiUrl.URL_DEMAND_NOTE + dataItem.getAssessment().getPropertyId() + "/" + dataItem.getAssessment().getAssessmentYear(),
                 headers, null, new RestApiRequestListener.setOnRequestListener() {
             @Override
             public void onPreExecute() {
@@ -2936,10 +3020,60 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                         progressDialog.dismiss();
                     }
                 }
-                LandLordReceiptResponse mLandLordReceiptResponse = new Gson().fromJson(response,LandLordReceiptResponse.class);
-                if(!TextUtils.isEmpty(mLandLordReceiptResponse.getPdf_path())){
+                LandLordReceiptResponse mLandLordReceiptResponse = new Gson().fromJson(response, LandLordReceiptResponse.class);
+                if (!TextUtils.isEmpty(mLandLordReceiptResponse.getPdf_path())) {
                     checkStoragePermission(mLandLordReceiptResponse.getPdf_path());
                 }
+            }
+
+            @Override
+            public void onErrorListener(String errorMessage) {
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+            }
+        }).getRequest();
+
+    }
+
+    private void getRecipientDemandNote() {
+        LandlordResponseModel mLandlordUserModel;
+        mLandlordUserModel = PrefUtil.getLandlordProfile(mContext);
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("Accept", "application/json");
+        headers.put("Authorization", mLandlordUserModel.getAuth_type() + " " + mLandlordUserModel.getToken());
+        progressDialog = new ProgressDialog(mContext);
+        new RestApiRequestListener(this, TAG_LAND_LORD_RECEIPT, "http://3.134.197.245/apiv2/payment/receipt-name" + "/" + dataItem.getAssessment().getPropertyId() + "/" + dataItem.getAssessment().getAssessmentYear(),
+                headers, null, new RestApiRequestListener.setOnRequestListener() {
+            @Override
+            public void onPreExecute() {
+                progressDialog.setMessage("" + mContext.getResources().getString(R.string.loading_please_wait));
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+            }
+
+            @Override
+            public void onSuccessListener(String response) {
+                if (progressDialog != null) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                }
+                // findViewById(R.id.edtRecipientName)
+                try {
+                    JSONObject obj = new JSONObject(response);
+
+                    if (!obj.isNull("recipient_name")) {
+                        EditText edtRecipientName = findViewById(R.id.edtRecipientName);
+                        edtRecipientName.setText(obj.optString("recipient_name"));
+                    }
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+
             }
 
             @Override
@@ -3025,7 +3159,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                     req_params.put("occupancy_type", "" + spinner_occupancy_type.getSelectedItem().toString());
                     req_params.put("organizational_school_type", "" + edt_school_type.getText().toString());
 
-                   // req_params.put("requested_by", Constant.USERNAME);
+                    // req_params.put("requested_by", Constant.USERNAME);
 
 
                     String finalURL = URL_EDIT_OCCUPANCY; // + dataItem.getAssessment().getPropertyId();
@@ -3044,24 +3178,25 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                 });
 
     }
-    private void setDemandNoteYearAdapter(){
+
+    private void setDemandNoteYearAdapter() {
         ArrayList<String> mList = new ArrayList<>();
-        int year  =  Calendar.getInstance().get(Calendar.YEAR);
-        for( int i=year;i>(year-5); i--){
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        for (int i = year; i > (year - 5); i--) {
             mList.add(String.valueOf(i));
         }
-        ArrayAdapter aa = new ArrayAdapter(mContext,R.layout.adapter_text_blue,mList);
+        ArrayAdapter aa = new ArrayAdapter(mContext, R.layout.adapter_text_blue, mList);
         aa.setDropDownViewResource(R.layout.adapter_text_blue);
         spnrDemandNoteYear.setAdapter(aa);
     }
 
-    private void showProfileOrNotification(String type){
+    private void showProfileOrNotification(String type) {
         Intent mIntent = new Intent(mContext, ActivityCep.class);
-        mIntent.putExtra("type",type);
+        mIntent.putExtra("type", type);
         startActivity(mIntent);
     }
 
-    private void checkStoragePermission(String url){
+    private void checkStoragePermission(String url) {
         Dexter.withContext(ActivityUserMainDetails.this)
                 .withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -3070,7 +3205,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                     public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
                         if (multiplePermissionsReport.areAllPermissionsGranted()) {
                             // do you work now
-                            DownloadPdfTask  mDownloadPdfTask = new DownloadPdfTask(ActivityUserMainDetails.this,url);
+                            DownloadPdfTask mDownloadPdfTask = new DownloadPdfTask(ActivityUserMainDetails.this, url);
                             mDownloadPdfTask.execute();
                         }
                     }

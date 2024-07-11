@@ -98,8 +98,10 @@
                 android:textSize="@dimen/dimen13sp"
                 android:textStyle="bold" />
             <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtRecipientName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="end"
                 android:layout_marginStart="@dimen/dimen12dp"
                 android:background="@drawable/rounded_corner_grey1"
                 android:paddingVertical="@dimen/dimen4dp"
