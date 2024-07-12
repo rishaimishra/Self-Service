@@ -26,18 +26,18 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/dimen24dp"
+                android:layout_marginHorizontal="@dimen/dimen30dp"
                 android:gravity="center_horizontal"
                 android:text="@string/municipal_rate_management_system"
                 android:textAllCaps="true"
                 android:layout_marginTop="@dimen/dimen32dp"
                 android:textColor="@color/colorPrimary"
-                android:textSize="19sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <ImageView
-                android:layout_width="@dimen/dimen170dp"
-                android:layout_height="@dimen/dimen170dp"
+                android:layout_width="190dp"
+                android:layout_height="190dp"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/ic_splash"
                 android:layout_marginTop="@dimen/dimen48dp"/>
@@ -56,7 +56,7 @@
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etUserName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:hint="Username"
@@ -83,7 +83,7 @@
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etPassword"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_weight="1"
                 android:textColor="@color/colorBlack"
                 android:background="@android:color/transparent"
@@ -113,7 +113,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btLogin"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_below="@+id/tvBelowText"
                 android:layout_alignParentEnd="true"
                 android:layout_marginHorizontal="@dimen/dimen32dp"
