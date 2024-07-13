@@ -1822,6 +1822,11 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         lyt_new_street_number.setVisibility(View.GONE);
 
 
+        EditText area = deleteDialogView.findViewById(R.id.edt_area);
+        EditText nin = deleteDialogView.findViewById(R.id.edt_nin);
+        EditText tinEdt = deleteDialogView.findViewById(R.id.edt_tin);
+
+
         // FIXME: 13-05-2022
         RadioButton rb_male = deleteDialogView.findViewById(R.id.rb_male);
         RadioButton rb_female = deleteDialogView.findViewById(R.id.rb_female);
@@ -1848,6 +1853,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         edt_landlord_section.setText(searchResponseModel.getSection());
         edt_landlord_mobile_2.setText(searchResponseModel.getMobile2());
         edt_landlord_title.setText(searchResponseModel.getTitles().getLabel());
+
 
 
         img_verification_document = deleteDialogView.findViewById(R.id.img_verification_document);
@@ -2054,6 +2060,42 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
             }
         });
 
+
+        try {
+            if (JsonObject.getJSONObject("property").optBoolean("is_organization")) {
+                deleteDialogView.findViewById(R.id.layoutFirstName).setVisibility(View.GONE);
+                deleteDialogView.findViewById(R.id.layoutMiddleName).setVisibility(View.GONE);
+                deleteDialogView.findViewById(R.id.layoutSurtName).setVisibility(View.GONE);
+                deleteDialogView.findViewById(R.id.layoutNin).setVisibility(View.GONE);
+
+
+                deleteDialogView.findViewById(R.id.layoutTin).setVisibility(View.VISIBLE);
+
+                String tin = ((JsonObject.getJSONObject("property").getJSONObject("landlord").getJSONObject("property").optString("organization_tin") == null) ? "" : "" + JsonObject.getJSONObject("property").getJSONObject("landlord").getJSONObject("property").optString("organization_tin"));
+                tinEdt.setText(tin);
+
+
+            } else {
+                deleteDialogView.findViewById(R.id.layoutFirstName).setVisibility(View.VISIBLE);
+                deleteDialogView.findViewById(R.id.layoutMiddleName).setVisibility(View.VISIBLE);
+                deleteDialogView.findViewById(R.id.layoutSurtName).setVisibility(View.VISIBLE);
+                deleteDialogView.findViewById(R.id.layoutNin).setVisibility(View.VISIBLE);
+                deleteDialogView.findViewById(R.id.layoutTin).setVisibility(View.GONE);
+
+                String ninType = ((JsonObject.getJSONObject("property").getJSONObject("landlord").optString("nin_number") == null) ? "" : "" + JsonObject.getJSONObject("property").getJSONObject("landlord").optString("nin_number"));
+                nin.setText(ninType);
+
+            }
+
+            String pArea = JsonObject.getJSONObject("property").getJSONObject("landlord").optString("property_area");
+            area.setText(pArea);
+
+        } catch (JSONException e) {
+
+        }
+
+
+
         btn_save_landlord_info.setOnClickListener(v -> {
             HashMap<String, String> req_params = new HashMap<>();
 
@@ -2083,6 +2125,12 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
             req_params.put("landlord_postcode", "" + edt_landlord_postcode.getText().toString());
             req_params.put("landlord_mobile_2", "" + edt_landlord_mobile_2.getText().toString());
             req_params.put("landlord_sex", rb_male.isChecked() ? "M" : "F");
+
+
+            req_params.put("tinNumber", "" + tinEdt.getText().toString());
+            req_params.put("ninNumber", "" + nin.getText().toString());
+            req_params.put("property_area", "" + area);
+
 
 
           /*  adapterLandload.updateItems(new DataModel("Email Address", edt_landlord_email.getText().toString()));

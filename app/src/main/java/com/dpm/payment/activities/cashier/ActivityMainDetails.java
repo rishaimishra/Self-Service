@@ -816,7 +816,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
             if (landloadObject != null) {
 
                 landlordModel = (SearchLandlordModel) CommonUtils.getObjectFromJson(landloadObject.toString().trim(), SearchLandlordModel.class);
-                TabDataInitializer.setLandloardData(landloadObject,mMainObject,listLandload,adapterLandload);
+                TabDataInitializer.setLandloardData(landloadObject, mMainObject, listLandload, adapterLandload);
 
             }
         } catch (Exception e) {
@@ -831,7 +831,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
                 propertyModel = (SearchPropertyModel) CommonUtils.getObjectFromJson(propertyObject.toString().trim(), SearchPropertyModel.class);
 
-                TabDataInitializer.setPropertyData(propertyObject,listProperty,adapterProperty);
+                TabDataInitializer.setPropertyData(propertyObject, listProperty, adapterProperty);
 
             }
         } catch (Exception e) {
@@ -956,7 +956,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
                 occupancyModel = (SearchOccupancyModel) CommonUtils.getObjectFromJson(occupancyObject.toString().trim(), SearchOccupancyModel.class);
 
-                OccupancyType = TabDataInitializer.setOccupancyData(occupancyObject,JSONMainObj,listOccupancy,adapterOccupancy);
+                OccupancyType = TabDataInitializer.setOccupancyData(occupancyObject, JSONMainObj, listOccupancy, adapterOccupancy);
 
             }
         } catch (Exception e) {
@@ -1406,6 +1406,11 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         EditText edt_landlord_mobile_1 = deleteDialogView.findViewById(R.id.edt_landlord_mobile_1);
         Button btn_save_landlord_info = deleteDialogView.findViewById(R.id.btn_save_landlord_info);
 
+        EditText area = deleteDialogView.findViewById(R.id.edt_area);
+        EditText nin = deleteDialogView.findViewById(R.id.edt_nin);
+        EditText tinEdt = deleteDialogView.findViewById(R.id.edt_tin);
+
+
         // FIXME: 13-05-2022
         RadioButton rb_male = deleteDialogView.findViewById(R.id.rb_male);
         RadioButton rb_female = deleteDialogView.findViewById(R.id.rb_female);
@@ -1457,6 +1462,50 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
         /// newly added
         edt_landlord_old_street_number.setText(searchResponseModel.getStreetNumber());
+
+
+        try {
+
+            LinearLayout layoutFirstName = deleteDialogView.findViewById(R.id.layoutFirstName);
+            LinearLayout layoutMiddleName = deleteDialogView.findViewById(R.id.layoutMiddleName);
+            LinearLayout layoutSurtName = deleteDialogView.findViewById(R.id.layoutSurtName);
+            LinearLayout layoutTin = deleteDialogView.findViewById(R.id.layoutTin);
+            LinearLayout layoutNin = deleteDialogView.findViewById(R.id.layoutNin);
+
+            if (JsonObject.getJSONObject("property").optBoolean("is_organization")) {
+                layoutFirstName.setVisibility(View.GONE);
+                layoutMiddleName.setVisibility(View.GONE);
+                layoutSurtName.setVisibility(View.GONE);
+                layoutNin.setVisibility(View.GONE);
+
+
+                layoutTin.setVisibility(View.VISIBLE);
+
+                String tin = ((JsonObject.getJSONObject("property").getJSONObject("landlord").getJSONObject("property").optString("organization_tin") == null) ? "" : "" + JsonObject.getJSONObject("property").getJSONObject("landlord").getJSONObject("property").optString("organization_tin"));
+                tinEdt.setText(tin);
+
+
+            } else {
+                layoutFirstName.setVisibility(View.VISIBLE);
+                layoutMiddleName.setVisibility(View.VISIBLE);
+                layoutSurtName.setVisibility(View.VISIBLE);
+                layoutNin.setVisibility(View.VISIBLE);
+
+
+                layoutTin.setVisibility(View.GONE);
+
+                String ninType = ((JsonObject.getJSONObject("property").getJSONObject("landlord").optString("nin_number") == null) ? "" : "" + JsonObject.getJSONObject("property").getJSONObject("landlord").optString("nin_number"));
+                nin.setText(ninType);
+
+            }
+
+            String pArea = JsonObject.getJSONObject("property").getJSONObject("landlord").optString("property_area");
+            area.setText(pArea);
+
+        } catch (JSONException e) {
+
+        }
+
 
 
         dialogLandlord.show();
@@ -1654,6 +1703,12 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
             req_params.put("landlord_postcode", "" + edt_landlord_postcode.getText().toString());
             req_params.put("landlord_mobile_2", "" + edt_landlord_mobile_2.getText().toString());
             req_params.put("landlord_sex", rb_male.isChecked() ? "M" : "F");
+
+
+            req_params.put("tinNumber", "" + tinEdt.getText().toString());
+            req_params.put("ninNumber", "" + nin.getText().toString());
+            req_params.put("property_area", "" + area);
+
 
 
             String finalURL = URL_CASHIER_LANDLORD_EDIT_PROFILE + getIntent().getStringExtra("property_id");
@@ -2119,6 +2174,8 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         EditText edt_landlord_province = deleteDialogView.findViewById(R.id.edt_landlord_province);
         EditText edt_landlord_district = deleteDialogView.findViewById(R.id.edt_landlord_district);
 
+
+
         edt_landlord_postcode.setText(searchResponseModel.getPostcode());
         edt_landlord_province.setText(searchResponseModel.getProvince());
         edt_landlord_district.setText(searchResponseModel.getDistrict());
@@ -2133,6 +2190,9 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         edt_landlord_street_number.setText(searchResponseModel.getStreetNumber());
         edt_landlord_street_name.setText(searchResponseModel.getStreetName());
         edt_landlord_new_street_number.setText(searchResponseModel.getStreet_numbernew());
+
+
+
 
 
         dialogLandlordProperty.show();
@@ -2266,6 +2326,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
             req_params.put("temp_district", "" + edt_landlord_district.getText().toString());
             req_params.put("temp_province", "" + edt_landlord_province.getText().toString());
             req_params.put("temp_postcode", "" + edt_landlord_postcode.getText().toString());
+
 
 
             //  if (isAddressRequired) {
@@ -2507,7 +2568,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
     public void initOccupancyDialog() {
         try {
-            TabDataInitializer.initOccupancyDialog(this, JsonObject.getJSONObject("property"), list_occupancy_title,OccupancyType,list_occupancy_type,occupancyModel,apiRequest);
+            TabDataInitializer.initOccupancyDialog(this, JsonObject.getJSONObject("property"), list_occupancy_title, OccupancyType, list_occupancy_type, occupancyModel, apiRequest);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }

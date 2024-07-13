@@ -1,9 +1,12 @@
 package com.dpm.payment;
 
+import static com.dpm.payment.utils.RestApiUrl.URL_CASHIER_LANDLORD_EDIT_PROFILE;
 import static com.dpm.payment.utils.RestApiUrl.URL_EDIT_OCCUPANCY;
 import static com.dpm.payment.utils.StringUtils.getAppendListDataWithSpacialCharacter;
 
 import android.app.Activity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,10 +16,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.dpm.payment.activities.cashier.ActivityMainDetails;
 import com.dpm.payment.adapters.DataViewAdapter;
 import com.dpm.payment.models.DataModel;
 import com.dpm.payment.models.OccupancyModel.TitlesItem;
@@ -24,8 +30,10 @@ import com.dpm.payment.models.SearchLandlordModel;
 import com.dpm.payment.models.SearchOccupancyModel;
 import com.dpm.payment.models.SearchPropertyModel;
 import com.dpm.payment.retrofit.Utills.ApiRequest;
+import com.dpm.payment.retrofit.Utills.PART;
 import com.dpm.payment.utils.CommonUtils;
 import com.dpm.payment.utils.LogUtils;
+import com.dpm.payment.utils.PrefUtil;
 import com.payment.R;
 
 import org.json.JSONObject;
@@ -705,6 +713,8 @@ public class TabDataInitializer {
         });
 
     }
+
+
 
 
 }
