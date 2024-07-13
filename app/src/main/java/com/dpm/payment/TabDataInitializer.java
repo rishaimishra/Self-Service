@@ -1,27 +1,46 @@
 package com.dpm.payment;
 
+import static com.dpm.payment.utils.RestApiUrl.URL_EDIT_OCCUPANCY;
 import static com.dpm.payment.utils.StringUtils.getAppendListDataWithSpacialCharacter;
+
+import android.app.Activity;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.dpm.payment.adapters.DataViewAdapter;
 import com.dpm.payment.models.DataModel;
+import com.dpm.payment.models.OccupancyModel.TitlesItem;
 import com.dpm.payment.models.SearchLandlordModel;
 import com.dpm.payment.models.SearchOccupancyModel;
 import com.dpm.payment.models.SearchPropertyModel;
+import com.dpm.payment.retrofit.Utills.ApiRequest;
 import com.dpm.payment.utils.CommonUtils;
 import com.dpm.payment.utils.LogUtils;
+import com.payment.R;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class TabDataInitializer {
-    public static void setLandloardData(JSONObject landloadObject, JSONObject mMainObject,List<DataModel> listLandload, DataViewAdapter adapter) {
+    public static void setLandloardData(JSONObject landloadObject, JSONObject mMainObject, List<DataModel> listLandload, DataViewAdapter adapter) {
 
         try {
             if (landloadObject != null) {
 
-                SearchLandlordModel  landlordModel = (SearchLandlordModel) CommonUtils.getObjectFromJson(landloadObject.toString().trim(), SearchLandlordModel.class);
+                SearchLandlordModel landlordModel = (SearchLandlordModel) CommonUtils.getObjectFromJson(landloadObject.toString().trim(), SearchLandlordModel.class);
 
 
              /*   try {
@@ -137,11 +156,9 @@ public class TabDataInitializer {
                     try {
                         DataModel model2 = new DataModel();
                         model2.setKey("Middle Name");
-                        if (landlordModel.getMiddleName() == null ||
-                                landlordModel.getMiddleName().trim().equals("")) {
+                        if (landlordModel.getMiddleName() == null || landlordModel.getMiddleName().trim().equals("")) {
                             model2.setValue("--");
-                        } else
-                            model2.setValue(landlordModel.getMiddleName());
+                        } else model2.setValue(landlordModel.getMiddleName());
                         listLandload.add(model2);
                     } catch (Exception ex) {
                         ex.printStackTrace();
@@ -308,11 +325,11 @@ public class TabDataInitializer {
 
     }
 
-    public static void setPropertyData(JSONObject propertyObject,List<DataModel> listProperty,DataViewAdapter adapter) {
+    public static void setPropertyData(JSONObject propertyObject, List<DataModel> listProperty, DataViewAdapter adapter) {
         try {
             if (propertyObject != null) {
 
-                SearchPropertyModel  propertyModel = (SearchPropertyModel) CommonUtils.getObjectFromJson(propertyObject.toString().trim(), SearchPropertyModel.class);
+                SearchPropertyModel propertyModel = (SearchPropertyModel) CommonUtils.getObjectFromJson(propertyObject.toString().trim(), SearchPropertyModel.class);
 
                 try {
 
@@ -410,12 +427,12 @@ public class TabDataInitializer {
         }
     }
 
-    public static String setOccupancyData(JSONObject occupancyObject, JSONObject JSONMainObj,List<DataModel> listOccupancy,DataViewAdapter adapter) {
+    public static String setOccupancyData(JSONObject occupancyObject, JSONObject JSONMainObj, List<DataModel> listOccupancy, DataViewAdapter adapter) {
         String OccupancyType = "";
         try {
             if (occupancyObject != null) {
 
-                SearchOccupancyModel  occupancyModel = (SearchOccupancyModel) CommonUtils.getObjectFromJson(occupancyObject.toString().trim(), SearchOccupancyModel.class);
+                SearchOccupancyModel occupancyModel = (SearchOccupancyModel) CommonUtils.getObjectFromJson(occupancyObject.toString().trim(), SearchOccupancyModel.class);
 
 
                 try {
@@ -494,12 +511,11 @@ public class TabDataInitializer {
                     }*/
 
 
-                }
-                else {
+                } else {
 
                     DataModel model22 = new DataModel();
                     model22.setKey("Tenant Title");
-                 //   model22.setValue(landlordModel.getTitles().getLabel());
+                    //   model22.setValue(landlordModel.getTitles().getLabel());
                     model22.setValue(occupancyModel.getTitles().getLabel());
 
                     listOccupancy.add(model22);
@@ -513,11 +529,9 @@ public class TabDataInitializer {
 
                     DataModel model3 = new DataModel();
                     model3.setKey("Middle Name");
-                    if (occupancyModel.getMiddleName() == null ||
-                            occupancyModel.getMiddleName().trim().equals("")) {
+                    if (occupancyModel.getMiddleName() == null || occupancyModel.getMiddleName().trim().equals("")) {
                         model3.setValue("--");
-                    } else
-                        model3.setValue(occupancyModel.getMiddleName());
+                    } else model3.setValue(occupancyModel.getMiddleName());
                     listOccupancy.add(model3);
 
 
@@ -527,8 +541,6 @@ public class TabDataInitializer {
                     listOccupancy.add(model4);
 
                 }
-
-
 
 
                 DataModel model5 = new DataModel();
@@ -547,7 +559,151 @@ public class TabDataInitializer {
             e.printStackTrace();
         }
 
-        return  OccupancyType;
+        return OccupancyType;
+    }
+
+    public static void initOccupancyDialog(Activity activity, JSONObject mainJsonObject, List<TitlesItem> list_occupancy_title, String OccupancyType,
+                                           List<String> list_occupancy_type, SearchOccupancyModel occupancyModel, ApiRequest apiRequest) {
+        LayoutInflater factory = LayoutInflater.from(activity);
+        final View deleteDialogView = factory.inflate(R.layout.dialog_edit_occupency_details, null);
+        AlertDialog dialogOccupancy = new AlertDialog.Builder(activity).create();
+        dialogOccupancy.setView(deleteDialogView);
+
+        WindowManager.LayoutParams params = dialogOccupancy.getWindow().getAttributes();
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.height = WindowManager.LayoutParams.MATCH_PARENT;
+        params.gravity = Gravity.CENTER;
+        dialogOccupancy.getWindow().setAttributes(params);
+        dialogOccupancy.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+        //root layout
+        LinearLayout layoutOrganizationName = deleteDialogView.findViewById(R.id.layoutOrganizationName);
+        LinearLayout layoutOrganizationType = deleteDialogView.findViewById(R.id.layoutOrganizationType);
+        LinearLayout layoutSchoolType = deleteDialogView.findViewById(R.id.layoutSchoolType);
+        LinearLayout layoutTeanantTitle = deleteDialogView.findViewById(R.id.layoutTeanantTitle);
+        LinearLayout layoutTeanantFirstName = deleteDialogView.findViewById(R.id.layoutTeanantFirstName);
+        LinearLayout layoutTeanantMiddleName = deleteDialogView.findViewById(R.id.layoutTeanantMiddleName);
+        LinearLayout layoutTeanantSurname = deleteDialogView.findViewById(R.id.layoutTeanantSurname);
+
+        layoutOrganizationName.setVisibility(View.GONE);
+        layoutOrganizationType.setVisibility(View.GONE);
+        layoutSchoolType.setVisibility(View.GONE);
+        layoutTeanantTitle.setVisibility(View.GONE);
+        layoutTeanantFirstName.setVisibility(View.GONE);
+        layoutTeanantMiddleName.setVisibility(View.GONE);
+        layoutTeanantSurname.setVisibility(View.GONE);
+
+
+        EditText edt_organization_name = deleteDialogView.findViewById(R.id.edt_organization_name);
+        EditText edt_organization_type = deleteDialogView.findViewById(R.id.edt_organization_type);
+        EditText edt_first_name = deleteDialogView.findViewById(R.id.edt_first_name);
+        EditText edt_middle_name = deleteDialogView.findViewById(R.id.edt_middle_name);
+        EditText edt_sur_name = deleteDialogView.findViewById(R.id.edt_sur_name);
+        EditText edt_landlord_mobile_1 = deleteDialogView.findViewById(R.id.edt_landlord_mobile_1);
+        EditText edt_landlord_mobile_2 = deleteDialogView.findViewById(R.id.edt_landlord_mobile_2);
+        EditText edt_school_type = deleteDialogView.findViewById(R.id.edt_school_type);
+        Spinner spinner_occupancy_type = deleteDialogView.findViewById(R.id.spinner_occupancy_type);
+        Spinner spinner_tenant_title = deleteDialogView.findViewById(R.id.spinner_tenant_title);
+        Button btn_save_ = deleteDialogView.findViewById(R.id.btn_save_);
+
+        List<String> title = new ArrayList<>();
+
+        for (TitlesItem item : list_occupancy_title) {
+            title.add(item.getLabel());
+        }
+
+        ArrayAdapter<String> adapter_type = new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, list_occupancy_type);
+        adapter_type.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_occupancy_type.setAdapter(adapter_type);
+
+        ArrayAdapter<String> adapter_title = new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, title);
+        adapter_title.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_tenant_title.setAdapter(adapter_title);
+
+
+
+
+
+
+
+        /*setting data with visibility */
+        if (mainJsonObject.optBoolean("is_organization")) {
+
+            String organization_name = ((mainJsonObject.optString("organization_name") == null) ? "" : "" + mainJsonObject.optString("organization_name"));
+            String OrganizationType = ((mainJsonObject.optString("organization_type") == null) ? "" : "" + mainJsonObject.optString("organization_type"));
+
+
+            layoutOrganizationName.setVisibility(View.VISIBLE);
+            layoutOrganizationType.setVisibility(View.VISIBLE);
+
+            edt_organization_name.setText(organization_name);
+            edt_organization_type.setText(OrganizationType);
+
+            if (OrganizationType.equalsIgnoreCase("School")) {
+                layoutSchoolType.setVisibility(View.VISIBLE);
+                edt_school_type.setText(mainJsonObject.optString("organization_school_type"));
+
+            }
+
+
+        } else {
+            layoutTeanantTitle.setVisibility(View.VISIBLE);
+            layoutTeanantFirstName.setVisibility(View.VISIBLE);
+            layoutTeanantMiddleName.setVisibility(View.VISIBLE);
+            layoutTeanantSurname.setVisibility(View.VISIBLE);
+
+            if (!OccupancyType.isEmpty())
+                spinner_occupancy_type.setSelection(list_occupancy_type.indexOf(OccupancyType));
+
+
+            spinner_tenant_title.setSelection(title.indexOf(occupancyModel.getTitles().getLabel()));
+
+            edt_first_name.setText(occupancyModel.getTenantFirstName());
+            edt_middle_name.setText(occupancyModel.getMiddleName());
+            edt_sur_name.setText(occupancyModel.getSurname());
+
+
+        }
+
+        edt_landlord_mobile_1.setText(occupancyModel.getMobile1());
+        edt_landlord_mobile_2.setText(occupancyModel.getMobile2());
+
+
+        dialogOccupancy.show();
+
+
+        btn_save_.setOnClickListener(v -> {
+            HashMap<String, String> req_params = new HashMap<>();
+
+            // FIXME: 20-09-2021
+            req_params.put("property_id", "" + occupancyModel.getPropertyId());
+            req_params.put("tenant_first_name", "" + edt_first_name.getText().toString());
+            req_params.put("middle_name", "" + edt_middle_name.getText().toString());
+            req_params.put("surname", "" + edt_sur_name.getText().toString());
+            req_params.put("mobile_1", "" + edt_landlord_mobile_1.getText().toString());
+            req_params.put("mobile_2", "" + edt_landlord_mobile_2.getText().toString());
+            req_params.put("ownerTenantTitle", "" + spinner_tenant_title.getSelectedItem().toString());
+            req_params.put("occupancy_type", "" + spinner_occupancy_type.getSelectedItem().toString());
+            req_params.put("organizational_school_type", "" + edt_school_type.getText().toString());
+
+            // req_params.put("requested_by", Constant.USERNAME);
+
+
+            String finalURL = URL_EDIT_OCCUPANCY; // + dataItem.getAssessment().getPropertyId();
+
+            Log.d("request", req_params.toString());
+            Log.d("request_url", finalURL);
+
+                    apiRequest.callPostFormData(
+                            finalURL,
+                            req_params,
+                            "",
+                            "upload_data_occupancy"
+                    );
+
+
+        });
+
     }
 
 

@@ -2506,91 +2506,11 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
 
     public void initOccupancyDialog() {
-        LayoutInflater factory = LayoutInflater.from(this);
-        final View deleteDialogView = factory.inflate(R.layout.dialog_edit_occupency_details, null);
-        dialogOccupancy = new AlertDialog.Builder(this).create();
-        dialogOccupancy.setView(deleteDialogView);
-
-        WindowManager.LayoutParams params = dialogOccupancy.getWindow().getAttributes();
-        params.width = WindowManager.LayoutParams.MATCH_PARENT;
-        params.height = WindowManager.LayoutParams.MATCH_PARENT;
-        params.gravity = Gravity.CENTER;
-        dialogOccupancy.getWindow().setAttributes(params);
-        dialogOccupancy.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
-        EditText edt_first_name = deleteDialogView.findViewById(R.id.edt_first_name);
-        EditText edt_middle_name = deleteDialogView.findViewById(R.id.edt_middle_name);
-        EditText edt_sur_name = deleteDialogView.findViewById(R.id.edt_sur_name);
-        EditText edt_landlord_mobile_1 = deleteDialogView.findViewById(R.id.edt_landlord_mobile_1);
-        EditText edt_landlord_mobile_2 = deleteDialogView.findViewById(R.id.edt_landlord_mobile_2);
-        EditText edt_school_type = deleteDialogView.findViewById(R.id.edt_school_type);
-        Spinner spinner_occupancy_type = deleteDialogView.findViewById(R.id.spinner_occupancy_type);
-        Spinner spinner_tenant_title = deleteDialogView.findViewById(R.id.spinner_tenant_title);
-        Button btn_save_ = deleteDialogView.findViewById(R.id.btn_save_);
-
-        List<String> title = new ArrayList<>();
-        for (TitlesItem item : list_occupancy_title) {
-            title.add(item.getLabel());
+        try {
+            TabDataInitializer.initOccupancyDialog(this, JsonObject.getJSONObject("property"), list_occupancy_title,OccupancyType,list_occupancy_type,occupancyModel,apiRequest);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
         }
-
-        ArrayAdapter<String> adapter_type = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list_occupancy_type);
-        adapter_type.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_occupancy_type.setAdapter(adapter_type);
-
-        ArrayAdapter<String> adapter_title = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, title);
-        adapter_title.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_tenant_title.setAdapter(adapter_title);
-
-
-        if (!OccupancyType.isEmpty())
-            spinner_occupancy_type.setSelection(list_occupancy_type.indexOf(OccupancyType));
-
-
-        spinner_tenant_title.setSelection(title.indexOf(occupancyModel.getTitles().getLabel()));
-
-        edt_first_name.setText(occupancyModel.getTenantFirstName());
-        edt_middle_name.setText(occupancyModel.getMiddleName());
-        edt_sur_name.setText(occupancyModel.getSurname());
-        edt_landlord_mobile_1.setText(occupancyModel.getMobile1());
-        edt_landlord_mobile_2.setText(occupancyModel.getMobile2());
-        edt_school_type.setText(occupancyModel.getOrganizational_school_type());
-
-
-        dialogOccupancy.show();
-
-
-        btn_save_
-                .setOnClickListener(v -> {
-                    HashMap<String, String> req_params = new HashMap<>();
-
-                    // FIXME: 20-09-2021
-                    req_params.put("property_id", "" + occupancyModel.getPropertyId());
-                    req_params.put("tenant_first_name", "" + edt_first_name.getText().toString());
-                    req_params.put("middle_name", "" + edt_first_name.getText().toString());
-                    req_params.put("surname", "" + edt_first_name.getText().toString());
-                    req_params.put("mobile_1", "" + edt_first_name.getText().toString());
-                    req_params.put("mobile_2", "" + edt_first_name.getText().toString());
-                    req_params.put("ownerTenantTitle", "" + spinner_tenant_title.getSelectedItem().toString());
-                    req_params.put("occupancy_type", "" + spinner_occupancy_type.getSelectedItem().toString());
-                    req_params.put("organizational_school_type", "" + edt_school_type.getText().toString());
-
-                    //req_params.put("requested_by", "cashier");
-
-
-                    // String finalURL = URL_EDIT_OCCUPANCY + getIntent().getStringExtra("property_id");
-
-                    Log.d("request", req_params.toString());
-                    Log.d("request_url", URL_EDIT_OCCUPANCY);
-
-                    apiRequest.callPostFormData(
-                            URL_EDIT_OCCUPANCY,
-                            req_params,
-                            "",
-                            "upload_data_occupancy"
-                    );
-
-
-                });
 
     }
 
