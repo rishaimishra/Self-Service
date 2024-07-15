@@ -1840,9 +1840,11 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         EditText edt_landlord_title = deleteDialogView.findViewById(R.id.edt_landlord_title);
         EditText edt_landlord_constituency = deleteDialogView.findViewById(R.id.edt_landlord_constituency);
 
-        if (searchResponseModel.getSex().equalsIgnoreCase("M"))
-            rb_male.setChecked(true);
-        else rb_female.setChecked(true);
+        if (searchResponseModel.getSex()!=null){
+            if (searchResponseModel.getSex().equalsIgnoreCase("M"))
+                rb_male.setChecked(true);
+            else rb_female.setChecked(true);
+        }
 
         edt_landlord_postcode.setText(searchResponseModel.getPostcode());
         edt_landlord_province.setText(searchResponseModel.getProvince());
@@ -2062,7 +2064,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
 
         try {
-            if (JsonObject.getJSONObject("property").optBoolean("is_organization")) {
+            if (JsonObject.optBoolean("is_organization")) {
                 deleteDialogView.findViewById(R.id.layoutFirstName).setVisibility(View.GONE);
                 deleteDialogView.findViewById(R.id.layoutMiddleName).setVisibility(View.GONE);
                 deleteDialogView.findViewById(R.id.layoutSurtName).setVisibility(View.GONE);
@@ -2071,7 +2073,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
                 deleteDialogView.findViewById(R.id.layoutTin).setVisibility(View.VISIBLE);
 
-                String tin = ((JsonObject.getJSONObject("property").getJSONObject("landlord").getJSONObject("property").optString("organization_tin") == null) ? "" : "" + JsonObject.getJSONObject("property").getJSONObject("landlord").getJSONObject("property").optString("organization_tin"));
+                String tin = ((JsonObject.getJSONObject("landlord").optString("organization_tin") == null) ? "" : "" + JsonObject.getJSONObject("landlord").optString("organization_tin"));
                 tinEdt.setText(tin);
 
 
@@ -2082,12 +2084,12 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                 deleteDialogView.findViewById(R.id.layoutNin).setVisibility(View.VISIBLE);
                 deleteDialogView.findViewById(R.id.layoutTin).setVisibility(View.GONE);
 
-                String ninType = ((JsonObject.getJSONObject("property").getJSONObject("landlord").optString("nin_number") == null) ? "" : "" + JsonObject.getJSONObject("property").getJSONObject("landlord").optString("nin_number"));
+                String ninType = ((JsonObject.getJSONObject("landlord").optString("nin_number") == null) ? "" : "" + JsonObject.getJSONObject("landlord").optString("nin_number"));
                 nin.setText(ninType);
 
             }
 
-            String pArea = JsonObject.getJSONObject("property").getJSONObject("landlord").optString("property_area");
+            String pArea = JsonObject.getJSONObject("landlord").optString("property_area");
             area.setText(pArea);
 
         } catch (JSONException e) {
@@ -2708,8 +2710,8 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
     public void initOccupancyDialog() {
 
         try {
-            TabDataInitializer.initOccupancyDialog(this,  JsonObject.getJSONObject("property"),list_occupancy_title,OccupancyType,list_occupancy_type,occupancyModel,apiRequest);
-        } catch (JSONException e) {
+            TabDataInitializer.initOccupancyDialog(this,  JsonObject,list_occupancy_title,OccupancyType,list_occupancy_type,occupancyModel,apiRequest);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
