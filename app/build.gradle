@@ -3,7 +3,6 @@ apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
     compileSdk 34
-    buildToolsVersion "30.0.0"
 
     defaultConfig {
         applicationId "com.dpm.payment"

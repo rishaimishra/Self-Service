@@ -194,10 +194,10 @@ class DoComplainFragment(private val model: ComplaintsModel) : Fragment(), OnCal
             ToastUtils.showShort(requireActivity(), "Please choose reason")
             return false
         }
-        if (filePaths[0].isEmpty() && filePaths[1].isEmpty()) {
+       /* if (filePaths[0].isEmpty() && filePaths[1].isEmpty()) {
             ToastUtils.showShort(requireActivity(), "Please upload at least one Image")
             return false
-        }
+        }*/
 
 
 
