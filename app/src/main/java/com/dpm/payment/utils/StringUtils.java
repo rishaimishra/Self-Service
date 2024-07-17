@@ -11,65 +11,56 @@ import java.util.Locale;
 
 public class StringUtils {
 
-    public static String AmountWithComma(String sTeam)
-    {
-        if(sTeam==null)
+    public static String AmountWithComma(String sTeam) {
+        if (sTeam == null)
             return "";
-        String temp="";
-        String temp1="";
+        String temp = "";
+        String temp1 = "";
         try {
 
-            LogUtils.showErrorLog("sTeam " ,"sTeam "+sTeam);
+            LogUtils.showErrorLog("sTeam ", "sTeam " + sTeam);
 
-         //   String sTeam=  "1.15725030246094E10";
-
-
-                if (sTeam.contains("\\.")) {
-                    temp1 = sTeam.split("\\.")[0];
-                    LogUtils.showErrorLog("temp1", "temp1 " + temp1);
-                } else {
-                    temp1 = sTeam;
-                    LogUtils.showErrorLog("temp1", "temp1 " + temp1);
-                }
+            //   String sTeam=  "1.15725030246094E10";
 
 
-           // long myNumber = Integer.parseInt(temp1);
-            BigInteger bigIntegerStr=new BigInteger(temp1);
-            NumberFormat nf = NumberFormat.getInstance(Locale.US);
-            temp= nf.format(bigIntegerStr);
-
-
-
-
-
-            if(temp.matches("\\."))
-            {
-                LogUtils.showErrorLog("under .", "under . " );
-                String mm[]=temp.split("\\.");
-                LogUtils.showErrorLog(" mm[0] .", " mm[0] . "+ mm[0] );
-                LogUtils.showErrorLog(" mm[1] .", " mm[1] . "+ mm[1] );
-                      if (Double.parseDouble(mm[1])>0.49)
-                      {
-                          int RoundNum= Integer.parseInt(mm[1])+1;
-                          temp=""+RoundNum;
-
-                          LogUtils.showErrorLog(" temp .", " temp "+ temp );
-
-                      }
+            if (sTeam.contains("\\.")) {
+                temp1 = sTeam.split("\\.")[0];
+                LogUtils.showErrorLog("temp1", "temp1 " + temp1);
+            } else {
+                temp1 = sTeam;
+                LogUtils.showErrorLog("temp1", "temp1 " + temp1);
             }
 
-        }catch (Exception ex)
-        {
-            return  sTeam;
+
+            // long myNumber = Integer.parseInt(temp1);
+            BigInteger bigIntegerStr = new BigInteger(temp1);
+            NumberFormat nf = NumberFormat.getInstance(Locale.US);
+            temp = nf.format(bigIntegerStr);
+
+
+            if (temp.matches("\\.")) {
+                LogUtils.showErrorLog("under .", "under . ");
+                String mm[] = temp.split("\\.");
+                LogUtils.showErrorLog(" mm[0] .", " mm[0] . " + mm[0]);
+                LogUtils.showErrorLog(" mm[1] .", " mm[1] . " + mm[1]);
+                if (Double.parseDouble(mm[1]) > 0.49) {
+                    int RoundNum = Integer.parseInt(mm[1]) + 1;
+                    temp = "" + RoundNum;
+
+                    LogUtils.showErrorLog(" temp .", " temp " + temp);
+
+                }
+            }
+
+        } catch (Exception ex) {
+            return sTeam;
         }
 
-         return  temp;
+        return temp;
     }
 
-
-
-    public static String roundStringValue(String s)
-    {
+/*
+    public static String roundStringValue(String s) {
         BigDecimal roundDateValue;
 
         try {
@@ -77,59 +68,52 @@ public class StringUtils {
             BigDecimal mBigDecimal = new BigDecimal(s);
             roundDateValue = mBigDecimal.setScale(0, RoundingMode.HALF_UP);
 
-        }catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
             return "";
         }
-        return roundDateValue+"";
+        return roundDateValue + "";
+    }*/
+    public static String roundStringValue(String s) {
+
+        return s;
     }
 
 
-
-
-    public static String roundStringValueSpacialCase(String s)
-    {
+    public static String roundStringValueSpacialCase(String s) {
         BigDecimal roundDateValue;
 
         try {
             BigDecimal mBigDecimal = new BigDecimal(s);
             roundDateValue = mBigDecimal.setScale(0, RoundingMode.HALF_DOWN);
 
-        }catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
             return "";
         }
-        return roundDateValue+"";
+        return roundDateValue + "";
     }
 
-    public static String getAppendListDataWithSpacialCharacter(ArrayList<String> mSourceData, String mAppendChar)
-    {
+    public static String getAppendListDataWithSpacialCharacter(ArrayList<String> mSourceData, String mAppendChar) {
         ArrayList<String> mResultData = new ArrayList<>();
 
         String mAppendListData = "";
         // String appendCharecter="|";
-        for (int i = 0; i < mSourceData.size(); i++)
-        {
-            try
-            {
+        for (int i = 0; i < mSourceData.size(); i++) {
+            try {
                 mAppendListData = mAppendListData + mSourceData.get(i);
-                if (i < (mSourceData.size() - 1))
-                {
+                if (i < (mSourceData.size() - 1)) {
                     mAppendListData = mAppendListData + mAppendChar;
                 }
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
 
         return mAppendListData;
     }
-    public static String getUSStyleAmount(String s)
-    {
+
+    public static String getUSStyleAmount(String s) {
         String temp = "";
         try {
 
@@ -137,17 +121,16 @@ public class StringUtils {
             NumberFormat nf = NumberFormat.getInstance(Locale.US);
             temp = nf.format(bigIntegerStr);
 
-        }catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return temp;
     }
 
-    public static String capitalizeEachWord(String str){
-       if(TextUtils.isEmpty(str)){
-           return "";
-       }
+    public static String capitalizeEachWord(String str) {
+        if (TextUtils.isEmpty(str)) {
+            return "";
+        }
         String[] strArray = str.split(" ");
         StringBuilder builder = new StringBuilder();
         for (String s : strArray) {
