@@ -1,13 +1,16 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
-    compileSdkVersion 30
+    compileSdk 34
     buildToolsVersion "30.0.0"
 
     defaultConfig {
         applicationId "com.dpm.payment"
         minSdkVersion 23
-       // targetSdkVersion 30
+        targetSdk 34
+
+        // targetSdkVersion 30
         versionCode 1
         versionName "1.0.0"
 
@@ -41,6 +44,37 @@ android {
     buildTypes {
         development {
 
+            release {
+                minifyEnabled false
+                applicationVariants.all { variant ->
+                    variant.outputs.each { output ->
+                        project.ext { appName = rootProject.name }
+                        def formattedDate = new Date().format('E,dd-MMM-yyyy')
+                        def newName = "$appName-release"
+                        variant.outputs.all {
+                            def name = "${newName}-${variant.versionName}_" + formattedDate + ".apk"
+                            output.outputFileName = name
+                        }
+                    }
+                }
+            }
+            debug {
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                applicationVariants.all { variant ->
+                    variant.outputs.each { output ->
+                        project.ext { appName = rootProject.name }
+                        def formattedDate = new Date().format('E,dd-MMM-yyyy')
+                        def newName = "$appName-debug"
+                        variant.outputs.all {
+                            def name = "${newName}-${variant.versionName}_" + formattedDate + ".apk"
+                            output.outputFileName = name
+                        }
+                    }
+                }
+            }
+
+/*
 
             release {
                 minifyEnabled false
@@ -78,6 +112,7 @@ android {
                 }
             }
 
+*/
 
             buildConfigField "boolean", "LOG_STAT", "true"
             signingConfig signingConfigs.development
@@ -120,6 +155,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildFeatures{
+        viewBinding = true
+    }
 
     sourceSets {
         main {
@@ -131,6 +169,9 @@ android {
                            'src/main/resource/login']
         }
         main.java.srcDirs += 'src/main/kotlin'
+    }
+    kotlinOptions {
+        jvmTarget = '17'
     }
 
 }
@@ -156,6 +197,8 @@ dependencies {
 /*google*/
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

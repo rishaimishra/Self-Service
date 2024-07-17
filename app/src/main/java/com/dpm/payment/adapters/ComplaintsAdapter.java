@@ -40,8 +40,8 @@ public class ComplaintsAdapter extends RecyclerView.Adapter<ComplaintsAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ComplaintsModel item = list.get(position);
-        holder.ivComplaints.setImageResource(item.getComplaintsIcon());
-        holder.tvTitle.setText(item.getComplaintsTitle());
+        holder.ivComplaints.setImageResource(item.complaintsIcon);
+        holder.tvTitle.setText(item.complaintsTitle);
         holder.rlComplaints.setOnClickListener(v -> {
             mOnItemClickListener.onItemClick(v,position);
         });

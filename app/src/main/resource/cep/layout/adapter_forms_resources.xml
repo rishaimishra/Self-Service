@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frmlytFormsResources"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -31,7 +32,7 @@
             android:layout_marginHorizontal="@dimen/dimen12dp"
             android:layout_marginVertical="@dimen/dimen8dp"
             android:gravity="center"
-            android:text="@string/municipal_rate_management_system"
+            tools:text="@string/municipal_rate_management_system"
             android:textColor="@color/navy_blue"
             android:textSize="@dimen/textSmall12sp"
             android:textStyle="bold" />

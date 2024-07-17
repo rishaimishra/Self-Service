@@ -36,18 +36,21 @@
             android:name="com.dpm.payment.activities.user.MobileWalletActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreenApplication"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name="com.dpm.payment.activities.cashier.WebViewPaymentRecipt"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreenApplication"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name="com.dpm.payment.activities.user.ActivityUserLogin"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreenApplication"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
 
@@ -56,29 +59,34 @@
             android:name="com.dpm.payment.activities.ActivitySplash"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreenApplication"
+            android:exported="false"
             android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
         <activity
             android:name="com.dpm.payment.activities.user.BankListActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreenApplication"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name="com.dpm.payment.activities.user.PaymentOptionUserActivity"
             android:label="@string/app_name"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreenApplication"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name="com.dpm.payment.activities.user.WebViewPaymentActivity"
             android:label="@string/app_name"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreenApplication"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name="com.dpm.payment.activities.user.ActivityUserMainDetails"
             android:label="@string/app_name"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreenApplication"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -86,35 +94,41 @@
             android:name="com.dpm.payment.activities.PickUpLocationActivity"
             android:excludeFromRecents="true"
             android:label=""
+            android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreenApplication"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name="com.dpm.payment.activities.cashier.ActivityMainCashierProperty"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreenApplication"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name="com.dpm.payment.activities.user.ActivityMainUserProperty"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreenApplication"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name="com.dpm.payment.activities.cashier.ActivityCashierLogin"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreenApplication"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name="com.dpm.payment.activities.ActivityHelp"
             android:label="@string/app_name"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreenApplication"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name="com.dpm.payment.activities.cep.MyProfileFragment"
             android:label="@string/app_name"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreenApplication"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -127,24 +141,28 @@
         <activity
             android:name="com.dpm.payment.activities.user.ActivityMainUser"
             android:label="@string/app_name"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreenApplication"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name="com.dpm.payment.activities.user.ActivityUserOTP"
             android:label="@string/app_name"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreenApplication"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name="com.dpm.payment.activities.user.ListPropertyUserActivity"
             android:label="@string/app_name"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreenApplication"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name="com.dpm.payment.activities.cep.ActivityCep"
             android:label="@string/app_name"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreenApplication"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -152,6 +170,7 @@
         <activity
             android:name="com.dpm.payment.activities.login.ActivityLogin"
             android:label="@string/app_name"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreenApplication"
             android:windowSoftInputMode="stateAlwaysHidden">

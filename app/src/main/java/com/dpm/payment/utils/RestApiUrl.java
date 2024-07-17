@@ -42,4 +42,9 @@ public interface RestApiUrl {
     String URL_DEMAND_NOTE = BASE_URL + "/landlord/payment/receipt/";
     String URL_OCCUPANCY_TYPE =BASE_URL+"/get-occupency-types";
     String URL_EDIT_OCCUPANCY = BASE_URL+"/edit-occupency";
+
+
+
+    String GET_FORM_RESOURCES = BASE_URL+"/get_form_resources";
+    String ADD_COMPLAIN = BASE_URL+"/add_complain";
 }
