@@ -5,10 +5,15 @@ import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.location.Location
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
+import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +21,7 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.dpm.payment.activities.cep.ActivityCep
 import com.dpm.payment.activities.cep.MyProfileFragment
@@ -34,7 +40,11 @@ import com.google.android.gms.location.LocationServices
 import com.payment.databinding.FragmentDoComplainBinding
 import okhttp3.MultipartBody
 import org.json.JSONObject
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class DoComplainFragment(private val model: ComplaintsModel) : Fragment(), OnCallBackListner {
 
@@ -49,6 +59,9 @@ class DoComplainFragment(private val model: ComplaintsModel) : Fragment(), OnCal
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
+    lateinit var currentPhotoPath: String
+
+
     @RequiresApi(Build.VERSION_CODES.N)
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -58,10 +71,12 @@ class DoComplainFragment(private val model: ComplaintsModel) : Fragment(), OnCal
                 // Precise location access granted.
                 getLastLocation()
             }
+
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
                 // Only approximate location access granted.
                 getLastLocation()
             }
+
             else -> {
                 // No location access granted.
             }
@@ -96,8 +111,8 @@ class DoComplainFragment(private val model: ComplaintsModel) : Fragment(), OnCal
                 (requireActivity() as ActivityCep).startFragment(NotificationFragment.newInstance())
 
             }
-            ivCepImage1.setOnClickListener { openCamera(0) }
-            ivCepImage2.setOnClickListener { openCamera(1) }
+            ivCepImage1.setOnClickListener { dispatchTakePictureIntent(0) }
+            ivCepImage2.setOnClickListener { dispatchTakePictureIntent(1) }
             btnSubmit.setOnClickListener {
                 if (validateBeforeSubmitting()) submitRequest()
             }
@@ -117,26 +132,28 @@ class DoComplainFragment(private val model: ComplaintsModel) : Fragment(), OnCal
                 edtPropertyId.isEnabled = false
 
                 // Request location permissions
-                locationPermissionRequest.launch(arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ))
+                locationPermissionRequest.launch(
+                    arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    )
+                )
 
-                fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+                fusedLocationClient =
+                    LocationServices.getFusedLocationProviderClient(requireActivity())
                 // Check for location permissions
                 if (ActivityCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.ACCESS_FINE_LOCATION
+                        requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
                     ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.ACCESS_COARSE_LOCATION
+                        requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
                     ) != PackageManager.PERMISSION_GRANTED
                 ) {
                     // Request location permissions if not already granted
                     ActivityCompat.requestPermissions(
-                        requireActivity(),
-                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),
-                        LOCATION_PERMISSION_REQUEST_CODE
+                        requireActivity(), arrayOf(
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                        ), LOCATION_PERMISSION_REQUEST_CODE
                     )
                     return
                 }
@@ -149,8 +166,7 @@ class DoComplainFragment(private val model: ComplaintsModel) : Fragment(), OnCal
 
     @SuppressLint("MissingPermission")
     private fun getLastLocation() {
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location: Location? ->
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                 location?.let {
                     val latitude = it.latitude
                     val longitude = it.longitude
@@ -171,19 +187,36 @@ class DoComplainFragment(private val model: ComplaintsModel) : Fragment(), OnCal
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK) {
-            if (ImagePicker.getFile(data)?.isFile == true) {
-                filePaths[requestCode] = ImagePicker.getFile(data)?.path!!
+        super.onActivityResult(requestCode, resultCode, data)/* if (resultCode == RESULT_OK) {
+             if (ImagePicker.Companion.getFile(data)?.isFile == true) {
+                 filePaths[requestCode] = ImagePicker.getFile(data)?.path!!
 
-                if (filePaths[0].isNotBlank()) {
-                    binding.ivCepImage1.setImageURI(Uri.parse(filePaths[0]))
-                }
-                if (filePaths[1].isNotBlank()) {
-                    binding.ivCepImage2.setImageURI(Uri.parse(filePaths[1]))
-                }
+                 if (filePaths[0].isNotBlank()) {
+                     binding.ivCepImage1.setImageURI(Uri.parse(filePaths[0]))
+                 }
+                 if (filePaths[1].isNotBlank()) {
+                     binding.ivCepImage2.setImageURI(Uri.parse(filePaths[1]))
+                 }
+             }
+
+         }*/
+        if (resultCode == RESULT_OK) {
+            filePaths[requestCode] = currentPhotoPath
+
+
+            if (filePaths[0].isNotBlank()) {
+                binding.ivCepImage1.setImageURI(Uri.parse(filePaths[0]))
+            }
+            if (filePaths[1].isNotBlank()) {
+                binding.ivCepImage2.setImageURI(Uri.parse(filePaths[1]))
             }
 
+           /* if (filePaths[0].isNotBlank()) {
+                binding.ivCepImage1.setImageBitmap(base64ToBitmap(filePaths[0]))
+            }
+            if (filePaths[1].isNotBlank()) {
+                binding.ivCepImage2.setImageBitmap(base64ToBitmap(filePaths[0]))
+            }*/
         }
 
 
@@ -193,11 +226,10 @@ class DoComplainFragment(private val model: ComplaintsModel) : Fragment(), OnCal
         if (reasonAdapter.selectedPos == -1) {
             ToastUtils.showShort(requireActivity(), "Please choose reason")
             return false
-        }
-       /* if (filePaths[0].isEmpty() && filePaths[1].isEmpty()) {
-            ToastUtils.showShort(requireActivity(), "Please upload at least one Image")
-            return false
-        }*/
+        }/* if (filePaths[0].isEmpty() && filePaths[1].isEmpty()) {
+             ToastUtils.showShort(requireActivity(), "Please upload at least one Image")
+             return false
+         }*/
 
 
 
@@ -248,5 +280,57 @@ class DoComplainFragment(private val model: ComplaintsModel) : Fragment(), OnCal
     override fun OnCallBackError(tag: String?, error: String?, i: Int) {
         ToastUtils.showShort(requireActivity(), error)
 
+    }
+
+
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File =
+            requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
+        return File.createTempFile(
+            "JPEG_${timeStamp}_", /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+            currentPhotoPath = absolutePath
+        }
+    }
+
+    private fun dispatchTakePictureIntent(code: Int) {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            // Ensure that there's a camera activity to handle the intent
+            takePictureIntent.resolveActivity(requireActivity().packageManager)?.also {
+                // Create the File where the photo should go
+                val photoFile: File? = try {
+                    createImageFile()
+                } catch (ex: IOException) {
+                    // Error occurred while creating the File
+                    null
+                }
+                // Continue only if the File was successfully created
+                photoFile?.also {
+                    val photoURI: Uri = FileProvider.getUriForFile(
+                        requireContext(), "${requireActivity().packageName}.fileprovider", it
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(takePictureIntent, code)
+                }
+            }
+        }
+    }
+
+    fun bitmapToBase64(bitmap: Bitmap): String {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+        val byteArray = byteArrayOutputStream.toByteArray()
+        return Base64.encodeToString(byteArray, Base64.DEFAULT)
+    }
+
+    fun base64ToBitmap(base64String: String): Bitmap? {
+        val decodedBytes = Base64.decode(base64String, Base64.DEFAULT)
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
     }
 }
