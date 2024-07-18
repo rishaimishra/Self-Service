@@ -49,7 +49,7 @@ android {
                     variant.outputs.each { output ->
                         project.ext { appName = rootProject.name }
                         def formattedDate = new Date().format('E,dd-MMM-yyyy')
-                        def newName = "$appName-release"
+                        def newName = "self_service-release"
                         variant.outputs.all {
                             def name = "${newName}-${variant.versionName}_" + formattedDate + ".apk"
                             output.outputFileName = name
@@ -64,7 +64,7 @@ android {
                     variant.outputs.each { output ->
                         project.ext { appName = rootProject.name }
                         def formattedDate = new Date().format('E,dd-MMM-yyyy')
-                        def newName = "$appName-debug"
+                        def newName = "self_service-debug"
                         variant.outputs.all {
                             def name = "${newName}-${variant.versionName}_" + formattedDate + ".apk"
                             output.outputFileName = name
