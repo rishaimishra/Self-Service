@@ -1,4 +1,4 @@
-package com.dpm.payment.activities.user;
+package com.dpm.payment.activities.landlord;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -39,10 +38,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dpm.payment.TabDataInitializer;
 import com.dpm.payment.activities.WebViewActivity;
 import com.dpm.payment.activities.cashier.ActivityCashierLogin;
-import com.dpm.payment.activities.cashier.ActivityMainDetails;
 import com.dpm.payment.activities.cep.ActivityCep;
+import com.dpm.payment.activities.user.LandlordResponseModel;
 import com.dpm.payment.adapters.AssessmentHistoryAdapter;
-import com.dpm.payment.adapters.CashierImageAdapter;
 import com.dpm.payment.adapters.DataViewAdapter;
 import com.dpm.payment.adapters.GeoRegistryDataAdapter;
 import com.dpm.payment.adapters.ImageAdapter;
@@ -70,8 +68,8 @@ import com.dpm.payment.retrofit.Utills.PART;
 import com.dpm.payment.retrofit.interfaces.OnCallBackListner;
 import com.dpm.payment.utils.CommonUtils;
 import com.dpm.payment.utils.Constant;
+import com.dpm.payment.utils.DownloadManager;
 import com.dpm.payment.utils.DownloadPdfTask;
-import com.dpm.payment.utils.Helper;
 import com.dpm.payment.utils.LogUtils;
 import com.dpm.payment.utils.PrefUtil;
 import com.dpm.payment.utils.RestApiRequestListener;
@@ -79,9 +77,7 @@ import com.dpm.payment.utils.RestApiUrl;
 import com.dpm.payment.utils.StringUtils;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.karumi.dexter.Dexter;
-import com.karumi.dexter.DexterBuilder;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
@@ -100,15 +96,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.dpm.payment.activities.user.ActivityMainUserProperty.KEY_PROPERTY_DETAILS;
-import static com.dpm.payment.utils.CommonUtils.getHeader;
+import static com.dpm.payment.activities.landlord.LandlordPropertyDetailsActivity.KEY_PROPERTY_DETAILS;
 import static com.dpm.payment.utils.ConstantData.TAG_LAND_LORD_RECEIPT;
-import static com.dpm.payment.utils.ConstantData.TAG_REQUEST_DISTRICT_NAME;
 import static com.dpm.payment.utils.Helper.discounted_value_Hashmap;
-import static com.dpm.payment.utils.Helper.roundOffDecimals;
 import static com.dpm.payment.utils.Helper.taxable_value_Hashmap;
-import static com.dpm.payment.utils.RestApiUrl.URL_CASHIER_LANDLORD_EDIT_PROFILE;
-import static com.dpm.payment.utils.RestApiUrl.URL_EDIT_OCCUPANCY;
 import static com.dpm.payment.utils.RestApiUrl.URL_LANDLORD_EDIT_PROFILE;
 import static com.dpm.payment.utils.RestApiUrl.URL_LANDLORD_PROPERTY_APPROVE;
 import static com.dpm.payment.utils.RestApiUrl.URL_LANDLORD_RECEIPT;
@@ -117,7 +108,7 @@ import static com.dpm.payment.utils.StringUtils.getAppendListDataWithSpacialChar
 
 //// landlord login
 
-public class ActivityUserMainDetails extends AppCompatActivity implements View.OnClickListener, OnCallBackListner {
+public class LandlordPropertyViewDetails extends AppCompatActivity implements View.OnClickListener, OnCallBackListner {
 
     final static String VALUE_FROM_CASHIER = "ActivityMainCashierProperty";
     final static String KEY_FROM = "form";
@@ -572,7 +563,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                         mSearchPropertyModel.getAssessment().getDisability_discount());
             }
             discRatePayable = StringUtils.AmountWithComma(discRatePayable);
-            tvDiscountedRatePayable.setText(discRatePayable);
+            tvDiscountedRatePayable.setText(mSearchPropertyModel.getAssessment().getDiscounted_rate_payable());
             TextView tvDiscountedRatePayableText = findViewById(R.id.tvDiscountedRatePayableText);
             tvDiscountedRatePayable1.setText(discRatePayable);
             tvDiscountedRatePayableText.setText("DISCOUNTED RATE PAYABLE " + mSearchPropertyModel.getAssessment().getAssessmentYear());
@@ -594,22 +585,21 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
             } else {
                 tvNetAssessedValue.setText("");
             }
-            tvDiscountApplicable.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getDiscounted_value()))));
-            tvRatePayable.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getRate_payable()))));
-            tvArrearValue.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getArrearDue()))));
-            tvPenaltyValue1.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getPenalty()))));
+            tvDiscountApplicable.setText(mSearchPropertyModel.getAssessment().getDiscounted_value());
+            tvRatePayable.setText(mSearchPropertyModel.getAssessment().getRate_payable());
+            tvArrearValue.setText(mSearchPropertyModel.getAssessment().getArrearDue());
+            tvPenaltyValue1.setText(mSearchPropertyModel.getAssessment().getPenalty());
             txtAmountPaid.setText("Amount Paid (" + mSearchPropertyModel.getAssessment().getAssessmentYear() + ")");
-            tvAmountPaid.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getAmountPaid()))));
+            tvAmountPaid.setText(mSearchPropertyModel.getAssessment().getAmountPaid());
             String mBalance = "";
-            if (mSearchPropertyModel.getAssessment().getBalance().contains("E")) {
-                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getBalance())));
-            } else {
-                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue(mSearchPropertyModel.getAssessment().getBalance()));
-            }
 
-            tvDueValue.setText("" + mBalance);
+            if (mSearchPropertyModel.getAssessment().getBalance()!=null && !mSearchPropertyModel.getAssessment().getBalance().isEmpty() ){
+                mBalance = mSearchPropertyModel.getAssessment().getBalance();
+            }else mBalance = mSearchPropertyModel.getAssessment().getBalanceDue();
+
+            tvDueValue.setText(mBalance);
         } catch (Exception ignored) {
-
+            Log.d("viewAssessmentHistory", "viewAssessmentHistory: "+ignored.toString());
         }
 
     }
@@ -797,9 +787,9 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
     private void initPropertyImages(List<String> listOfImages) {
 
         if (listOfImages.size() == 1)
-            recyclerview_image_property.setLayoutManager(new GridLayoutManager(ActivityUserMainDetails.this, 1));
+            recyclerview_image_property.setLayoutManager(new GridLayoutManager(LandlordPropertyViewDetails.this, 1));
         else if (listOfImages.size() == 2)
-            recyclerview_image_property.setLayoutManager(new GridLayoutManager(ActivityUserMainDetails.this, 2));
+            recyclerview_image_property.setLayoutManager(new GridLayoutManager(LandlordPropertyViewDetails.this, 2));
 
         recyclerview_image_property.setAdapter(new PropertyImageAdapter(this, listOfImages, "O"));
     }
@@ -2164,7 +2154,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                             "upload_data");
 
                 } else
-                    Toast.makeText(ActivityUserMainDetails.this, "Image shouldn't be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LandlordPropertyViewDetails.this, "Image shouldn't be empty", Toast.LENGTH_SHORT).show();
             } else if (isIdRequired) {
                 if (file_verification_document != null) {
 
@@ -2177,7 +2167,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                             "upload_data");
 
                 } else
-                    Toast.makeText(ActivityUserMainDetails.this, "Image shouldn't be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LandlordPropertyViewDetails.this, "Image shouldn't be empty", Toast.LENGTH_SHORT).show();
             } else if (isAddressRequired) {
                 if (file_address_proof != null) {
 
@@ -2191,7 +2181,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                             "upload_data");
 
                 } else
-                    Toast.makeText(ActivityUserMainDetails.this, "Image shouldn't be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LandlordPropertyViewDetails.this, "Image shouldn't be empty", Toast.LENGTH_SHORT).show();
             } else {
                 apiRequest.callPostFormData(
                         finalURL,
@@ -2203,6 +2193,56 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
 
         });
+
+        if (JsonObject.optBoolean("is_organization")) {
+
+            try {
+
+                String organization_name = ((JsonObject.optString("organization_name") == null) ? "" : "" + JsonObject.optString("organization_name"));
+
+                deleteDialogView.findViewById(R.id.layoutOrganizationName).setVisibility(View.VISIBLE);
+                ((EditText)deleteDialogView.findViewById(R.id.edt_organization_Name)).setText(organization_name);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            try {
+
+                String OrganizationType = ((JsonObject.optString("organization_type") == null) ? "" : "" + JsonObject.optString("organization_type"));
+
+                deleteDialogView.findViewById(R.id.layoutOrganizationType).setVisibility(View.VISIBLE);
+                ((EditText)deleteDialogView.findViewById(R.id.edt_organization_Type)).setText(OrganizationType);
+
+
+                if (OrganizationType.equalsIgnoreCase("School")) {
+                    listOccupancy.add(new DataModel("School Type", JsonObject.optString("organization_school_type")));
+                    String schoolType = JsonObject.optString("organization_school_type");
+
+                    deleteDialogView.findViewById(R.id.layoutSchoolType).setVisibility(View.VISIBLE);
+                    ((EditText)deleteDialogView.findViewById(R.id.edt_school_Type)).setText(schoolType);
+
+
+                }
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+              /*  try {
+
+                    String OrganizationType = ((mMainObject.optString("organization_addresss") == null) ? "" : "" + mMainObject.optString("organization_addresss"));
+
+                    DataModel model110 = new DataModel();
+                    model110.setKey("Organization Address");
+                    model110.setValue("" + OrganizationType);
+                    listLandload.add(model110);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }*/
+
+
+        }
+
 
     }
 
@@ -2246,6 +2286,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         EditText edt_landlord_postcode = deleteDialogView.findViewById(R.id.edt_landlord_postcode);
         EditText edt_landlord_province = deleteDialogView.findViewById(R.id.edt_landlord_province);
         EditText edt_landlord_district = deleteDialogView.findViewById(R.id.edt_landlord_district);
+        EditText edt_landlord_area = deleteDialogView.findViewById(R.id.edt_landlord_area);
 
         edt_landlord_postcode.setText(searchResponseModel.getPostcode());
         edt_landlord_province.setText(searchResponseModel.getProvince());
@@ -2261,7 +2302,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
         edt_landlord_street_number.setText(searchResponseModel.getStreetNumber());
         edt_landlord_street_name.setText(searchResponseModel.getStreetName());
         edt_landlord_new_street_number.setText(searchResponseModel.getStreet_numbernew());
-
+        edt_landlord_area.setText(JsonObject.optString("propertyArea"));
 
         dialogLandlordProperty.show();
 
@@ -2397,7 +2438,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
 
 
             if (!list_map_landlord_property.containsKey("address_document")) {
-                Toast.makeText(ActivityUserMainDetails.this, "Please select address document", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LandlordPropertyViewDetails.this, "Please select address document", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -2407,7 +2448,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
             }
 
             if (list_file_landlord_property.size() == 0) {
-                Toast.makeText(ActivityUserMainDetails.this, "Image shouldn't be empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LandlordPropertyViewDetails.this, "Image shouldn't be empty", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -2574,13 +2615,15 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                 public void onItemClick(View view, int position) {
                     switch (view.getId()) {
                         case R.id.tvView:
-                            Intent intent = new Intent(ActivityUserMainDetails.this, WebViewActivity.class);
+                            Intent intent = new Intent(LandlordPropertyViewDetails.this, WebViewActivity.class);
                             intent.putExtra("url", receiptResponse.getDatas().get(position).getUrl());
                             startActivity(intent);
                             break;
                         case R.id.tvDownload:
                             if (!TextUtils.isEmpty(receiptResponse.getDatas().get(position).getPdf_url())) {
-                                checkStoragePermission(receiptResponse.getDatas().get(position).getPdf_url());
+                               // checkStoragePermission(receiptResponse.getDatas().get(position).getPdf_url());
+                                DownloadManager.Companion.downloadFile(LandlordPropertyViewDetails.this, receiptResponse.getDatas().get(position).getPdf_url());
+
                             }
                             break;
                     }
@@ -2640,7 +2683,8 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                 }
                 LandLordReceiptResponse mLandLordReceiptResponse = new Gson().fromJson(response, LandLordReceiptResponse.class);
                 if (!TextUtils.isEmpty(mLandLordReceiptResponse.getPdf_path())) {
-                    checkStoragePermission(mLandLordReceiptResponse.getPdf_path());
+                    //checkStoragePermission(mLandLordReceiptResponse.getPdf_path());
+                    DownloadManager.Companion.downloadFile(LandlordPropertyViewDetails.this, mLandLordReceiptResponse.getPdf_path());
                 }
             }
 
@@ -2736,7 +2780,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
     }
 
     private void checkStoragePermission(String url) {
-        Dexter.withContext(ActivityUserMainDetails.this)
+        Dexter.withContext(LandlordPropertyViewDetails.this)
                 .withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .withListener(new MultiplePermissionsListener() {
@@ -2744,7 +2788,7 @@ public class ActivityUserMainDetails extends AppCompatActivity implements View.O
                     public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
                         if (multiplePermissionsReport.areAllPermissionsGranted()) {
                             // do you work now
-                            DownloadPdfTask mDownloadPdfTask = new DownloadPdfTask(ActivityUserMainDetails.this, url);
+                            DownloadPdfTask mDownloadPdfTask = new DownloadPdfTask(LandlordPropertyViewDetails.this, url);
                             mDownloadPdfTask.execute();
                         }
                     }

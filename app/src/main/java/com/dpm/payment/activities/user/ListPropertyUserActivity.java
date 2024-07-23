@@ -13,13 +13,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.dpm.payment.activities.cashier.ActivityCashierLogin;
+
 import com.dpm.payment.activities.cep.ActivityCep;
-import com.dpm.payment.adapters.PropertyAdapter;
+import com.dpm.payment.activities.landlord.LandlordPropertyDetailsActivity;
 import com.dpm.payment.adapters.PropertyGridAdapter;
 import com.dpm.payment.adapters.PropertyListItem;
 import com.dpm.payment.models.LandloradPenDisImage.LandlordPenDIsImage;
@@ -158,7 +156,7 @@ public class ListPropertyUserActivity extends AppCompatActivity implements Prope
 
 
 
-            Intent mIntent = new Intent(this, ActivityMainUserProperty.class);
+            Intent mIntent = new Intent(this, LandlordPropertyDetailsActivity.class);
             mIntent.putExtra(KEY_PROPERTY_DETAILS, mPropertyDetails);
             mIntent.putExtra(KEY_PROPERTY_DETAILS+"1", new Gson().toJson(modelResponse.getProperty().get(position)));
             mIntent.putExtra("pensioner_image_path",pensioner_image_path);

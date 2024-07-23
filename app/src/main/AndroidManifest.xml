@@ -113,7 +113,7 @@
             android:windowSoftInputMode="stateAlwaysHidden"
             tools:node="merge" />
         <activity
-            android:name="com.dpm.payment.activities.user.ActivityUserMainDetails"
+            android:name="com.dpm.payment.activities.landlord.LandlordPropertyViewDetails"
             android:exported="true"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
@@ -137,7 +137,7 @@
             android:windowSoftInputMode="stateAlwaysHidden"
             tools:node="merge" />
         <activity
-            android:name="com.dpm.payment.activities.user.ActivityMainUserProperty"
+            android:name="com.dpm.payment.activities.landlord.LandlordPropertyDetailsActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:screenOrientation="portrait"

@@ -2,6 +2,7 @@ package com.dpm.payment.models;
 
 import androidx.annotation.Dimension;
 
+import com.dpm.payment.NumberFormater;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -445,8 +446,8 @@ public class SearchAssessmentHistoryModel {
         this.amountPaid = amountPaid;
     }
 
-    public Double getBalance() {
-        return balance;
+    public String getBalance() {
+        return NumberFormater.Companion.formatToTwoDecimalPlaces(balance);
     }
 
     public void setBalance(Double balance) {

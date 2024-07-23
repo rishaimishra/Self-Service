@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dpm.payment.activities.cashier.ActivityCashierLogin;
 import com.dpm.payment.activities.cep.ActivityCep;
+import com.dpm.payment.activities.landlord.LandlordPropertyViewDetails;
 import com.payment.R;
 
 public class ActivityMainUser extends AppCompatActivity implements View.OnClickListener {
@@ -200,7 +201,7 @@ public class ActivityMainUser extends AppCompatActivity implements View.OnClickL
                 }
                 break;
             case R.id.activityUserSearchResult_bt_view_details:
-                intent = new Intent(mContext, ActivityUserMainDetails.class);
+                intent = new Intent(mContext, LandlordPropertyViewDetails.class);
                 break;
         }
         if (intent != null) {

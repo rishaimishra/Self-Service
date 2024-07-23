@@ -131,6 +131,11 @@ class DoComplainFragment(private val model: ComplaintsModel) : Fragment(), OnCal
                 tvPropertyIdLabel.text = "Tag Location"
                 edtPropertyId.isEnabled = false
 
+                tvPropertyIdLabel.setOnClickListener {
+                    getLastLocation()
+
+                }
+
                 // Request location permissions
                 locationPermissionRequest.launch(
                     arrayOf(
@@ -157,7 +162,6 @@ class DoComplainFragment(private val model: ComplaintsModel) : Fragment(), OnCal
                     )
                     return
                 }
-                getLastLocation()
 
             }
 

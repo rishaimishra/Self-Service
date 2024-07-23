@@ -2,6 +2,7 @@ package com.dpm.payment.models.propertydetail;
 
 import java.util.List;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Assessment {
@@ -282,6 +283,16 @@ public class Assessment {
 
     @SerializedName("assessment_breadth")
     private String assessmentBreadth;
+
+
+
+    @SerializedName("balance_due")
+    @Expose
+    private String balance_due;
+
+    public String getBalanceDue() {
+        return balance_due;
+    }
 
 
     public String getDiscounted_rate_payable_2022() {

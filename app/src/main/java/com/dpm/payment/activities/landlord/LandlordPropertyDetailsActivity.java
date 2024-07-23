@@ -1,4 +1,4 @@
-package com.dpm.payment.activities.user;
+package com.dpm.payment.activities.landlord;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,15 +21,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dpm.payment.activities.cashier.ActivityCashierLogin;
 import com.dpm.payment.activities.cep.ActivityCep;
+import com.dpm.payment.activities.user.LandlordResponseModel;
+import com.dpm.payment.activities.user.PaymentOptionUserActivity;
+import com.dpm.payment.activities.user.WebViewPaymentActivity;
 import com.dpm.payment.models.SearchPropertyModel;
-import com.dpm.payment.models.propertydetail.PropertyItem;
 import com.dpm.payment.utils.CommonUtils;
 import com.dpm.payment.utils.Helper;
 import com.dpm.payment.utils.LogUtils;
 import com.dpm.payment.utils.PrefUtil;
 import com.dpm.payment.utils.RestApiUrl;
 import com.dpm.payment.utils.StringUtils;
-import com.google.gson.Gson;
 import com.payment.R;
 
 import org.json.JSONObject;
@@ -41,7 +42,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 
-public class ActivityMainUserProperty extends AppCompatActivity implements View.OnClickListener {
+public class LandlordPropertyDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     final static String KEY_FROM = "form";
@@ -80,7 +81,7 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
     protected void onCreate(Bundle savedInstanceState) {
         mContext = this;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_user_property);
+        setContentView(R.layout.activity_landlord_property_details);
         initializeViews();
         initializeListeners();
         setSearchResult();
@@ -319,7 +320,7 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
 
                 //PrefUtil.mClearALLData(mContext);
 
-                Intent i = new Intent(ActivityMainUserProperty.this, ActivityCashierLogin.class);
+                Intent i = new Intent(LandlordPropertyDetailsActivity.this, ActivityCashierLogin.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
                 finish();
@@ -443,7 +444,7 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
 
                 break;
             case R.id.activityUserSearchResult_bt_view_details:
-                intent = new Intent(mContext, ActivityUserMainDetails.class);
+                intent = new Intent(mContext, LandlordPropertyViewDetails.class);
                 intent.putExtra(KEY_FROM, VALUE_FROM_LANDLORD);
                 intent.putExtra(KEY_PROPERTY_DETAILS + "1", getIntent().getStringExtra(KEY_PROPERTY_DETAILS + "1"));
                 intent.putExtra("pensioner_image_path", getIntent().getStringExtra("pensioner_image_path"));
@@ -479,14 +480,14 @@ public class ActivityMainUserProperty extends AppCompatActivity implements View.
 
 
         activityUserSearchResult_tv_assesment_year.setText("Assessed Value "+searchResponseModel.getAssessment().getAssessmentYear());
-        String discRatePayable="0";
-        if (mSearchPropertyModel.getAssessment().getRate_payable() != null &&
+        String discRatePayable=mSearchPropertyModel.getAssessment().getDiscounted_rate_payable();
+      /*  if (mSearchPropertyModel.getAssessment().getRate_payable() != null &&
                 mSearchPropertyModel.getAssessment().getPensioner_discount()!=null &&
                 mSearchPropertyModel.getAssessment().getDisability_discount()!=null){
             discRatePayable = CommonUtils.calculateDiscountRatePayable(mSearchPropertyModel.getAssessment().getRate_payable(),
                     mSearchPropertyModel.getAssessment().getPensioner_discount(),
                     mSearchPropertyModel.getAssessment().getDisability_discount());
-        }
+        }*/
         activityUserSearchResult_tv_discount_rate_payable_value.setText(StringUtils.AmountWithComma(discRatePayable));
 
         if (mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst() != null){

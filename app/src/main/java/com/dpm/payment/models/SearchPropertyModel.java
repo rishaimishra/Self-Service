@@ -96,6 +96,10 @@ public class SearchPropertyModel {
     @Expose
     private SearchAssessmentModel assessment;
 
+    @SerializedName("property_area")
+    @Expose
+    private String property_area;
+
 
     @SerializedName("geo_registry")
     @Expose
@@ -115,6 +119,13 @@ public class SearchPropertyModel {
         this.id = id;
     }
 
+    public String getProperty_area() {
+        return property_area;
+    }
+
+    public void setProperty_area(String property_area) {
+        this.property_area = property_area;
+    }
 
     public String getStreet_numbernew() {
         return street_numbernew;

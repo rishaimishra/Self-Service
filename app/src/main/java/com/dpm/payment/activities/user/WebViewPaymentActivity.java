@@ -42,7 +42,7 @@ import java.util.List;
 
 public class WebViewPaymentActivity extends AppCompatActivity {
 
-    static final String KEY_PAYMENT_URL = "payment_url";
+   public static final String KEY_PAYMENT_URL = "payment_url";
     WebView webView;
     ProgressBar progressbar;
     Context mContext;

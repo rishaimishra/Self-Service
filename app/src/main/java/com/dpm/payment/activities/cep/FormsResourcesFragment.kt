@@ -103,7 +103,7 @@ class FormsResourcesFragment : Fragment(), OnCallBackListner {
         }
     }
 
-    fun downloadFile(url: String) {
+   fun downloadFile(url: String) {
         val fileName =  url.substring(url.lastIndexOf('/') + 1)
         val downloadManager = requireContext().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         val request = DownloadManager.Request(Uri.parse(url)).apply {

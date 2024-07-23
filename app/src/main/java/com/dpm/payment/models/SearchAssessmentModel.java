@@ -1,5 +1,6 @@
 package com.dpm.payment.models;
 
+import com.dpm.payment.NumberFormater;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -206,6 +207,27 @@ public class SearchAssessmentModel {
     @SerializedName("disability_discount")
     @Expose
     private String disability_discount;
+
+
+    @SerializedName("balance_due")
+    @Expose
+    private String balance_due;
+  @SerializedName("discounted_rate_payable")
+    @Expose
+    private String discounted_rate_payable;
+
+
+    public String getDiscounted_rate_payable() {
+        return discounted_rate_payable;
+    }
+
+    public void setDiscounted_rate_payable(String discounted_rate_payable) {
+        this.discounted_rate_payable = discounted_rate_payable;
+    }
+
+    public String getBalanceDue() {
+        return balance_due;
+    }
 
     public String getPensioner_discount() {
         return pensioner_discount;
@@ -608,7 +630,7 @@ public class SearchAssessmentModel {
     }
 
     public String getBalance() {
-        return balance;
+        return NumberFormater.Companion.formatToTwoDecimalPlaces(Double.parseDouble(balance));
     }
 
     public void setBalance(String balance) {
