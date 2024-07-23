@@ -1,4 +1,4 @@
-package com.dpm.payment.activities.cep
+package com.dpm.payment.activities.cep.formsResources
 
 import android.annotation.SuppressLint
 import android.app.DownloadManager
@@ -11,14 +11,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Switch
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dpm.payment.activities.cep.ActivityCep
+import com.dpm.payment.activities.cep.MyProfileFragment
+import com.dpm.payment.activities.cep.NotificationFragment
 import com.dpm.payment.adapters.FormResourceAdapter
-import com.dpm.payment.adapters.FormsResourceAdapter
 import com.dpm.payment.models.cep.formResources.FormResourceResponse
 import com.dpm.payment.retrofit.Utills.ApiRequest
 import com.dpm.payment.retrofit.Utills.ToastUtils

@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dpm.payment.activities.cep.complaints.ComplaintsFragment;
 import com.dpm.payment.activities.cep.emergencyservice.EmergencyServicesFragment;
+import com.dpm.payment.activities.cep.formsResources.FormsResourcesFragment;
+import com.dpm.payment.activities.cep.garbageCollection.GarbageCollectionFragment;
 import com.dpm.payment.adapters.CEPAdapter;
 import com.dpm.payment.models.cep.CepModel;
 import com.payment.R;
