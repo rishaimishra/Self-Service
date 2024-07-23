@@ -312,7 +312,7 @@ public class LandlordPropertyViewDetails extends AppCompatActivity implements Vi
 
             setPropertyData(JsonObject);
 
-            viewAssessmentHistory(JsonObject);
+            TabDataInitializer.initAssessmentHistory(this, (SearchPropertyModel) CommonUtils.getObjectFromJson(JsonObject.toString(), SearchPropertyModel.class));
 
 
             List<TransactionModel> pensionerImages = new ArrayList<TransactionModel>();
@@ -538,71 +538,7 @@ public class LandlordPropertyViewDetails extends AppCompatActivity implements Vi
 
     }
 
-    private void viewAssessmentHistory(JSONObject mJsonObject) {
-        try {
-            TextView tvAssessmentYearValue = findViewById(R.id.tvAssessmentYearValue);
-            TextView tvArrearValue = findViewById(R.id.tvArrearValue);
-            TextView tvPenaltyValue1 = findViewById(R.id.tvPenaltyValue);
-            TextView tvAmountPaid = findViewById(R.id.tvAmountPaid);
-            TextView txtAmountPaid = findViewById(R.id.txtAmountPaid);
-            TextView tvDueValue = findViewById(R.id.tvDueValue);
-            TextView tvDiscountedRatePayable = findViewById(R.id.tvDiscountedRatePayable);
-            TextView txtAssessmentYear = findViewById(R.id.txtAssessmentYear);
-            TextView tvCouncilAdjustmentParams = findViewById(R.id.tvCouncilAdjustmentParams);
-            TextView tvRatePayable = findViewById(R.id.tvRatePayable);
-            TextView tvDiscountApplicable = findViewById(R.id.tvDiscountApplicable);
-            TextView tvNetAssessedValue = findViewById(R.id.tvNetAssessedValue);
-            SearchPropertyModel mSearchPropertyModel = (SearchPropertyModel) CommonUtils.getObjectFromJson(mJsonObject.toString(), SearchPropertyModel.class);
-            txtAssessmentYear.setText("Assessed Value " + mSearchPropertyModel.getAssessment().getAssessmentYear());
-            String discRatePayable = "0";
-            if (mSearchPropertyModel.getAssessment().getRate_payable() != null &&
-                    mSearchPropertyModel.getAssessment().getPensioner_discount() != null &&
-                    mSearchPropertyModel.getAssessment().getDisability_discount() != null) {
-                discRatePayable = CommonUtils.calculateDiscountRatePayable(mSearchPropertyModel.getAssessment().getRate_payable(),
-                        mSearchPropertyModel.getAssessment().getPensioner_discount(),
-                        mSearchPropertyModel.getAssessment().getDisability_discount());
-            }
-            discRatePayable = StringUtils.AmountWithComma(discRatePayable);
-            tvDiscountedRatePayable.setText(mSearchPropertyModel.getAssessment().getDiscounted_rate_payable());
-            TextView tvDiscountedRatePayableText = findViewById(R.id.tvDiscountedRatePayableText);
-            tvDiscountedRatePayable1.setText(discRatePayable);
-            tvDiscountedRatePayableText.setText("DISCOUNTED RATE PAYABLE " + mSearchPropertyModel.getAssessment().getAssessmentYear());
 
-
-            if (mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst() != null) {
-                tvAssessmentYearValue.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst()))));
-            } else {
-                tvAssessmentYearValue.setText("");
-            }
-
-            if (mSearchPropertyModel.getAssessment().getCouncil_adjustments_parameters() != null) {
-                tvCouncilAdjustmentParams.setText(mSearchPropertyModel.getAssessment().getCouncil_adjustments_parameters());
-            } else {
-                tvCouncilAdjustmentParams.setText("");
-            }
-            if (mSearchPropertyModel.getAssessment().getProperty_net_assessed_vaue() != null) {
-                tvNetAssessedValue.setText(mSearchPropertyModel.getAssessment().getProperty_net_assessed_vaue());
-            } else {
-                tvNetAssessedValue.setText("");
-            }
-            tvDiscountApplicable.setText(mSearchPropertyModel.getAssessment().getDiscounted_value());
-            tvRatePayable.setText(mSearchPropertyModel.getAssessment().getRate_payable());
-            tvArrearValue.setText(mSearchPropertyModel.getAssessment().getArrearDue());
-            tvPenaltyValue1.setText(mSearchPropertyModel.getAssessment().getPenalty());
-            txtAmountPaid.setText("Amount Paid (" + mSearchPropertyModel.getAssessment().getAssessmentYear() + ")");
-            tvAmountPaid.setText(mSearchPropertyModel.getAssessment().getAmountPaid());
-            String mBalance = "";
-
-            if (mSearchPropertyModel.getAssessment().getBalance()!=null && !mSearchPropertyModel.getAssessment().getBalance().isEmpty() ){
-                mBalance = mSearchPropertyModel.getAssessment().getBalance();
-            }else mBalance = mSearchPropertyModel.getAssessment().getBalanceDue();
-
-            tvDueValue.setText(mBalance);
-        } catch (Exception ignored) {
-            Log.d("viewAssessmentHistory", "viewAssessmentHistory: "+ignored.toString());
-        }
-
-    }
 
 
     private void initLandlordView() {
@@ -681,38 +617,7 @@ public class LandlordPropertyViewDetails extends AppCompatActivity implements Vi
         rv_councillor_adjustment.setLayoutManager(new LinearLayoutManager(this));
         rv_councillor_adjustment.setFocusable(false);
         ViewCompat.setNestedScrollingEnabled(rv_councillor_adjustment, false);
-
-        List<DataModel> councillor_list = new ArrayList<>();
-        /*   *//*councillor_list.add(new DataModel("window_type", dataItem.getWindowTypeType()));
-        councillor_list.add(new DataModel("sanitation", dataItem.getSanitation() + ""));
-        councillor_list.add(new DataModel("Window type percentage", dataItem.getWindowTypePercentage() + "%"));
-        councillor_list.add(new DataModel("pensioner_discount", dataItem.getPensionerDiscount() == 1 ? "Yes" : "No"));
-        councillor_list.add(new DataModel("disability_discount", dataItem.getDisabilityDiscount() == 1 ? "Yes" : "No"));*//*
-        councillor_list.add(new DataModel("water", dataItem.getAssessment().getWaterPercentage() + "%"));
-        councillor_list.add(new DataModel("electricity", dataItem.getAssessment().getElectricityPercentage() + "%"));
-        councillor_list.add(new DataModel("waste_management", dataItem.getAssessment().getWasteManagementPercentage() + "%"));
-        councillor_list.add(new DataModel("market", dataItem.getAssessment().getMarketPercentage() + "%"));
-        councillor_list.add(new DataModel("hazardous", dataItem.getAssessment().getHazardousPrecentage() + "%"));
-        councillor_list.add(new DataModel("drainage", dataItem.getAssessment().getDrainagePercentage() + "%"));
-        councillor_list.add(new DataModel("informal_settlement", dataItem.getAssessment().getInformalSettlementPercentage() + "%"));
-        councillor_list.add(new DataModel("easy_street_access", dataItem.getAssessment().getEasyStreetAccessPercentage() + "%"));
-        councillor_list.add(new DataModel("paved_tarred_street", dataItem.getAssessment().getPavedTarredStreetPercentage() + "%"));
-        //councillor_list.add(new DataModel("council_group_name", dataItem.getCouncilGroupName() + ""));
-*/
-
-
-        councillor_list.add(new DataModel("No Water Supply (Section)", dataItem.getAssessment().getWaterPercentage() + "%"));
-        councillor_list.add(new DataModel("No Electricity (Section)", dataItem.getAssessment().getElectricityPercentage() + "%"));
-        councillor_list.add(new DataModel("No Waste Management/Services/Points (Ward)", dataItem.getAssessment().getWasteManagementPercentage() + "%"));
-        councillor_list.add(new DataModel("No Market (Ward)", dataItem.getAssessment().getMarketPercentage() + "%"));
-        councillor_list.add(new DataModel("Hazardous Location/Environment ", dataItem.getAssessment().getHazardousPrecentage() + "%"));
-        councillor_list.add(new DataModel("No Drainage", dataItem.getAssessment().getDrainagePercentage() + "%"));
-        councillor_list.add(new DataModel("informal_settlement", dataItem.getAssessment().getInformalSettlementPercentage() + "%"));
-        councillor_list.add(new DataModel("Difficult Street Access", dataItem.getAssessment().getEasyStreetAccessPercentage() + "%"));
-        councillor_list.add(new DataModel("Unpaved/Untarred Street/Road", dataItem.getAssessment().getPavedTarredStreetPercentage() + "%"));
-
-
-        DataViewAdapter adapter = new DataViewAdapter(councillor_list, R.layout.rowview_council_adjustment_details);
+        DataViewAdapter adapter = new DataViewAdapter(TabDataInitializer.initCouncillorData(dataItem.getAssessment()), R.layout.rowview_council_adjustment_details);
         rv_councillor_adjustment.setAdapter(adapter);
     }
 

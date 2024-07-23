@@ -849,8 +849,12 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                                 activityUserSearchResult_tv_assesment_year.setText("Assessed Value " + dataModel.getAssessmentYear());
                                 activityUserSearchResult_tv_assesment_year_value.setText(dataModel.getProperty_net_assessed_value());
 
-                                if (dataModel.getDiscounted_value() != null)
+
+                                try {
                                     activityUserSearchResult_tv_discount_applicable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getDiscounted_value()))));
+                                } catch (Exception ignored) {
+
+                                }
 
                                 // activityUserSearchResult_tv_rate_payable_value.setText(dataModel.getRate_payable_new());
 
@@ -867,14 +871,8 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                                 Helper.DISCOUNT_APPLICABLE = dataModel.getRate_payable();
                                 Helper.RATE_PAYABLE = dataModel.getRate_payable();
 
-                                String discRatePayable = "0.00";
-                                if (dataModel.getRate_payable() != null &&
-                                        dataModel.getPensionerDiscount() != null &&
-                                        dataModel.getDisabilityDiscount() != null) {
-                                    discRatePayable = CommonUtils.calculateDiscountRatePayable(dataModel.getRate_payable(),
-                                            dataModel.getPensionerDiscount(),
-                                            dataModel.getDisabilityDiscount());
-                                }
+                                String discRatePayable = dataModel.getDiscounted_rate_payable();
+
                                 activityUserSearchResult_tv_discount_rate_payable_value.setText(StringUtils.AmountWithComma(discRatePayable));
 
                                 //activityUserSearchResult_tv_council_adjustment_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getCouncil_adjustments_parameters()))));
@@ -989,10 +987,13 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
 
         activityUserSearchResult_tv_assesment_year.setText("Assessed Value " + searchResponseModel.getProperty().getAssessment().getAssessmentYear());
         activityUserSearchResult_tv_assesment_year_value.setText("" + StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getCurrentYearAssessmentAmount()))));
-        activityUserSearchResult_tv_arrear_value.setText("" + StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getArrearDue()))));
-        activityUserSearchResult_tv_penalty_value.setText("" + StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getPenalty()))));
+
+
+        activityUserSearchResult_tv_arrear_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getArrearDue()))));
+        activityUserSearchResult_tv_penalty_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getPenalty()))));
         activityUserSearchResult_tv_amount_paid.setText("Amount Paid (" + searchResponseModel.getProperty().getAssessment().getAssessmentYear() + ")");
-        activityUserSearchResult_tv_amount_paid_value.setText("" + StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getAmountPaid()))));
+        activityUserSearchResult_tv_amount_paid_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getAmountPaid()))));
+
 
 
         try {

@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -29,15 +30,20 @@ import com.dpm.payment.models.OccupancyModel.TitlesItem;
 import com.dpm.payment.models.SearchLandlordModel;
 import com.dpm.payment.models.SearchOccupancyModel;
 import com.dpm.payment.models.SearchPropertyModel;
+import com.dpm.payment.models.propertydetail.Assessment;
+import com.dpm.payment.models.propertydetail.PropertyItem;
 import com.dpm.payment.retrofit.Utills.ApiRequest;
 import com.dpm.payment.retrofit.Utills.PART;
 import com.dpm.payment.utils.CommonUtils;
 import com.dpm.payment.utils.LogUtils;
 import com.dpm.payment.utils.PrefUtil;
+import com.dpm.payment.utils.StringUtils;
 import com.payment.R;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -702,19 +708,75 @@ public class TabDataInitializer {
             Log.d("request", req_params.toString());
             Log.d("request_url", finalURL);
 
-                    apiRequest.callPostFormData(
-                            finalURL,
-                            req_params,
-                            "",
-                            "upload_data_occupancy"
-                    );
+            apiRequest.callPostFormData(
+                    finalURL,
+                    req_params,
+                    "",
+                    "upload_data_occupancy"
+            );
 
 
         });
 
     }
 
+    public static List<DataModel> initCouncillorData(Assessment dataItem) {
+        List<DataModel> councillor_list = new ArrayList<>();
+        // councillor_list.add(new DataModel("No Water Supply (Section)", dataItem.getWaterPercentage() + "%"));
+        // councillor_list.add(new DataModel("No Electricity (Section)", dataItem.getElectricityPercentage() + "%"));
+        councillor_list.add(new DataModel("No Waste Management/Services/Points (Ward)", dataItem.getWasteManagementPercentage() + "%"));
+        councillor_list.add(new DataModel("No Market (Ward)", dataItem.getMarketPercentage() + "%"));
+        councillor_list.add(new DataModel("Hazardous Location/Environment ", dataItem.getHazardousPrecentage() + "%"));
+        councillor_list.add(new DataModel("No Drainage", dataItem.getDrainagePercentage() + "%"));
+        councillor_list.add(new DataModel("informal_settlement", dataItem.getInformalSettlementPercentage() + "%"));
+        councillor_list.add(new DataModel("Difficult Street Access", dataItem.getEasyStreetAccessPercentage() + "%"));
+        councillor_list.add(new DataModel("Unpaved/Untarred Street/Road", dataItem.getPavedTarredStreetPercentage() + "%"));
+        return councillor_list;
+    }
 
 
+    public static void initAssessmentHistory(Activity activity, SearchPropertyModel mSearchPropertyModel) {
+        LinearLayout rootLayoutAssessmentHistory = activity.findViewById(R.id.rootLayoutAssessmentHistory);
+        LayoutInflater inflater = LayoutInflater.from(activity);
 
+
+        List<DataModel> items = new ArrayList<>();
+
+
+        if (mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst() != null) {
+            items.add(new DataModel("Assessed Value " + mSearchPropertyModel.getAssessment().getAssessmentYear(), StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst())))));
+
+        } else {
+            items.add(new DataModel("Assessed Value " + mSearchPropertyModel.getAssessment().getAssessmentYear(), ""));
+        }
+
+        items.add(new DataModel("Council Adjustment", mSearchPropertyModel.getAssessment().getCouncil_adjustments_parameters()));
+        items.add(new DataModel("Net Assessed Value", mSearchPropertyModel.getAssessment().getProperty_net_assessed_vaue()));
+        items.add(new DataModel("Rate Payable", mSearchPropertyModel.getAssessment().getRate_payable()));
+        items.add(new DataModel("Discount(s) Applicable", mSearchPropertyModel.getAssessment().getDiscounted_value()));
+        items.add(new DataModel("Discounted Rate Payable", mSearchPropertyModel.getAssessment().getDiscounted_rate_payable()));
+        items.add(new DataModel("Arrears Due", mSearchPropertyModel.getAssessment().getArrearDue()));
+        items.add(new DataModel("Penalty", mSearchPropertyModel.getAssessment().getPenalty()));
+        items.add(new DataModel("Amount Paid (" + mSearchPropertyModel.getAssessment().getAssessmentYear() + ")", mSearchPropertyModel.getAssessment().getAmountPaid()));
+
+        String mBalance = "";
+
+        if (mSearchPropertyModel.getAssessment().getBalance() != null && !mSearchPropertyModel.getAssessment().getBalance().isEmpty()) {
+            mBalance = mSearchPropertyModel.getAssessment().getBalance();
+        } else mBalance = mSearchPropertyModel.getAssessment().getBalanceDue();
+
+        items.add(new DataModel("Amount Due", mBalance));
+
+        for (DataModel item : items) {
+            View inflatedLayout = inflater.inflate(R.layout.rowview_details, rootLayoutAssessmentHistory, false);
+            TextView tvKey = inflatedLayout.findViewById(R.id.tvKey);
+            TextView tvValue = inflatedLayout.findViewById(R.id.tvValue);
+            tvKey.setText(item.getKey());
+            tvValue.setText(item.getValue());
+            rootLayoutAssessmentHistory.addView(inflatedLayout);
+
+        }
+
+
+    }
 }

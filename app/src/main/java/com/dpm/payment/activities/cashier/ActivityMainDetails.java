@@ -310,7 +310,9 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
             setGeoRegistryData(JsonObject.getJSONObject("property").optJSONObject("geo_registry"), JsonObject.getJSONObject("property"));
             setMeterData(JsonObject.getJSONObject("property"));
             setPropertyData(JsonObject.getJSONObject("property"));
-            viewAssessmentHistory(JsonObject);
+
+
+            TabDataInitializer.initAssessmentHistory(this, (SearchPropertyModel) CommonUtils.getObjectFromJson(JsonObject.getJSONObject("property").toString(), SearchPropertyModel.class));
             initCouncillorAdjustment();
             initGovernmentPolicy();
             // initAdjustedPayable(JsonObject.getString("discounted_value"));
@@ -488,17 +490,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         rv_councillor_adjustment.setFocusable(false);
         ViewCompat.setNestedScrollingEnabled(rv_councillor_adjustment, false);
 
-        List<DataModel> councillor_list = new ArrayList<>();
-        councillor_list.add(new DataModel("No Water Supply (Section)", dataItem.getWaterPercentage() + "%"));
-        councillor_list.add(new DataModel("No Electricity (Section)", dataItem.getElectricityPercentage() + "%"));
-        councillor_list.add(new DataModel("No Waste Management/Services/Points (Ward)", dataItem.getWasteManagementPercentage() + "%"));
-        councillor_list.add(new DataModel("No Market (Ward)", dataItem.getMarketPercentage() + "%"));
-        councillor_list.add(new DataModel("Hazardous Location/Environment ", dataItem.getHazardousPrecentage() + "%"));
-        councillor_list.add(new DataModel("No Drainage", dataItem.getDrainagePercentage() + "%"));
-        councillor_list.add(new DataModel("informal_settlement", dataItem.getInformalSettlementPercentage() + "%"));
-        councillor_list.add(new DataModel("Difficult Street Access", dataItem.getEasyStreetAccessPercentage() + "%"));
-        councillor_list.add(new DataModel("Unpaved/Untarred Street/Road", dataItem.getPavedTarredStreetPercentage() + "%"));
-        DataViewAdapter adapter = new DataViewAdapter(councillor_list, R.layout.rowview_council_adjustment_details);
+        DataViewAdapter adapter = new DataViewAdapter(TabDataInitializer.initCouncillorData(dataItem), R.layout.rowview_council_adjustment_details);
         rv_councillor_adjustment.setAdapter(adapter);
     }
 
@@ -648,80 +640,6 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
     }
 
-    private void viewAssessmentHistory(JSONObject mJsonObject) {
-
-        try {
-            TextView tvAssessmentYearValue = findViewById(R.id.tvAssessmentYearValue);
-            TextView tvArrearValue = findViewById(R.id.tvArrearValue);
-            TextView tvPenaltyValue1 = findViewById(R.id.tvPenaltyValue);
-            TextView tvAmountPaid = findViewById(R.id.tvAmountPaid);
-            TextView txtAmountPaid = findViewById(R.id.txtAmountPaid);
-            TextView tvDueValue = findViewById(R.id.tvDueValue);
-            TextView tvDiscountedRatePayable = findViewById(R.id.tvDiscountedRatePayable);
-            TextView txtAssessmentYear = findViewById(R.id.txtAssessmentYear);
-            TextView tvCouncilAdjustmentParams = findViewById(R.id.tvCouncilAdjustmentParams);
-            TextView tvRatePayable = findViewById(R.id.tvRatePayable);
-            TextView tvDiscountApplicable = findViewById(R.id.tvDiscountApplicable);
-            TextView tvNetAssessedValue = findViewById(R.id.tvNetAssessedValue);
-            TextView tvDiscountedRatePayableText = findViewById(R.id.tvDiscountedRatePayableText);
-            TextView tvDiscountedRatePayable1 = findViewById(R.id.tvDiscountedRatePayable1);
-
-            Assessment mAssessment = (Assessment) CommonUtils.getObjectFromJson(mJsonObject.getJSONObject("property").getJSONObject("assessment").toString(), Assessment.class);
-            txtAssessmentYear.setText("Assessed Value " + mAssessment.getAssessmentYear());
-            String discRatePayable = "0.00";
-            if (mAssessment.getRate_payable() != null &&
-                    mAssessment.getPensionerDiscount() != null &&
-                    mAssessment.getDisabilityDiscount() != null) {
-                discRatePayable = CommonUtils.calculateDiscountRatePayable(mAssessment.getRate_payable(),
-                        mAssessment.getPensionerDiscount(),
-                        mAssessment.getDisabilityDiscount());
-            }
-            String finalDiscRate = StringUtils.AmountWithComma(discRatePayable);
-            tvDiscountedRatePayable.setText(finalDiscRate);
-            tvDiscountedRatePayable1.setText(finalDiscRate);
-            tvDiscountedRatePayableText.setText("DISCOUNTED RATE PAYABLE " + mAssessment.getAssessmentYear());
-
-            if (mAssessment.getPropertyRateWithoutGst() != null) {
-                tvAssessmentYearValue.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mAssessment.getPropertyRateWithoutGst()))));
-            } else {
-                tvAssessmentYearValue.setText("");
-            }
-
-            if (mAssessment.getCouncil_adjustments_parameters() != null) {
-                tvCouncilAdjustmentParams.setText(mAssessment.getCouncil_adjustments_parameters());
-            } else {
-                tvCouncilAdjustmentParams.setText("");
-            }
-            if (mAssessment.getProperty_net_assessed_value() != null) {
-                tvNetAssessedValue.setText(mAssessment.getProperty_net_assessed_value());
-            } else {
-                tvNetAssessedValue.setText("");
-            }
-            if (!TextUtils.isEmpty(mAssessment.getDiscounted_value()))
-                tvDiscountApplicable.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mAssessment.getDiscounted_value()))));
-            if (!TextUtils.isEmpty(mAssessment.getRate_payable()))
-                tvRatePayable.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mAssessment.getRate_payable()))));
-            if (!TextUtils.isEmpty(mAssessment.getArrearDue()))
-                tvArrearValue.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mAssessment.getArrearDue()))));
-            if (!TextUtils.isEmpty(mAssessment.getPenalty()))
-                tvPenaltyValue1.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mAssessment.getPenalty()))));
-            if (!TextUtils.isEmpty(mAssessment.getAssessmentYear()))
-                txtAmountPaid.setText("Amount Paid (" + mAssessment.getAssessmentYear() + ")");
-            if (!TextUtils.isEmpty(mAssessment.getAmountPaid()))
-                tvAmountPaid.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mAssessment.getAmountPaid()))));
-            String mBalance = "";
-            if (mAssessment.getBalance().contains("E")) {
-                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mAssessment.getBalanceDue())));
-            } else {
-                mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue(mAssessment.getBalanceDue()));
-            }
-
-            tvDueValue.setText("" + mBalance);
-        } catch (Exception ignored) {
-
-        }
-
-    }
 
 
     private void initLandlordView() {

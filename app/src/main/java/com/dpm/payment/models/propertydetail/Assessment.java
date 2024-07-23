@@ -290,6 +290,16 @@ public class Assessment {
     @Expose
     private String balance_due;
 
+    @SerializedName("discounted_rate_payable")
+    @Expose
+    private String discounted_rate_payable;
+
+
+    public String getDiscounted_rate_payable() {
+        return discounted_rate_payable;
+    }
+
+
     public String getBalanceDue() {
         return balance_due;
     }
