@@ -29,6 +29,7 @@ import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dpm.payment.NumberFormater;
 import com.dpm.payment.activities.cep.ActivityCep;
 import com.dpm.payment.activities.user.ActivityUserLogin;
 import com.dpm.payment.models.SearchAssessmentHistoryModel;
@@ -847,14 +848,21 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                                         , Assessment.class);
 
                                 activityUserSearchResult_tv_assesment_year.setText("Assessed Value " + dataModel.getAssessmentYear());
-                                activityUserSearchResult_tv_assesment_year_value.setText(dataModel.getProperty_net_assessed_value());
+
+                                String value = dataModel.getProperty_net_assessed_value();
+                                String valueWithComma = StringUtils.AmountWithComma(value.substring(0,value.indexOf(".")));
+                                String valueWithOutComma = value.substring(value.indexOf("."),value.length());
+
+
+                                activityUserSearchResult_tv_assesment_year_value.setText(valueWithComma+valueWithOutComma);
 
 
                                 try {
-                                    activityUserSearchResult_tv_discount_applicable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getDiscounted_value()))));
+                                    activityUserSearchResult_tv_discount_applicable_value.setText(dataModel.getDiscounted_value()==null ?"0.00" : StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getDiscounted_value()))));
                                 } catch (Exception ignored) {
 
                                 }
+
 
                                 // activityUserSearchResult_tv_rate_payable_value.setText(dataModel.getRate_payable_new());
 
@@ -865,6 +873,8 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                                 } catch (Exception ignored) {
 
                                 }
+                                Double discountedRatePayable = Double.parseDouble(activityUserSearchResult_tv_rate_payable_value.getText().toString()) - Double.parseDouble(activityUserSearchResult_tv_discount_applicable_value.getText().toString());
+                                activityUserSearchResult_tv_discount_rate_payable_value.setText(NumberFormater.Companion.formatToTwoDecimalPlaces(discountedRatePayable));
 
 
                                 Helper.ASSESSED_VALUE = dataModel.getProperty_net_assessed_value();
@@ -873,7 +883,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
 
                                 String discRatePayable = dataModel.getDiscounted_rate_payable();
 
-                                activityUserSearchResult_tv_discount_rate_payable_value.setText(StringUtils.AmountWithComma(discRatePayable));
+                              //  activityUserSearchResult_tv_discount_rate_payable_value.setText(StringUtils.AmountWithComma(discRatePayable));
 
                                 //activityUserSearchResult_tv_council_adjustment_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getCouncil_adjustments_parameters()))));
                                 if (dataModel.getCouncil_adjustments_parameters() != null)
@@ -986,7 +996,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
 
 
         activityUserSearchResult_tv_assesment_year.setText("Assessed Value " + searchResponseModel.getProperty().getAssessment().getAssessmentYear());
-        activityUserSearchResult_tv_assesment_year_value.setText("" + StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getCurrentYearAssessmentAmount()))));
+      //  activityUserSearchResult_tv_assesment_year_value.setText("" + StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getCurrentYearAssessmentAmount()))));
 
 
         activityUserSearchResult_tv_arrear_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(searchResponseModel.getProperty().getAssessment().getArrearDue()))));

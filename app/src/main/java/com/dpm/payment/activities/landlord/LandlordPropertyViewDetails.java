@@ -1715,6 +1715,8 @@ public class LandlordPropertyViewDetails extends AppCompatActivity implements Vi
         Button btn_save_landlord_info = deleteDialogView.findViewById(R.id.btn_save_landlord_info);
         LinearLayout lyt_new_street_number = deleteDialogView.findViewById(R.id.lyt_new_street_number);
         lyt_new_street_number.setVisibility(View.GONE);
+        EditText edt_landlord_additional_address = deleteDialogView.findViewById(R.id.edt_landlord_additional_address);
+        edt_landlord_additional_address.setText(JsonObject.optJSONObject("landlord").optString("additional_address_id"));
 
 
         EditText area = deleteDialogView.findViewById(R.id.edt_area);
@@ -2192,6 +2194,7 @@ public class LandlordPropertyViewDetails extends AppCompatActivity implements Vi
         EditText edt_landlord_province = deleteDialogView.findViewById(R.id.edt_landlord_province);
         EditText edt_landlord_district = deleteDialogView.findViewById(R.id.edt_landlord_district);
         EditText edt_landlord_area = deleteDialogView.findViewById(R.id.edt_landlord_area);
+        EditText edt_landlord_additional_address = deleteDialogView.findViewById(R.id.edt_landlord_additional_address);
 
         edt_landlord_postcode.setText(searchResponseModel.getPostcode());
         edt_landlord_province.setText(searchResponseModel.getProvince());
@@ -2208,6 +2211,7 @@ public class LandlordPropertyViewDetails extends AppCompatActivity implements Vi
         edt_landlord_street_name.setText(searchResponseModel.getStreetName());
         edt_landlord_new_street_number.setText(searchResponseModel.getStreet_numbernew());
         edt_landlord_area.setText(JsonObject.optString("propertyArea"));
+        edt_landlord_additional_address.setText(JsonObject.optJSONObject("landlord").optString("additional_address_id"));
 
         dialogLandlordProperty.show();
 

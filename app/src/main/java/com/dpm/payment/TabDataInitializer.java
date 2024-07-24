@@ -107,7 +107,7 @@ public class TabDataInitializer {
                             String tin = ((mMainObject.getJSONObject("landlord").getJSONObject("property").optString("organization_tin") == null) ? "" : "" + mMainObject.getJSONObject("landlord").getJSONObject("property").optString("organization_tin"));
 
                             DataModel modeltin = new DataModel();
-                            modeltin.setKey("Tin");
+                            modeltin.setKey("TIN");
                             modeltin.setValue("" + tin);
                             listLandload.add(modeltin);
 
@@ -203,7 +203,7 @@ public class TabDataInitializer {
                         String OrganizationType = ((mMainObject.getJSONObject("landlord").optString("nin_number") == null) ? "" : "" + mMainObject.getJSONObject("landlord").optString("nin_number"));
 
                         DataModel model19 = new DataModel();
-                        model19.setKey("Nin");
+                        model19.setKey("NIN");
                         model19.setValue("" + OrganizationType);
                         listLandload.add(model19);
 
@@ -739,12 +739,17 @@ public class TabDataInitializer {
         LinearLayout rootLayoutAssessmentHistory = activity.findViewById(R.id.rootLayoutAssessmentHistory);
         LayoutInflater inflater = LayoutInflater.from(activity);
 
+        String ratePayable = mSearchPropertyModel.getAssessment().getRate_payable()==null ? "0.00" : mSearchPropertyModel.getAssessment().getRate_payable();
+        String discountedRatePayable = mSearchPropertyModel.getAssessment().getDiscounted_value()==null ? "0.00" : mSearchPropertyModel.getAssessment().getDiscounted_value();
 
         List<DataModel> items = new ArrayList<>();
 
 
         if (mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst() != null) {
-            items.add(new DataModel("Assessed Value " + mSearchPropertyModel.getAssessment().getAssessmentYear(), StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst())))));
+            String value = mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst();
+            String valueWithComma = StringUtils.AmountWithComma(value.substring(0, value.indexOf(".")));
+            String valueWithOutComma = value.substring(value.indexOf("."), value.length());
+            items.add(new DataModel("Assessed Value " + mSearchPropertyModel.getAssessment().getAssessmentYear(), valueWithComma + valueWithOutComma));
 
         } else {
             items.add(new DataModel("Assessed Value " + mSearchPropertyModel.getAssessment().getAssessmentYear(), ""));
@@ -753,8 +758,8 @@ public class TabDataInitializer {
         items.add(new DataModel("Council Adjustment", mSearchPropertyModel.getAssessment().getCouncil_adjustments_parameters()));
         items.add(new DataModel("Net Assessed Value", mSearchPropertyModel.getAssessment().getProperty_net_assessed_vaue()));
         items.add(new DataModel("Rate Payable", mSearchPropertyModel.getAssessment().getRate_payable()));
-        items.add(new DataModel("Discount(s) Applicable", mSearchPropertyModel.getAssessment().getDiscounted_value()));
-        items.add(new DataModel("Discounted Rate Payable", mSearchPropertyModel.getAssessment().getDiscounted_rate_payable()));
+        items.add(new DataModel("Discount(s) Applicable", mSearchPropertyModel.getAssessment().getDiscounted_value()==null ? "0.00" : mSearchPropertyModel.getAssessment().getDiscounted_value()));
+        items.add(new DataModel("Discounted Rate Payable", NumberFormater.Companion.formatToTwoDecimalPlaces(Double.parseDouble(ratePayable) - Double.parseDouble(discountedRatePayable))));
         items.add(new DataModel("Arrears Due", mSearchPropertyModel.getAssessment().getArrearDue()));
         items.add(new DataModel("Penalty", mSearchPropertyModel.getAssessment().getPenalty()));
         items.add(new DataModel("Amount Paid (" + mSearchPropertyModel.getAssessment().getAssessmentYear() + ")", mSearchPropertyModel.getAssessment().getAmountPaid()));

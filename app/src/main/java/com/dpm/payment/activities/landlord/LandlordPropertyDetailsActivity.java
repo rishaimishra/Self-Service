@@ -491,7 +491,12 @@ public class LandlordPropertyDetailsActivity extends AppCompatActivity implement
         activityUserSearchResult_tv_discount_rate_payable_value.setText(StringUtils.AmountWithComma(discRatePayable));
 
         if (mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst() != null){
-            activityUserSearchResult_tv_assesment_year_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst()))));
+            String value = mSearchPropertyModel.getAssessment().getPropertyRateWithoutGst();
+            String valueWithComma = StringUtils.AmountWithComma(value.substring(0,value.indexOf(".")));
+            String valueWithOutComma = value.substring(value.indexOf("."),value.length());
+
+
+            activityUserSearchResult_tv_assesment_year_value.setText(valueWithComma+valueWithOutComma);
         }else{
             activityUserSearchResult_tv_assesment_year_value.setText("");
         }
@@ -510,7 +515,7 @@ public class LandlordPropertyDetailsActivity extends AppCompatActivity implement
 
 
         try {
-            activityUserSearchResult_tv_discount_applicable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getDiscounted_value()))));
+            activityUserSearchResult_tv_discount_applicable_value.setText(mSearchPropertyModel.getAssessment().getDiscounted_value()==null ?"0.00" : StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getDiscounted_value()))));
         } catch (Exception ignored) {
 
         }

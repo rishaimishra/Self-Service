@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -25,6 +26,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -260,6 +262,11 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         getRecipientDemandNote();
 
         //    setDrawerProfile(PrefUtils.getProfile(mContext));
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 
     private void initToolbar() {
@@ -1322,6 +1329,10 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         EditText edt_landlord_email = deleteDialogView.findViewById(R.id.edt_landlord_email);
         EditText edt_landlord_mobile_1 = deleteDialogView.findViewById(R.id.edt_landlord_mobile_1);
         Button btn_save_landlord_info = deleteDialogView.findViewById(R.id.btn_save_landlord_info);
+        EditText edt_landlord_additional_address = deleteDialogView.findViewById(R.id.edt_landlord_additional_address);
+        edt_landlord_additional_address.setText(JsonObject.optJSONObject("property").optJSONObject("landlord").optString("additional_address_id"));
+
+
 
         EditText area = deleteDialogView.findViewById(R.id.edt_area);
         EditText nin = deleteDialogView.findViewById(R.id.edt_nin);
@@ -2144,6 +2155,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         EditText edt_landlord_province = deleteDialogView.findViewById(R.id.edt_landlord_province);
         EditText edt_landlord_district = deleteDialogView.findViewById(R.id.edt_landlord_district);
         EditText edt_landlord_area = deleteDialogView.findViewById(R.id.edt_landlord_area);
+        EditText edt_landlord_additional_address = deleteDialogView.findViewById(R.id.edt_landlord_additional_address);
 
 
         edt_landlord_postcode.setText(searchResponseModel.getPostcode());
@@ -2161,6 +2173,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         edt_landlord_street_name.setText(searchResponseModel.getStreetName());
         edt_landlord_new_street_number.setText(searchResponseModel.getStreet_numbernew());
         edt_landlord_area.setText(JsonObject.optJSONObject("property").optString("propertyArea"));
+        edt_landlord_additional_address.setText(JsonObject.optJSONObject("property").optJSONObject("landlord").optString("additional_address_id"));
 
 
         dialogLandlordProperty.show();
