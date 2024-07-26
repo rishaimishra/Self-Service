@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.dpm.payment.activities.cep.garbageCollection.model.CalendarDay
+import com.dpm.payment.activities.cep.garbageCollection.model.getDateResponse.SlotItem
 import com.dpm.payment.retrofit.Utills.ToastUtils
 import com.payment.R
 import java.util.Calendar
@@ -15,6 +17,12 @@ import java.util.Calendar
 class CalendarAdapter(
     private val days: List<CalendarDay>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var onDateClick: ((calender: CalendarDay) -> Unit)? = null
+
+    public fun onDateClickListener(listener: (calender: CalendarDay) -> Unit) {
+        this.onDateClick = listener
+    }
 
     private val VIEW_TYPE_HEADER = 0
     private val VIEW_TYPE_DAY = 1
@@ -88,10 +96,11 @@ class CalendarAdapter(
                 selectedCalender.set(Calendar.YEAR, day.calender.get(Calendar.YEAR))
 
                 if (selectedCalender.timeInMillis >= Calendar.getInstance().timeInMillis && day.isAvailable) {
-                    ToastUtils.showShort(
-                        holder.itemView.context as Activity,
-                        "You can book the slot"
-                    )
+                    /* ToastUtils.showShort(
+                         holder.itemView.context as Activity,
+                         "You can book the slot"
+                     )*/
+                    onDateClick?.invoke(day)
 
                     selectedDay = position
                     notifyDataSetChanged()

@@ -35,6 +35,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dpm.payment.NumberFormater;
 import com.dpm.payment.TabDataInitializer;
 import com.dpm.payment.activities.WebViewActivity;
 import com.dpm.payment.activities.cashier.ActivityCashierLogin;
@@ -1243,7 +1244,7 @@ public class LandlordPropertyViewDetails extends AppCompatActivity implements Vi
 
 
                 try {
-                    String PropertyRateWithoutGst = ((assessmentModel.getPropertyRateWithoutGst() == null) ? "" : "NLE " + StringUtils.AmountWithComma(StringUtils.roundStringValue(assessmentModel.getPropertyRateWithoutGst())));
+                    String PropertyRateWithoutGst = ((assessmentModel.getPropertyRateWithoutGst() == null) ? "" : "NLE " + NumberFormater.Companion.formatAmount(Double.parseDouble(assessmentModel.getPropertyRateWithoutGst())));
 
                     DataModel model9 = new DataModel();
                     model9.setKey("ASSESSED VALUE");

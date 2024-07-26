@@ -37,6 +37,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dpm.payment.NumberFormater;
 import com.dpm.payment.TabDataInitializer;
 import com.dpm.payment.activities.WebViewActivity;
 import com.dpm.payment.activities.cep.ActivityCep;
@@ -127,7 +128,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
             activitySearchDetails_tv_assessment_details, activitySearchDetails_tv_geo_registry_details,
             activitySearchDetails_tv_councillor_adjustment, activitySearchDetails_tv_cashier_receipt,
             activitySearchDetails_tv_council_discount, activitySearchDetails_tv_government_policy, tvPensionerDiscount, tvDisabilityDiscount, tvDiscountedRatePayable,
-            activitySearchDetails_tv_demand_note, tvDownloadDemandNote;
+            activitySearchDetails_tv_demand_note, tvDownloadDemandNote,tvDiscountedRatePayable1;
 
 
     Boolean expand_property_image = false, expand__rate_payable = false, expand_assessment_history = false, expand_landlord_details = false, expand_property_details = false,
@@ -468,6 +469,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         spnrDemandNoteYear = findViewById(R.id.spnrDemandNoteYear);
         include_search_details_demand_note = findViewById(R.id.include_search_details_demand_note);
         tvDownloadDemandNote = findViewById(R.id.tvDownloadDemandNote);
+        tvDiscountedRatePayable1 = findViewById(R.id.tvDiscountedRatePayable1);
         initLandlordView();
         initPropertyView();
         initOccupancyView();
@@ -1187,7 +1189,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
 
                 try {
-                    String PropertyRateWithoutGst = ((assessmentModel.getPropertyRateWithoutGst() == null) ? "" : "Le " + StringUtils.AmountWithComma(StringUtils.roundStringValue(assessmentModel.getPropertyRateWithoutGst())));
+                    String PropertyRateWithoutGst = ((assessmentModel.getPropertyRateWithoutGst() == null) ? "" : "Le " + NumberFormater.Companion.formatAmount(Double.parseDouble(assessmentModel.getPropertyRateWithoutGst())));
 
                     DataModel model9 = new DataModel();
                     model9.setKey("Assessed Value");

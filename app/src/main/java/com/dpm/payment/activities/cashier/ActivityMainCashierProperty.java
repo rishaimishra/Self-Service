@@ -874,13 +874,13 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
 
 
                                 try {
-                                    activityUserSearchResult_tv_rate_payable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getRate_payable()))));
+                                    activityUserSearchResult_tv_rate_payable_value.setText(NumberFormater.Companion.formatAmount(Double.parseDouble(dataModel.getRate_payable())));
 
                                 } catch (Exception ignored) {
 
                                 }
-                                Double discountedRatePayable = Double.parseDouble(activityUserSearchResult_tv_rate_payable_value.getText().toString()) - Double.parseDouble(activityUserSearchResult_tv_discount_applicable_value.getText().toString());
-                                activityUserSearchResult_tv_discount_rate_payable_value.setText(NumberFormater.Companion.formatToTwoDecimalPlaces(discountedRatePayable));
+                                Double discountedRatePayable = Double.parseDouble(activityUserSearchResult_tv_rate_payable_value.getText().toString().replace(",","")) - Double.parseDouble(activityUserSearchResult_tv_discount_applicable_value.getText().toString().replace(",",""));
+                                activityUserSearchResult_tv_discount_rate_payable_value.setText(NumberFormater.Companion.formatAmount(Double.parseDouble(NumberFormater.Companion.formatToTwoDecimalPlaces(discountedRatePayable))));
 
 
                                 Helper.ASSESSED_VALUE = dataModel.getProperty_net_assessed_value();
@@ -1027,7 +1027,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
 
                     balanceDue = mBalance;
 
-                    activityUserSearchResult_tv_balance_value.setText("" + mBalance);
+                    activityUserSearchResult_tv_balance_value.setText("" + NumberFormater.Companion.formatAmount(Double.parseDouble(mBalance)));
                     activityUserSearchResult_tv_paying_pre_calculate.setText(getString(R.string.amount_due) + "\n" + "Le " + mBalance);
                     activityUserSearchResult_tv_total_pre_calculate.setText(getString(R.string.amount_due) + "\n" + "Le " + mBalance);
                 }

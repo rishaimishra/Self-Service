@@ -19,6 +19,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dpm.payment.NumberFormater;
 import com.dpm.payment.activities.cashier.ActivityCashierLogin;
 import com.dpm.payment.activities.cep.ActivityCep;
 import com.dpm.payment.activities.user.LandlordResponseModel;
@@ -520,7 +521,7 @@ public class LandlordPropertyDetailsActivity extends AppCompatActivity implement
 
         }
         try {
-            activityUserSearchResult_tv_rate_payable_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getRate_payable()))));
+            activityUserSearchResult_tv_rate_payable_value.setText(NumberFormater.Companion.formatAmount(Double.parseDouble(mSearchPropertyModel.getAssessment().getRate_payable())));
 
         } catch (Exception ignored) {
 
@@ -544,7 +545,7 @@ public class LandlordPropertyDetailsActivity extends AppCompatActivity implement
                 mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue(mSearchPropertyModel.getAssessment().getBalance()));
             }
 
-            activityUserSearchResult_tv_balance_value.setText("" + mBalance);
+            activityUserSearchResult_tv_balance_value.setText("" + NumberFormater.Companion.formatAmount(Double.parseDouble(mBalance)));
             activityUserSearchResult_tv_paying_pre_calculate.setText(getString(R.string.amount_due) + "\n" + "Le " + mBalance);
 
         } catch (Exception ex) {
