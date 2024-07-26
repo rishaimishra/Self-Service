@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -37,6 +38,7 @@ import com.dpm.payment.models.SearchResponseModel;
 import com.dpm.payment.models.propertydetail.Assessment;
 import com.dpm.payment.retrofit.Utills.ApiRequest;
 import com.dpm.payment.retrofit.Utills.PART;
+import com.dpm.payment.retrofit.Utills.ToastUtils;
 import com.dpm.payment.retrofit.interfaces.OnCallBackListner;
 import com.dpm.payment.utils.AlertDialogUtils;
 import com.dpm.payment.utils.CommonUtils;
@@ -46,7 +48,9 @@ import com.dpm.payment.utils.LogUtils;
 import com.dpm.payment.utils.PrefUtil;
 import com.dpm.payment.utils.RestApiRequestListener;
 import com.dpm.payment.utils.StringUtils;
-import com.github.dhaval2404.imagepicker.ImagePicker;
+
+import com.dpm.payment.utils.imagePicker.FilePickerListener;
+import com.dpm.payment.utils.imagePicker.ImagePicker;
 import com.google.gson.Gson;
 import com.payment.R;
 
@@ -137,13 +141,15 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
 
     String balanceDue;
 
+    private com.dpm.payment.utils.imagePicker.ImagePicker imagePicker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mContext = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_cashier);
         apiRequest = new ApiRequest(this, this);
-
+        imagePicker = new ImagePicker(this);
         list_file = new ArrayList<>();
         initializeViews();
         initializeListeners();
@@ -1086,38 +1092,40 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
 
     // FIXME: 19-09-2021
     private void OpenCamera(int code) {
-        ImagePicker.Companion.with(this)
-                .crop()                    //Crop image(Optional), Check Customization for more option
-                .compress(1024)            //Final image size will be less than 1 MB(Optional)
-                .maxResultSize(1080, 1080)    //Final image resolution will be less than 1080 x 1080(Optional)
-                .cameraOnly()
-                .start(code);
+        imagePicker.dispatchTakePictureIntent(code, (path, requestCode) -> {
+            if (requestCode == CODE_PHYSICAL) {
+
+                View targetView = findViewById(R.id.layout_photo_upload);
+                targetView.getParent().requestChildFocus(targetView,targetView);
+
+                img_physical_receipt_image.setImageURI(Uri.fromFile(new File(path)));
+                file_physical = new File(path);
+                list_file.add(new PART("physical_receipt_image", file_physical));
+            }
+            else if (requestCode == CODE_PENSIONER) {
+
+                file_pensioner = new File(path);
+                img_pensioner_discount_image.setImageURI(Uri.fromFile(new File(path)));
+                list_file.add(new PART("pensioner_discount_image", file_pensioner));
+            }
+            else if (requestCode == CODE_DISABILITY) {
+                file_disability = new File(path);
+                img_disability_discount_image.setImageURI(Uri.fromFile(new File(path)));
+                list_file.add(new PART("disability_discount_image", file_disability));
+            }
+        });
+
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        imagePicker.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
 
-            if (requestCode == CODE_PHYSICAL) {
 
-              /*  View targetView = findViewById(R.id.layout_photo_upload);
-                targetView.getParent().requestChildFocus(targetView,targetView);*/
-
-                img_physical_receipt_image.setImageURI(Uri.fromFile(ImagePicker.Companion.getFile(data)));
-                file_physical = ImagePicker.Companion.getFile(data);
-                list_file.add(new PART("physical_receipt_image", file_physical));
-            } else if (requestCode == CODE_PENSIONER) {
-
-                file_pensioner = ImagePicker.Companion.getFile(data);
-                img_pensioner_discount_image.setImageURI(Uri.fromFile(ImagePicker.Companion.getFile(data)));
-                list_file.add(new PART("pensioner_discount_image", file_pensioner));
-            } else if (requestCode == CODE_DISABILITY) {
-                file_disability = ImagePicker.Companion.getFile(data);
-                img_disability_discount_image.setImageURI(Uri.fromFile(ImagePicker.Companion.getFile(data)));
-                list_file.add(new PART("disability_discount_image", file_disability));
-            }
         }
 
     }
