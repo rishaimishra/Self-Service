@@ -348,11 +348,11 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
 
                     try {
                         if (activityUserSearchResult_et_paying_amount.getText().toString().trim().length() > 0) {
-                            tvInputAmount.setText("Le " + SetCommaText(activityUserSearchResult_et_paying_amount.getText().toString().trim()));
+                            tvInputAmount.setText("Le " + NumberFormater.Companion.formatAmount(Double.parseDouble(activityUserSearchResult_et_paying_amount.getText().toString().trim())));
                             // FIXME: 13-05-2022
                             double dueAmt = Double.parseDouble(balanceDue.replace(",", "")) - Double.parseDouble(charSequence.toString().trim());
-                            activityUserSearchResult_et_total_amount.setText(String.format("%.0f", dueAmt));
-                            tvInputAmount2.setText("Le " + SetCommaText(activityUserSearchResult_et_total_amount.getText().toString().trim()));
+                            activityUserSearchResult_et_total_amount.setText(NumberFormater.Companion.formatAmount(dueAmt));
+                            tvInputAmount2.setText("Le " + NumberFormater.Companion.formatAmount(Double.parseDouble((activityUserSearchResult_et_total_amount.getText().toString().trim()))));
                             // LogUtils.showErrorLog("Enter String ", " Enter String 1 " + mUsdStr);
 
                             spin_payment_type.setSelection(dueAmt == 0 ? 1 : 0);

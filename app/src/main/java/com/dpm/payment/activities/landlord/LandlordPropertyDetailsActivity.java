@@ -516,7 +516,7 @@ public class LandlordPropertyDetailsActivity extends AppCompatActivity implement
 
 
         try {
-            activityUserSearchResult_tv_discount_applicable_value.setText(mSearchPropertyModel.getAssessment().getDiscounted_value()==null ?"0.00" : StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(mSearchPropertyModel.getAssessment().getDiscounted_value()))));
+            activityUserSearchResult_tv_discount_applicable_value.setText(mSearchPropertyModel.getAssessment().getDiscounted_value()==null ?"0.00" : NumberFormater.Companion.formatAmount(Double.parseDouble(mSearchPropertyModel.getAssessment().getDiscounted_value())));
         } catch (Exception ignored) {
 
         }

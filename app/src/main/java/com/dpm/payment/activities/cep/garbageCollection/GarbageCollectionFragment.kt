@@ -89,12 +89,12 @@ class GarbageCollectionFragment : Fragment(), OnCallBackListner {
         when {
             permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
                 // Precise location access granted.
-                getLastLocation()
+               // getLastLocation()
             }
 
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
                 // Only approximate location access granted.
-                getLastLocation()
+               // getLastLocation()
             }
 
             else -> {

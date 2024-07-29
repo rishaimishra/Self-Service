@@ -770,9 +770,10 @@ public class TabDataInitializer {
 
         String mBalance = "";
 
-        if (mSearchPropertyModel.getAssessment().getBalance() != null && !mSearchPropertyModel.getAssessment().getBalance().isEmpty()) {
+       /* if (mSearchPropertyModel.getAssessment().getBalance() != null && !mSearchPropertyModel.getAssessment().getBalance().isEmpty()) {
             mBalance = mSearchPropertyModel.getAssessment().getBalance();
-        } else mBalance = mSearchPropertyModel.getAssessment().getBalanceDue();
+        } else*/
+        mBalance = mSearchPropertyModel.getAssessment().getBalanceDue()==null ? "0.00" : mSearchPropertyModel.getAssessment().getBalanceDue();
 
         items.add(new DataModel("Amount Due", NumberFormater.Companion.formatAmount(Double.parseDouble(mBalance))));
 

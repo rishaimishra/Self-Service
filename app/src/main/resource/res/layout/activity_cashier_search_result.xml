@@ -534,7 +534,7 @@
             android:layout_marginEnd="@dimen/dimen10dp"
             android:background="@drawable/rounded_corner_solid_grey"
             android:hint="@string/enter_amount_paying"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:maxLength="10"
             android:padding="@dimen/dimen16dp"
             android:textColor="@color/colorBlack"
