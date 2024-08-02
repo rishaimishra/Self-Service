@@ -5,17 +5,29 @@ import java.text.NumberFormat
 import java.util.Locale
 
 class NumberFormater {
- companion object{
-     public  fun formatToTwoDecimalPlaces(number: Double): String {
-         return String.format("%.2f", number)
-     }
+    companion object {
+        public fun formatToTwoDecimalPlaces(number: Double): String {
+            return String.format("%.2f", number)
+        }
 
-     fun formatAmount(value: Double): String {
-         val formatter: NumberFormat = DecimalFormat.getNumberInstance(Locale.US).apply {
-             minimumFractionDigits = 2
-             maximumFractionDigits = 2
-         }
-         return formatter.format(value)
-     }
- }
+        fun formatAmount(value: Double): String {
+            val formatter: NumberFormat = DecimalFormat.getNumberInstance(Locale.US).apply {
+                minimumFractionDigits = 2
+                maximumFractionDigits = 2
+            }
+            return formatter.format(value)
+        }
+
+
+        fun parseDouble(value: String?): Double {
+            if (value == null) return 0.00
+            return try {
+                value.toDouble()
+            } catch (e: NumberFormatException) {
+                value.replace(",","").toDouble()
+            }catch (e: NumberFormatException) {
+                0.00
+            }
+        }
+    }
 }

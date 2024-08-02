@@ -348,11 +348,11 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
 
                     try {
                         if (activityUserSearchResult_et_paying_amount.getText().toString().trim().length() > 0) {
-                            tvInputAmount.setText("Le " + NumberFormater.Companion.formatAmount(Double.parseDouble(activityUserSearchResult_et_paying_amount.getText().toString().trim())));
+                            tvInputAmount.setText("Le " + NumberFormater.Companion.formatAmount(NumberFormater.Companion.parseDouble(activityUserSearchResult_et_paying_amount.getText().toString().trim())));
                             // FIXME: 13-05-2022
-                            double dueAmt = Double.parseDouble(balanceDue.replace(",", "")) - Double.parseDouble(charSequence.toString().trim());
+                            double dueAmt = NumberFormater.Companion.parseDouble(balanceDue.replace(",", "")) - NumberFormater.Companion.parseDouble(charSequence.toString().trim());
                             activityUserSearchResult_et_total_amount.setText(NumberFormater.Companion.formatAmount(dueAmt));
-                            tvInputAmount2.setText("Le " + NumberFormater.Companion.formatAmount(Double.parseDouble((activityUserSearchResult_et_total_amount.getText().toString().trim()))));
+                            tvInputAmount2.setText("Le " + NumberFormater.Companion.formatAmount(NumberFormater.Companion.parseDouble((activityUserSearchResult_et_total_amount.getText().toString().trim()))));
                             // LogUtils.showErrorLog("Enter String ", " Enter String 1 " + mUsdStr);
 
                             spin_payment_type.setSelection(dueAmt == 0 ? 1 : 0);
@@ -563,13 +563,13 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
             /*todo if pensioners OR disability any of them selected then validation is not required  */
 
             if (!checkBox_pensioners_discount.isChecked() && !checkBox_disability_discount.isChecked()) {
-                if (activityUserSearchResult_et_paying_amount.length() == 0) {
+               /* if (activityUserSearchResult_et_paying_amount.length() == 0) {
                     errorList.add("Enter amount paying.");
-                }
+                }*/
 
                 try {
 
-                    Double mAmount = Double.parseDouble(mPayingAmount.trim());
+                    Double mAmount = NumberFormater.Companion.parseDouble(mPayingAmount.trim());
                     if (mAmount > 0 && mAmount < 10) {
                         errorList.add("Paying amount should be minimum 10 le");
                     }
@@ -577,9 +577,9 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                     ex.printStackTrace();
                 }
 
-                if (activityUserSearchResult_et_total_amount.length() == 0) {
+               /* if (activityUserSearchResult_et_total_amount.length() == 0) {
                     errorList.add("Enter total amount paying.");
-                }
+                }*/
             }
 
 
@@ -588,7 +588,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
 
           /*  try {
 
-                Double mmTotalAmount = Double.parseDouble(mTotalAmount.trim());
+                Double mmTotalAmount = NumberFormater.Companion.parseDouble(mTotalAmount.trim());
                 if (mmTotalAmount > 0 && mmTotalAmount < 10000) {
                     errorList.add("Total amount should be minimum 10000 le");
                 }
@@ -602,10 +602,9 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                 }
             }
             /*TODO payee name validation removed*/
-/*
-            if (activityUserSearchResult_et_payee_name.length() == 0) {
+            if (activityUserSearchResult_et_paying_amount.length() >0 &&   activityUserSearchResult_et_payee_name.length() == 0) {
                 errorList.add("Enter Payee name.");
-            }*/
+            }
 
 
             if (mChequeNo.trim().length() > 0 && mChequeNo.trim().length() < 5) {
@@ -855,13 +854,11 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
 
                                 activityUserSearchResult_tv_assesment_year.setText("Assessed Value " + dataModel.getAssessmentYear());
 
-                                String value = dataModel.getProperty_net_assessed_value();
-                                String valueWithComma = StringUtils.AmountWithComma(value.substring(0,value.indexOf(".")));
-                                String valueWithOutComma = value.substring(value.indexOf("."),value.length());
 
 
-                                activityUserSearchResult_tv_assesment_year_value.setText(valueWithComma+valueWithOutComma);
 
+                                activityUserSearchResult_tv_assesment_year_value.setText(NumberFormater.Companion.formatAmount(NumberFormater.Companion.parseDouble(dataModel.getCurrentYearAssessmentAmount())));
+                                activityUserSearchResult_tv_net_assessed_value.setText(NumberFormater.Companion.formatAmount(NumberFormater.Companion.parseDouble(dataModel.getProperty_net_assessed_value())));
 
                                 try {
                                     activityUserSearchResult_tv_discount_applicable_value.setText(dataModel.getDiscounted_value()==null ?"0.00" : StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getDiscounted_value()))));
@@ -874,13 +871,13 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
 
 
                                 try {
-                                    activityUserSearchResult_tv_rate_payable_value.setText(NumberFormater.Companion.formatAmount(Double.parseDouble(dataModel.getRate_payable())));
+                                    activityUserSearchResult_tv_rate_payable_value.setText(NumberFormater.Companion.formatAmount(NumberFormater.Companion.parseDouble(dataModel.getRate_payable())));
 
                                 } catch (Exception ignored) {
 
                                 }
-                                Double discountedRatePayable = Double.parseDouble(activityUserSearchResult_tv_rate_payable_value.getText().toString().replace(",","")) - Double.parseDouble(activityUserSearchResult_tv_discount_applicable_value.getText().toString().replace(",",""));
-                                activityUserSearchResult_tv_discount_rate_payable_value.setText(NumberFormater.Companion.formatAmount(Double.parseDouble(NumberFormater.Companion.formatToTwoDecimalPlaces(discountedRatePayable))));
+                                Double discountedRatePayable = NumberFormater.Companion.parseDouble(activityUserSearchResult_tv_rate_payable_value.getText().toString().replace(",","")) - NumberFormater.Companion.parseDouble(activityUserSearchResult_tv_discount_applicable_value.getText().toString().replace(",",""));
+                                activityUserSearchResult_tv_discount_rate_payable_value.setText(NumberFormater.Companion.formatAmount(NumberFormater.Companion.parseDouble(NumberFormater.Companion.formatToTwoDecimalPlaces(discountedRatePayable))));
 
 
                                 Helper.ASSESSED_VALUE = dataModel.getProperty_net_assessed_value();
@@ -894,7 +891,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
                                 //activityUserSearchResult_tv_council_adjustment_value.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue("" + new BigDecimal(dataModel.getCouncil_adjustments_parameters()))));
                                 if (dataModel.getCouncil_adjustments_parameters() != null)
                                     activityUserSearchResult_tv_council_adjustment_value.setText(dataModel.getCouncil_adjustments_parameters());
-                                activityUserSearchResult_tv_net_assessed_value.setText(dataModel.getProperty_net_assessed_value());
+
 
 
                                 if (dataModel.getPensionerDiscount().equalsIgnoreCase("0.00"))
@@ -1027,7 +1024,7 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
 
                     balanceDue = mBalance;
 
-                    activityUserSearchResult_tv_balance_value.setText("" + NumberFormater.Companion.formatAmount(Double.parseDouble(mBalance)));
+                    activityUserSearchResult_tv_balance_value.setText("" + NumberFormater.Companion.formatAmount(NumberFormater.Companion.parseDouble(mBalance)));
                     activityUserSearchResult_tv_paying_pre_calculate.setText(getString(R.string.amount_due) + "\n" + "Le " + mBalance);
                     activityUserSearchResult_tv_total_pre_calculate.setText(getString(R.string.amount_due) + "\n" + "Le " + mBalance);
                 }

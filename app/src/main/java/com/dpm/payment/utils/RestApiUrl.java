@@ -51,4 +51,7 @@ public interface RestApiUrl {
 
     String GET_AVAILABLE_DATE = BASE_URL+"/get_admin_garbage_dates";
     String ADD_GARBAGE_COLLECTION = BASE_URL+"/add_garbage_collection";
+
+
+    String GET_TIP = BASE_URL+"/get_tip";
 }

@@ -2,6 +2,8 @@ package com.dpm.payment.utils;
 
 import android.text.TextUtils;
 
+import com.dpm.payment.NumberFormater;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -43,7 +45,7 @@ public class StringUtils {
                 String mm[] = temp.split("\\.");
                 LogUtils.showErrorLog(" mm[0] .", " mm[0] . " + mm[0]);
                 LogUtils.showErrorLog(" mm[1] .", " mm[1] . " + mm[1]);
-                if (Double.parseDouble(mm[1]) > 0.49) {
+                if (NumberFormater.Companion.parseDouble(mm[1]) > 0.49) {
                     int RoundNum = Integer.parseInt(mm[1]) + 1;
                     temp = "" + RoundNum;
 

@@ -630,7 +630,7 @@ public class SearchAssessmentModel {
     }
 
     public String getBalance() {
-        return NumberFormater.Companion.formatToTwoDecimalPlaces(Double.parseDouble(balance));
+        return NumberFormater.Companion.formatToTwoDecimalPlaces(NumberFormater.Companion.parseDouble(balance));
     }
 
     public void setBalance(String balance) {

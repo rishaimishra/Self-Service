@@ -652,7 +652,7 @@ public class LandlordPropertyViewDetails extends AppCompatActivity implements Vi
         councillor_list.add(new DataModel("Council_Group/Category", dataItem.getAssessment().getGroupName() + ""));
         councillor_list.add(new DataModel("Mill_Rate", dataItem.getAssessment().getMillRate() + ""));
 
-        councillor_list.add(new DataModel("RATE PAYABLE " + dataItem.getAssessment().getAssessmentYear(), StringUtils.AmountWithComma(StringUtils.roundStringValue(dataItem.getAssessment().getRate_payable()))));
+        councillor_list.add(new DataModel("RATE PAYABLE " + dataItem.getAssessment().getAssessmentYear(), NumberFormater.Companion.formatAmount(NumberFormater.Companion.parseDouble(dataItem.getAssessment().getRate_payable()))));
 
         DataViewAdapter adapter = new DataViewAdapter(councillor_list, dataItem.getAssessment().getAssessmentYear());
         rv_government_policy.setAdapter(adapter);
@@ -1244,7 +1244,7 @@ public class LandlordPropertyViewDetails extends AppCompatActivity implements Vi
 
 
                 try {
-                    String PropertyRateWithoutGst = ((assessmentModel.getPropertyRateWithoutGst() == null) ? "" : "NLE " + NumberFormater.Companion.formatAmount(Double.parseDouble(assessmentModel.getPropertyRateWithoutGst())));
+                    String PropertyRateWithoutGst = ((assessmentModel.getPropertyRateWithoutGst() == null) ? "" : "NLE " + NumberFormater.Companion.formatAmount(NumberFormater.Companion.parseDouble(assessmentModel.getPropertyRateWithoutGst())));
 
                     DataModel model9 = new DataModel();
                     model9.setKey("ASSESSED VALUE");

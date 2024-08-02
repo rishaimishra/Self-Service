@@ -1,5 +1,7 @@
 package com.dpm.payment.utils;
 
+import com.dpm.payment.NumberFormater;
+
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -14,7 +16,7 @@ public class Helper {
     public static HashMap<String,String> taxable_value_Hashmap=new HashMap<>();
 
     public static String roundOffDecimals(String value) {
-        double a = Double.parseDouble(value);
+        double a = NumberFormater.Companion.parseDouble(value);
         double roundOff = Math.round(a * 100) / 100;
 
         int result = (int) roundOff;

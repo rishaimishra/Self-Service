@@ -757,15 +757,15 @@ public class TabDataInitializer {
 
         items.add(new DataModel("Council Adjustment", mSearchPropertyModel.getAssessment().getCouncil_adjustments_parameters()));
         items.add(new DataModel("Net Assessed Value", mSearchPropertyModel.getAssessment().getProperty_net_assessed_vaue()));
-        items.add(new DataModel("Rate Payable", NumberFormater.Companion.formatAmount(Double.parseDouble(mSearchPropertyModel.getAssessment().getRate_payable()))));
+        items.add(new DataModel("Rate Payable", NumberFormater.Companion.formatAmount(NumberFormater.Companion.parseDouble(mSearchPropertyModel.getAssessment().getRate_payable()))));
         items.add(new DataModel("Discount(s) Applicable", mSearchPropertyModel.getAssessment().getDiscounted_value()==null ? "0.00" : mSearchPropertyModel.getAssessment().getDiscounted_value()));
-        items.add(new DataModel("Discounted Rate Payable", NumberFormater.Companion.formatAmount(Double.parseDouble(NumberFormater.Companion.formatToTwoDecimalPlaces(Double.parseDouble(ratePayable) - Double.parseDouble(discountedRatePayable))))));
+        items.add(new DataModel("Discounted Rate Payable", NumberFormater.Companion.formatAmount(NumberFormater.Companion.parseDouble(NumberFormater.Companion.formatToTwoDecimalPlaces(NumberFormater.Companion.parseDouble(ratePayable) - NumberFormater.Companion.parseDouble(discountedRatePayable))))));
         items.add(new DataModel("Arrears Due", mSearchPropertyModel.getAssessment().getArrearDue()));
         items.add(new DataModel("Penalty", mSearchPropertyModel.getAssessment().getPenalty()));
         items.add(new DataModel("Amount Paid (" + mSearchPropertyModel.getAssessment().getAssessmentYear() + ")", mSearchPropertyModel.getAssessment().getAmountPaid()));
 
         if (activity.findViewById(R.id.tvDiscountedRatePayable1) instanceof  TextView){
-            ((TextView) activity.findViewById(R.id.tvDiscountedRatePayable1)).setText(NumberFormater.Companion.formatAmount(Double.parseDouble(NumberFormater.Companion.formatToTwoDecimalPlaces(Double.parseDouble(ratePayable) - Double.parseDouble(discountedRatePayable)))));
+            ((TextView) activity.findViewById(R.id.tvDiscountedRatePayable1)).setText(NumberFormater.Companion.formatAmount(NumberFormater.Companion.parseDouble(NumberFormater.Companion.formatToTwoDecimalPlaces(NumberFormater.Companion.parseDouble(ratePayable) - NumberFormater.Companion.parseDouble(discountedRatePayable)))));
         }
 
         String mBalance = "";
@@ -775,7 +775,7 @@ public class TabDataInitializer {
         } else*/
         mBalance = mSearchPropertyModel.getAssessment().getBalanceDue()==null ? "0.00" : mSearchPropertyModel.getAssessment().getBalanceDue();
 
-        items.add(new DataModel("Amount Due", NumberFormater.Companion.formatAmount(Double.parseDouble(mBalance))));
+        items.add(new DataModel("Amount Due", NumberFormater.Companion.formatAmount(NumberFormater.Companion.parseDouble(mBalance))));
 
         for (DataModel item : items) {
             View inflatedLayout = inflater.inflate(R.layout.rowview_details, rootLayoutAssessmentHistory, false);

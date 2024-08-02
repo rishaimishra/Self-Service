@@ -23,6 +23,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.dpm.payment.NumberFormater;
 import com.dpm.payment.activities.login.ActivityLogin;
 import com.google.gson.Gson;
 import com.payment.R;
@@ -426,7 +427,7 @@ public class CommonUtils {
 
     public static String calculateDiscountRatePayable(String ratePayable, String pensionerDiscount, String disabilityDiscount){
 
-        return String.valueOf((int)(Double.parseDouble(ratePayable) - Double.parseDouble(pensionerDiscount) - Double.parseDouble(disabilityDiscount)));
+        return String.valueOf((int)(NumberFormater.Companion.parseDouble(ratePayable) - NumberFormater.Companion.parseDouble(pensionerDiscount) - NumberFormater.Companion.parseDouble(disabilityDiscount)));
     }
 
 

@@ -526,7 +526,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
         councillor_list.add(new DataModel("Council_Group/Category", dataItem.getGroupName() + ""));
         councillor_list.add(new DataModel("Mill_Rate", dataItem.getMillRate() + ""));
 
-        councillor_list.add(new DataModel("RATE PAYABLE " + dataItem.getAssessmentYear(), StringUtils.AmountWithComma(StringUtils.roundStringValue(dataItem.getRate_payable()))));
+        councillor_list.add(new DataModel("RATE PAYABLE " + dataItem.getAssessmentYear(),NumberFormater.Companion.formatAmount(NumberFormater.Companion.parseDouble(dataItem.getRate_payable())) ));
 
         DataViewAdapter adapter = new DataViewAdapter(councillor_list, dataItem.getAssessmentYear());
         rv_government_policy.setAdapter(adapter);
@@ -1189,7 +1189,7 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
 
 
                 try {
-                    String PropertyRateWithoutGst = ((assessmentModel.getPropertyRateWithoutGst() == null) ? "" : "Le " + NumberFormater.Companion.formatAmount(Double.parseDouble(assessmentModel.getPropertyRateWithoutGst())));
+                    String PropertyRateWithoutGst = ((assessmentModel.getPropertyRateWithoutGst() == null) ? "" : "Le " + NumberFormater.Companion.formatAmount(NumberFormater.Companion.parseDouble(assessmentModel.getPropertyRateWithoutGst())));
 
                     DataModel model9 = new DataModel();
                     model9.setKey("Assessed Value");

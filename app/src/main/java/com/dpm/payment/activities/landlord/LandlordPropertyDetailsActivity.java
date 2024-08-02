@@ -228,7 +228,7 @@ public class LandlordPropertyDetailsActivity extends AppCompatActivity implement
                 try {
                     //---------------------------------------- to show usd amount --------------//
                     LogUtils.showErrorLog("Enter String ", " Enter String after Replace  " + mUsdStr);
-                    Double mDouble = Double.parseDouble(mUsdStr);
+                    Double mDouble = NumberFormater.Companion.parseDouble(mUsdStr);
                     LogUtils.showErrorLog("Enter mDouble ", "mDouble " + mDouble);
                   /*  mLandlordUserModel = PrefUtil.getLandlordProfile(mContext);
                     LogUtils.showErrorLog("Enter mLandlordUserModel  ", "Enter mLandlordUserModel  " + PrefUtil.getJsonFromObject(mLandlordUserModel,LandlordResponseModel.class));
@@ -239,7 +239,7 @@ public class LandlordPropertyDetailsActivity extends AppCompatActivity implement
                     String mLeValue = mLandLordProfileJson.getJSONObject("currency_rate").optString("le");
                     LogUtils.showErrorLog("Enter mLeValue ", "mLeValue " + mLeValue);
                     LogUtils.showErrorLog("Enter mUSDValue ", "mUSDValue " + mUSDValue);
-                    Double dresult = (mDouble * Double.parseDouble(mUSDValue)) / Double.parseDouble(mLeValue);
+                    Double dresult = (mDouble * NumberFormater.Companion.parseDouble(mUSDValue)) / NumberFormater.Companion.parseDouble(mLeValue);
 
                     LogUtils.showErrorLog("dresult ", "dresult " + dresult);
                     String result = String.format("%.2f", dresult);
@@ -253,7 +253,7 @@ public class LandlordPropertyDetailsActivity extends AppCompatActivity implement
                 try {
                     //---------------------------------------- to show amount GBP  --------------//
                     LogUtils.showErrorLog("Enter String ", " Enter String after Replace  " + mUsdStr);
-                    Double mDouble = Double.parseDouble(mUsdStr);
+                    Double mDouble = NumberFormater.Companion.parseDouble(mUsdStr);
                     LogUtils.showErrorLog("Enter mDouble ", "mDouble " + mDouble);
                     String mLandLordProfile = PrefUtil.getLandlordProfileString(mContext);
                     JSONObject mLandLordProfileJson = new JSONObject(mLandLordProfile);
@@ -261,7 +261,7 @@ public class LandlordPropertyDetailsActivity extends AppCompatActivity implement
                     String mLeValue = mLandLordProfileJson.getJSONObject("currency_rate_pound").optString("le");
                     LogUtils.showErrorLog("Enter mLeValue ", "mGDPValue " + mLeValue);
                     LogUtils.showErrorLog("Enter mGDPValue ", "mGDPValue " + mGBPValue);
-                    Double dresult = (mDouble * Double.parseDouble(mGBPValue)) / Double.parseDouble(mLeValue);
+                    Double dresult = (mDouble * NumberFormater.Companion.parseDouble(mGBPValue)) / NumberFormater.Companion.parseDouble(mLeValue);
                     LogUtils.showErrorLog("dresult ", "dresult " + dresult);
                     String result = String.format("%.2f", dresult);
                     tvLeToPound.setText(result + " GBP");
@@ -516,12 +516,12 @@ public class LandlordPropertyDetailsActivity extends AppCompatActivity implement
 
 
         try {
-            activityUserSearchResult_tv_discount_applicable_value.setText(mSearchPropertyModel.getAssessment().getDiscounted_value()==null ?"0.00" : NumberFormater.Companion.formatAmount(Double.parseDouble(mSearchPropertyModel.getAssessment().getDiscounted_value())));
+            activityUserSearchResult_tv_discount_applicable_value.setText(mSearchPropertyModel.getAssessment().getDiscounted_value()==null ?"0.00" : NumberFormater.Companion.formatAmount(NumberFormater.Companion.parseDouble(mSearchPropertyModel.getAssessment().getDiscounted_value())));
         } catch (Exception ignored) {
 
         }
         try {
-            activityUserSearchResult_tv_rate_payable_value.setText(NumberFormater.Companion.formatAmount(Double.parseDouble(mSearchPropertyModel.getAssessment().getRate_payable())));
+            activityUserSearchResult_tv_rate_payable_value.setText(NumberFormater.Companion.formatAmount(NumberFormater.Companion.parseDouble(mSearchPropertyModel.getAssessment().getRate_payable())));
 
         } catch (Exception ignored) {
 
@@ -545,7 +545,7 @@ public class LandlordPropertyDetailsActivity extends AppCompatActivity implement
                 mBalance = StringUtils.AmountWithComma(StringUtils.roundStringValue(mSearchPropertyModel.getAssessment().getBalance()));
             }
 
-            activityUserSearchResult_tv_balance_value.setText("" + NumberFormater.Companion.formatAmount(Double.parseDouble(mBalance)));
+            activityUserSearchResult_tv_balance_value.setText("" + NumberFormater.Companion.formatAmount(NumberFormater.Companion.parseDouble(mBalance)));
             activityUserSearchResult_tv_paying_pre_calculate.setText(getString(R.string.amount_due) + "\n" + "Le " + mBalance);
 
         } catch (Exception ex) {
