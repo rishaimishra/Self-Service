@@ -20,6 +20,7 @@ import com.dpm.payment.activities.cep.emergencyservice.EmergencyServicesFragment
 import com.dpm.payment.activities.cep.formsResources.FormsResourcesFragment;
 import com.dpm.payment.activities.cep.garbageCollection.GarbageCollectionFragment;
 import com.dpm.payment.activities.cep.information_tips.InformationTipsFragment;
+import com.dpm.payment.activities.cep.newsLetter.NewsLetterFragment;
 import com.dpm.payment.adapters.CEPAdapter;
 import com.dpm.payment.models.cep.CepModel;
 import com.payment.R;
@@ -107,7 +108,7 @@ public class CEPMenuFragment extends Fragment {
                 case 4:
                     ((ActivityCep) requireActivity()).startFragment(GarbageCollectionFragment.newInstance());
                     break;
-                case 7: ((ActivityCep) requireActivity()).startFragment(NewsLetterFragment.newInstance());
+                case 7: ((ActivityCep) requireActivity()).startFragment(new NewsLetterFragment());
                     break;
                 case 9: ((ActivityCep) requireActivity()).startFragment(EmergencyServicesFragment.newInstance());
                     break;

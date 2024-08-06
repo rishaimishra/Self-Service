@@ -54,4 +54,5 @@ public interface RestApiUrl {
 
 
     String GET_TIP = BASE_URL+"/get_tip";
+    String GET_NEWS_LETTER = BASE_URL+"/get_newsletter";
 }
