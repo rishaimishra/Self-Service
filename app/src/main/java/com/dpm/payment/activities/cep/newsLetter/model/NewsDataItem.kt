@@ -23,7 +23,7 @@ data class NewsDataItem(
     @field:SerializedName("id")
     val id: Int? = null,
 
-    @field:SerializedName("headline_img")
+    @field:SerializedName("headline_image_path")
     private val headlineImg: String? = null,
 
     @field:SerializedName("headline")

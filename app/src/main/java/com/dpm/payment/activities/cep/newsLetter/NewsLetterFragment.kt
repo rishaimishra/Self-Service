@@ -25,6 +25,7 @@ import com.dpm.payment.retrofit.Utills.ToastUtils
 import com.dpm.payment.retrofit.interfaces.OnCallBackListner
 import com.dpm.payment.utils.RestApiUrl.GET_NEWS_LETTER
 import com.dpm.payment.utils.RestApiUrl.GET_TIP
+import com.dpm.payment.utils.circularProgressIndicator
 import com.google.gson.Gson
 import com.payment.R
 import com.payment.databinding.FragmentNewsLetterBinding
@@ -83,8 +84,8 @@ class NewsLetterFragment : Fragment(), OnCallBackListner {
     fun setHighlightedNews(dataItem: NewsDataItem) {
         binding.apply {
             newsHeadLine.text = dataItem.headline
-            Picasso.get().load(dataItem.headlineImg()).placeholder(R.drawable.ic_video_image)
-                .error(R.drawable.ic_video_image).into(ivVideo)
+            Picasso.get().load(dataItem.headlineImg()).placeholder(requireContext().circularProgressIndicator())
+                .error(R.drawable.image_loading_failed).into(ivVideo)
             tvDate.text = dataItem.getCreatedDate()
             tvTimeAgo.text = dataItem.timeAgo()
             dataItem.editor?.let {

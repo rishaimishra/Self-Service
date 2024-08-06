@@ -38,7 +38,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen224dp"
                 android:layout_marginTop="@dimen/dimen8dp"
-                app:srcCompat="@drawable/ic_video_image"
                 android:scaleType="fitXY"/>
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"

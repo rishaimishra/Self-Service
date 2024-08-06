@@ -5,7 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.dpm.payment.activities.cep.newsLetter.model.NewsDataItem
+import com.dpm.payment.utils.circularProgressIndicator
 import com.payment.R
 import com.payment.databinding.AdapterNewsLetterBinding
 import com.squareup.picasso.Picasso
@@ -38,8 +40,8 @@ class NewsLetterAdapter : ListAdapter<NewsDataItem, NewsLetterAdapter.ViewHolder
         fun bindData(data: NewsDataItem) {
             binding.apply {
                 tvTitle.text = data.headline
-                Picasso.get().load(data.headlineImg()).placeholder(R.drawable.ic_video_image)
-                    .error(R.drawable.ic_video_image).into(ivNews)
+                Picasso.get().load(data.headlineImg()).placeholder(binding.root.context.circularProgressIndicator())
+                    .error(R.drawable.image_loading_failed).into(ivNews)
                 root.setOnClickListener {
                     onItemClick?.invoke(data.story)
                 }
