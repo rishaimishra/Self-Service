@@ -341,7 +341,7 @@
     <string name="fire_incident_location">Fire incident location</string>
     <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</string>
     <string name="the_video">The video may contain light pattern or images thst could trigger seizures or cause discomfort for people with visual sensibilities</string>
-    <string name="by_stephen_quillen_virginia">By <b>Stephen Quillen,Virginia</b></string>
+    <string name="by_stephen_quillen_virginia">By</string>
     <string name="existing_user">Existing User ? <b><font color='#2275cf'>LOGIN</font></b></string>
     <string name="new_user">New User ? <b><font color='#2275cf'>REGISTER</font></b></string>
     <string name="schedule_app_info">Here we can schedule appointments with council key stakeholders and designated members of staff for a contact meetings.</string>

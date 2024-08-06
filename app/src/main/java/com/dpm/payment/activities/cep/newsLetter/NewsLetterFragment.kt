@@ -63,7 +63,7 @@ class NewsLetterFragment : Fragment(), OnCallBackListner {
 
     @SuppressLint("SetTextI18n")
     private fun initToolbar(view: View) {
-       // view.findViewById<ImageView>(R.id.ivProfile).isVisible=false
+        // view.findViewById<ImageView>(R.id.ivProfile).isVisible=false
         val tvTitle = view.findViewById<AppCompatTextView>(R.id.toolbar_tv_header)
         val ivHome = view.findViewById<ImageView>(R.id.toolbar_iv_home)
         tvTitle.text = "Newsletter"
@@ -87,7 +87,9 @@ class NewsLetterFragment : Fragment(), OnCallBackListner {
                 .error(R.drawable.ic_video_image).into(ivVideo)
             tvDate.text = dataItem.getCreatedDate()
             tvTimeAgo.text = dataItem.timeAgo()
-
+            dataItem.editor?.let {
+                tvEditor.text = it
+            }
 
         }
     }

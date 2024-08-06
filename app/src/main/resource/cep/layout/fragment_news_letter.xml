@@ -78,9 +78,10 @@
                     android:textColor="@color/dark_grey"
                     android:textSize="@dimen/textMedium14sp"/>
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvEditor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Pietromarchi and Edna Mohamed"
+                    tools:text="Pietromarchi and Edna Mohamed"
                     android:textColor="@color/dark_grey"
                     android:textStyle="bold"
                     android:textSize="@dimen/textMedium14sp"/>

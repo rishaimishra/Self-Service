@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter
 data class NewsDataItem(
 
     @field:SerializedName("editor")
-    val editor: Any? = null,
+    val editor: String? = null,
 
     @field:SerializedName("updated_at")
     val updatedAt: String? = null,
