@@ -84,14 +84,22 @@ class NewsLetterFragment : Fragment(), OnCallBackListner {
     fun setHighlightedNews(dataItem: NewsDataItem) {
         binding.apply {
             newsHeadLine.text = dataItem.headline
-            Picasso.get().load(dataItem.headlineImg()).placeholder(requireContext().circularProgressIndicator())
+            Picasso.get().load(dataItem.headlineImg())
+                .placeholder(requireContext().circularProgressIndicator())
                 .error(R.drawable.image_loading_failed).into(ivVideo)
             tvDate.text = dataItem.getCreatedDate()
             tvTimeAgo.text = dataItem.timeAgo()
             dataItem.editor?.let {
                 tvEditor.text = it
             }
+            ivVideo.setOnClickListener {
+                (requireActivity() as ActivityCep).startFragment(
+                    NewsDetailsFragment.newInstance(
+                        dataItem.story.toString()
+                    )
+                )
 
+            }
         }
     }
 
@@ -106,7 +114,7 @@ class NewsLetterFragment : Fragment(), OnCallBackListner {
                 }
 
 
-                adapter.submitList(res.data)
+                adapter.submitList(res.data.subList(1, res.data.size))
             } else ToastUtils.showShort(requireActivity(), res.message)
 
 
