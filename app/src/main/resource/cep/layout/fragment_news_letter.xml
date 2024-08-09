@@ -46,10 +46,11 @@
                     />-->
             </FrameLayout>
             <com.google.android.material.textview.MaterialTextView
-                android:visibility="gone"
+                android:id="@+id/txtDescription"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/the_video"
+                tools:text="@string/the_video"
                 android:textColor="@color/gray_text1_color"
                 android:textSize="@dimen/textSmall12sp"
                 android:textStyle="bold"/>

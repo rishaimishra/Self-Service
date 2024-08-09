@@ -35,6 +35,11 @@ data class NewsDataItem(
     @field:SerializedName("status")
     val status: Int? = null,
 
+    @field:SerializedName("headline_description")
+    val headline_description: String? = null,
+    @field:SerializedName("news_detail")
+    val news_detail: String? = null,
+
     @field:SerializedName("story")
     val story: String? = null
 ) {

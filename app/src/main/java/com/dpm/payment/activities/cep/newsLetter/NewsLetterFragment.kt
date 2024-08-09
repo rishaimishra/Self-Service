@@ -1,6 +1,7 @@
 package com.dpm.payment.activities.cep.newsLetter
 
 import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +12,9 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dpm.payment.activities.cep.ActivityCep
@@ -30,14 +34,21 @@ import com.google.gson.Gson
 import com.payment.R
 import com.payment.databinding.FragmentNewsLetterBinding
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 
-class NewsLetterFragment : Fragment(), OnCallBackListner {
+class NewsLetterFragment : Fragment() {
+
+
+    lateinit var viewModel: NewsLetterViewModel
+
 
     private var _binding: FragmentNewsLetterBinding? = null
     private val binding get() = _binding!!
 
-    val apiRequest by lazy { ApiRequest(requireContext(), this) }
+
+    val dialog by lazy { ProgressDialog(requireContext()) }
+
     val adapter by lazy { com.dpm.payment.activities.cep.newsLetter.NewsLetterAdapter() }
 
 
@@ -50,16 +61,38 @@ class NewsLetterFragment : Fragment(), OnCallBackListner {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this)[NewsLetterViewModel::class.java]
         initToolbar(view)
         binding.rvNewsLetter.adapter = adapter
 
-        adapter.setOnItemClickListener { story ->
-            (requireActivity() as ActivityCep).startFragment(NewsDetailsFragment.newInstance(story.toString()))
+        adapter.setOnItemClickListener { newsDetails ->
+            (requireActivity() as ActivityCep).startFragment(
+                NewsDetailsFragment.newInstance(
+                    newsDetails.toString()
+                )
+            )
+
+        }
+
+        lifecycleScope.launch {
+            viewModel.response.collect {
+                if (it.data == null) {
+                    dialog.show()
+                } else {
+                  //  ToastUtils.showShort(requireActivity(), it.message)
+                    if (it.data.isNotEmpty()) {
+                        setHighlightedNews(it.data[0]!!)
+                    }
+
+                    adapter.submitList(it.data.subList(1, it.data.size))
+                    dialog.dismiss()
+                }
+            }
 
         }
 
         /*calling the api*/
-        apiRequest.callGetRequest(GET_NEWS_LETTER, GET_NEWS_LETTER)
+        //    apiRequest.callGetRequest(GET_NEWS_LETTER, GET_NEWS_LETTER)
     }
 
     @SuppressLint("SetTextI18n")
@@ -88,6 +121,7 @@ class NewsLetterFragment : Fragment(), OnCallBackListner {
                 .placeholder(requireContext().circularProgressIndicator())
                 .error(R.drawable.image_loading_failed).into(ivVideo)
             tvDate.text = dataItem.getCreatedDate()
+            txtDescription.text = dataItem.headline_description
             tvTimeAgo.text = dataItem.timeAgo()
             dataItem.editor?.let {
                 tvEditor.text = it
@@ -95,7 +129,7 @@ class NewsLetterFragment : Fragment(), OnCallBackListner {
             ivVideo.setOnClickListener {
                 (requireActivity() as ActivityCep).startFragment(
                     NewsDetailsFragment.newInstance(
-                        dataItem.story.toString()
+                        dataItem.news_detail.toString()
                     )
                 )
 
@@ -103,28 +137,6 @@ class NewsLetterFragment : Fragment(), OnCallBackListner {
         }
     }
 
-    override fun OnCallBackSuccess(tag: String?, response: String) {
-
-        if (tag == GET_NEWS_LETTER) {
-            val res = Gson().fromJson(response, NewsLetterResponse::class.java)
-            if (res.status.equals("success")) {
-
-                if (res.data!!.isNotEmpty()) {
-                    setHighlightedNews(res.data[0]!!)
-                }
-
-
-                adapter.submitList(res.data.subList(1, res.data.size))
-            } else ToastUtils.showShort(requireActivity(), res.message)
-
-
-        }
-
-    }
-
-    override fun OnCallBackError(tag: String?, error: String?, i: Int) {
-        ToastUtils.showShort(requireActivity(), error)
-    }
 
 
     override fun onDestroyView() {

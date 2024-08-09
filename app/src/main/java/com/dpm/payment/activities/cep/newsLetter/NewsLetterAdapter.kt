@@ -16,7 +16,7 @@ class NewsLetterAdapter : ListAdapter<NewsDataItem, NewsLetterAdapter.ViewHolder
 
     var onItemClick: ((String?) -> Unit?)? = null
 
-    fun setOnItemClickListener(listener: (String?) -> Unit) {
+   inline fun setOnItemClickListener(noinline listener: (String?) -> Unit) {
         onItemClick = listener
     }
 
@@ -43,7 +43,7 @@ class NewsLetterAdapter : ListAdapter<NewsDataItem, NewsLetterAdapter.ViewHolder
                 Picasso.get().load(data.headlineImg()).placeholder(binding.root.context.circularProgressIndicator())
                     .error(R.drawable.image_loading_failed).into(ivNews)
                 root.setOnClickListener {
-                    onItemClick?.invoke(data.story)
+                    onItemClick?.invoke(data.news_detail)
                 }
             }
         }

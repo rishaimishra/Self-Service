@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebChromeClient
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import com.payment.R
 import com.payment.databinding.FragmentNewsDetailsBinding
@@ -39,7 +43,34 @@ class NewsDetailsFragment : Fragment() {
 
 
             webView.settings.javaScriptEnabled = true
-            webView.loadData(story, "text/html", "UTF-8")
+
+            // Set WebView client
+            webView.webViewClient = object : WebViewClient() {
+                override fun onPageStarted(view: WebView, url: String, favicon: android.graphics.Bitmap?) {
+                    super.onPageStarted(view, url, favicon)
+                    progressBar.visibility = ProgressBar.VISIBLE
+                }
+
+                override fun onPageFinished(view: WebView, url: String) {
+                    super.onPageFinished(view, url)
+                    progressBar.visibility = ProgressBar.GONE
+                }
+            }
+
+            // Set WebChromeClient to show progress in the ProgressBar
+            webView.webChromeClient = object : WebChromeClient() {
+                override fun onProgressChanged(view: WebView, newProgress: Int) {
+                    super.onProgressChanged(view, newProgress)
+                    progressBar.progress = newProgress
+                    if (newProgress == 100) {
+                        progressBar.visibility = ProgressBar.GONE
+                    } else {
+                        progressBar.visibility = ProgressBar.VISIBLE
+                    }
+                }
+            }
+            webView.loadUrl(story)
+           // webView.loadData(story, "text/html", "UTF-8")
 
         }
     }
