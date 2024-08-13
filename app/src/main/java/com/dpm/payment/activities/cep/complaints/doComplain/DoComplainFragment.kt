@@ -33,6 +33,7 @@ import com.dpm.payment.retrofit.Utills.ToastUtils
 import com.dpm.payment.retrofit.interfaces.OnCallBackListner
 import com.dpm.payment.utils.PrefUtil
 import com.dpm.payment.utils.RestApiUrl.ADD_COMPLAIN
+import com.dpm.payment.utils.RestApiUrl.ADD_EMERGENCY
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.ImagePicker.Companion.with
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -258,7 +259,7 @@ class DoComplainFragment(private val model: ComplaintsModel) : Fragment(), OnCal
         )
 
         apiRequest.callMultiFileUpload(
-            ADD_COMPLAIN, map, parts, "", ADD_COMPLAIN
+           if (model.isEmergencyService) ADD_EMERGENCY else ADD_COMPLAIN, map, parts, "",  if (model.isEmergencyService) ADD_EMERGENCY else ADD_COMPLAIN
         )
 
 
@@ -270,7 +271,7 @@ class DoComplainFragment(private val model: ComplaintsModel) : Fragment(), OnCal
     }
 
     override fun OnCallBackSuccess(tag: String?, response: String) {
-        if (tag == ADD_COMPLAIN) {
+        if (tag == ADD_COMPLAIN || tag == ADD_EMERGENCY) {
 
             val obj = JSONObject(response)
             ToastUtils.showShort(requireActivity(), obj.getString("message"))
@@ -326,15 +327,5 @@ class DoComplainFragment(private val model: ComplaintsModel) : Fragment(), OnCal
         }
     }
 
-    fun bitmapToBase64(bitmap: Bitmap): String {
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
-        val byteArray = byteArrayOutputStream.toByteArray()
-        return Base64.encodeToString(byteArray, Base64.DEFAULT)
-    }
 
-    fun base64ToBitmap(base64String: String): Bitmap? {
-        val decodedBytes = Base64.decode(base64String, Base64.DEFAULT)
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
-    }
 }

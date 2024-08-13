@@ -16,14 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dpm.payment.activities.cep.emergencyservice.FireForceFragment;
-import com.dpm.payment.activities.cep.emergencyservice.NemsFragment;
-import com.dpm.payment.activities.cep.emergencyservice.PoliceFragment;
-import com.dpm.payment.adapters.EmergencyServiceAdapter;
 import com.dpm.payment.adapters.NotificationAdapter;
 import com.payment.R;
-
-import java.util.ArrayList;
 
 public class NotificationFragment extends Fragment {
     private RecyclerView rvCep;

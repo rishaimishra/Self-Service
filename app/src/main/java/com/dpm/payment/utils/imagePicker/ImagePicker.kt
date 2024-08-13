@@ -15,15 +15,14 @@ import java.util.Date
 class ImagePicker(private val activity: Activity) {
 
     private lateinit var currentPhotoPath: String
-    private  var providedCode : Int? = null
-    private var listener: FilePickerListener? =null
+    private var providedCode: Int? = null
+    private var listener: FilePickerListener? = null
 
     @Throws(IOException::class)
     private fun createImageFile(): File {
         // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File =
-            activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
+        val storageDir: File = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
         return File.createTempFile(
             "JPEG_${timeStamp}_", /* prefix */
             ".jpg", /* suffix */
@@ -34,9 +33,9 @@ class ImagePicker(private val activity: Activity) {
         }
     }
 
-     fun dispatchTakePictureIntent(code: Int,listener: FilePickerListener) {
-        providedCode=code
-        this.listener=listener
+    fun dispatchTakePictureIntent(code: Int, listener: FilePickerListener) {
+        providedCode = code
+        this.listener = listener
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             // Ensure that there's a camera activity to handle the intent
             takePictureIntent.resolveActivity(activity.packageManager)?.also {
@@ -60,8 +59,18 @@ class ImagePicker(private val activity: Activity) {
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (providedCode==requestCode && resultCode== RESULT_OK){
-            listener?.getFilePath(currentPhotoPath, requestCode)
+        if (providedCode == requestCode && resultCode == RESULT_OK) {
+            try {
+                val outputFile = File(activity.cacheDir, "${System.currentTimeMillis()}.jpg")
+                val compressedImagePath = ImageCompressor(activity).compressImage(
+                    currentPhotoPath, 80, outputFile
+                )
+                listener?.getFilePath(compressedImagePath, requestCode)
+
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+
         }
     }
 

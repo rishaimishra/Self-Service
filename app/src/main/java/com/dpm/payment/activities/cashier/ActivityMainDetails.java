@@ -2503,11 +2503,9 @@ public class ActivityMainDetails extends AppCompatActivity implements View.OnCli
     }
 
     private void getRecipientDemandNote() {
-        LandlordResponseModel mLandlordUserModel;
-        mLandlordUserModel = PrefUtil.getLandlordProfile(mContext);
         HashMap<String, String> headers = new HashMap<>();
         headers.put("Accept", "application/json");
-        headers.put("Authorization", mLandlordUserModel.getAuth_type() + " " + mLandlordUserModel.getToken());
+        headers.put("Authorization", PrefUtil.getAuthType(mContext) + " " + PrefUtil.getToken(mContext));
         progressDialog = new ProgressDialog(mContext);
         new RestApiRequestListener(this, TAG_LAND_LORD_RECEIPT, "http://3.134.197.245/apiv2/payment/receipt-name" + "/" + dataItem.getPropertyId() + "/" + dataItem.getAssessmentYear(),
                 headers, null, new RestApiRequestListener.setOnRequestListener() {

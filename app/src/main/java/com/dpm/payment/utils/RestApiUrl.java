@@ -47,6 +47,7 @@ public interface RestApiUrl {
 
     String GET_FORM_RESOURCES = BASE_URL+"/get_form_resources";
     String ADD_COMPLAIN = BASE_URL+"/add_complain";
+    String ADD_EMERGENCY = BASE_URL+"/add_emergency";
 
 
     String GET_AVAILABLE_DATE = BASE_URL+"/get_admin_garbage_dates";

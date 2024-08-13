@@ -378,18 +378,6 @@ public class ActivityMainCashierProperty extends AppCompatActivity implements Vi
         }
     }
 
-    private String SetCommaText(String s) {
-
-        String temp = "";
-        try {
-            BigInteger bigIntegerStr = new BigInteger(s);
-            NumberFormat nf = NumberFormat.getInstance(Locale.US);
-            temp = nf.format(bigIntegerStr);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return temp;
-    }
 
 
     private void initializeListeners() {

@@ -18,6 +18,7 @@ class NewsLetterViewModel : ViewModel() {
     private val _response = MutableStateFlow(NewsLetterResponse())
     val response = _response.asStateFlow()
 
+
     init {
         getNewsList()
     }

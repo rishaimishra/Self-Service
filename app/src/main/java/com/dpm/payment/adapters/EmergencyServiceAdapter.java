@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dpm.payment.interfaces.OnItemClickListener;
+import com.dpm.payment.models.cep.ComplaintsModel;
 import com.payment.R;
 
 import java.util.List;
@@ -18,10 +19,10 @@ public class EmergencyServiceAdapter extends RecyclerView.Adapter<EmergencyServi
 
 
     private Context mContext;
-    private List<Integer> list;
+    private List<ComplaintsModel> list;
     private OnItemClickListener mOnItemClickListener;
 
-    public EmergencyServiceAdapter(Context mContext, List<Integer> list, OnItemClickListener mOnItemClickListener) {
+    public EmergencyServiceAdapter(Context mContext, List<ComplaintsModel> list, OnItemClickListener mOnItemClickListener) {
         this.mContext = mContext;
         this.list = list;
         this.mOnItemClickListener = mOnItemClickListener;
@@ -35,8 +36,8 @@ public class EmergencyServiceAdapter extends RecyclerView.Adapter<EmergencyServi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Integer item = list.get(position);
-        holder.ivEmergencyService.setImageResource(item);
+        ComplaintsModel item = list.get(position);
+        holder.ivEmergencyService.setImageResource(item.complaintsIcon);
         holder.ivEmergencyService.setOnClickListener(v -> {
             mOnItemClickListener.onItemClick(v,position);
         });

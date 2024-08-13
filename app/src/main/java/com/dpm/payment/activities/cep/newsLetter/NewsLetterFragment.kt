@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,6 +35,7 @@ import com.google.gson.Gson
 import com.payment.R
 import com.payment.databinding.FragmentNewsLetterBinding
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -51,6 +53,8 @@ class NewsLetterFragment : Fragment() {
 
     val adapter by lazy { com.dpm.payment.activities.cep.newsLetter.NewsLetterAdapter() }
 
+    var scrollState : Parcelable? =null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -63,7 +67,18 @@ class NewsLetterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[NewsLetterViewModel::class.java]
         initToolbar(view)
+        savedInstanceState?.let {
+            scrollState = savedInstanceState.getParcelable("scroll_state")
+        }
+
         binding.rvNewsLetter.adapter = adapter
+
+        binding.rvNewsLetter.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+               // viewModel._scrollingState.value=newState
+            }
+        })
 
         adapter.setOnItemClickListener { newsDetails ->
             (requireActivity() as ActivityCep).startFragment(
@@ -75,21 +90,29 @@ class NewsLetterFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            viewModel.response.collect {
-                if (it.data == null) {
-                    dialog.show()
-                } else {
-                  //  ToastUtils.showShort(requireActivity(), it.message)
-                    if (it.data.isNotEmpty()) {
-                        setHighlightedNews(it.data[0]!!)
-                    }
+           launch {  viewModel.response.collect {
+               if (it.data == null) {
+                   dialog.show()
+               } else {
 
-                    adapter.submitList(it.data.subList(1, it.data.size))
-                    dialog.dismiss()
-                }
-            }
+                   //  ToastUtils.showShort(requireActivity(), it.message)
+                   if (it.data.isNotEmpty()) {
+                       setHighlightedNews(it.data[0]!!)
+                   }
+
+
+                   
+                   adapter.submitList(it.data.subList(1, it.data.size))
+                   dialog.dismiss()
+               }
+           } }
 
         }
+
+        scrollState?.let {
+            binding.rvNewsLetter.layoutManager?.onRestoreInstanceState(it)
+        }
+
 
         /*calling the api*/
         //    apiRequest.callGetRequest(GET_NEWS_LETTER, GET_NEWS_LETTER)
@@ -137,7 +160,10 @@ class NewsLetterFragment : Fragment() {
         }
     }
 
-
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable("scroll_state",binding.rvNewsLetter.layoutManager?.onSaveInstanceState())
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

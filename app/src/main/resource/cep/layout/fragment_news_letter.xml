@@ -61,30 +61,37 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="@dimen/dimen32dp">
+            android:layout_marginTop="15dp">
             <View
                 android:layout_width="@dimen/dimen4dp"
                 android:layout_height="match_parent"
-                android:background="@color/colorYellow"/>
+                android:background="@color/colorBlue"/>
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginStart="@dimen/dimen6dp">
-                <com.google.android.material.textview.MaterialTextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/by_stephen_quillen_virginia"
-                    android:textColor="@color/dark_grey"
-                    android:textSize="@dimen/textMedium14sp"/>
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tvEditor"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="Pietromarchi and Edna Mohamed"
-                    android:textColor="@color/dark_grey"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/textMedium14sp"/>
+                    android:orientation="horizontal">
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Editor: "
+                        android:textColor="@color/dark_grey"
+                        android:textSize="@dimen/textMedium14sp"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tvEditor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Pietromarchi and Edna Mohamed"
+                        android:textColor="@color/dark_grey"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/textMedium14sp"/>
+                </LinearLayout>
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tvDate"
                     android:layout_width="match_parent"
