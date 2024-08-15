@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dpm.payment.NumberFormater;
 import com.dpm.payment.models.TransactionModel;
 import com.dpm.payment.utils.DataUtils;
 import com.dpm.payment.utils.LogUtils;
@@ -51,7 +52,7 @@ public class TransactionDetailAdapter extends RecyclerView.Adapter<TransactionDe
         //TODO Need work on data mapping
         try {
 
-            holder.tvAmountPaid.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue(mTransactionModel.getAmount())));
+            holder.tvAmountPaid.setText(NumberFormater.Companion.formatAmount(mTransactionModel.getAmount()));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -125,7 +126,7 @@ public class TransactionDetailAdapter extends RecyclerView.Adapter<TransactionDe
         try {
             String mBalance = ((mTransactionModel.getBalance()== null) ? "" : mTransactionModel.getBalance());
 
-            holder.tvRemainingBalance.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue(mBalance)));
+            holder.tvRemainingBalance.setText(NumberFormater.Companion.formatAmount(mBalance));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -133,7 +134,7 @@ public class TransactionDetailAdapter extends RecyclerView.Adapter<TransactionDe
         try {
             String mDueBalance = ((mTransactionModel.getAssessment()== null) ? "" : mTransactionModel.getAssessment());
 
-            holder.tvAmountDue.setText(StringUtils.AmountWithComma(StringUtils.roundStringValue(mDueBalance)));
+            holder.tvAmountDue.setText(NumberFormater.Companion.formatAmount(mDueBalance));
         } catch (Exception ex) {
             ex.printStackTrace();
         }

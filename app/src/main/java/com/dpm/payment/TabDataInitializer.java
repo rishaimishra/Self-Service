@@ -722,8 +722,8 @@ public class TabDataInitializer {
 
     public static List<DataModel> initCouncillorData(Assessment dataItem) {
         List<DataModel> councillor_list = new ArrayList<>();
-        // councillor_list.add(new DataModel("No Water Supply (Section)", dataItem.getWaterPercentage() + "%"));
-        // councillor_list.add(new DataModel("No Electricity (Section)", dataItem.getElectricityPercentage() + "%"));
+         councillor_list.add(new DataModel("No Water Supply (Section)", dataItem.getWaterPercentage() + "%"));
+         councillor_list.add(new DataModel("No Electricity (Section)", dataItem.getElectricityPercentage() + "%"));
         councillor_list.add(new DataModel("No Waste Management/Services/Points (Ward)", dataItem.getWasteManagementPercentage() + "%"));
         councillor_list.add(new DataModel("No Market (Ward)", dataItem.getMarketPercentage() + "%"));
         councillor_list.add(new DataModel("Hazardous Location/Environment ", dataItem.getHazardousPrecentage() + "%"));

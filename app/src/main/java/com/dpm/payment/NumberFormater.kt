@@ -29,5 +29,12 @@ class NumberFormater {
                 0.00
             }
         }
+
+
+        fun formatAmount(value : String): String {
+            val valueWithTwoDecimalPlaces = NumberFormater.formatToTwoDecimalPlaces(NumberFormater.parseDouble(value)).toDouble()
+            return NumberFormater.formatAmount(valueWithTwoDecimalPlaces)
+        }
     }
 }
+
